@@ -1,0 +1,78 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Fascinate+Inline|Ubuntu');
+
+@primary: #531d63;
+@second:#f2f2f2;
+@third:#cc1c71;
+@nav-width:20%;
+@nav-font-size:30px;
+@primary-font: 'Ubuntu', sans-serif;
+@logo-font: 'Fascinate Inline', cursive;
+@logo-size:50px;
+
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+#wrapper{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+#nav-panel{
+    background-color: @second;
+    color: @third; 
+    height:100%;
+    width:@nav-width;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex;
+    align-items: center;
+}
+.logo{
+    font-family: @logo-font;
+    font-size: @logo-size;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 60px;
+}
+.link{
+    color: @third; 
+}
+.link:hover{
+    color:@primary;
+}
+#nav-panel>ul{
+    list-style: none;
+    font-family: @primary-font;
+    font-size: @nav-font-size;
+}
+#nav-panel>ul>li{
+    margin:15px 0px;
+}
+#nav-panel>ul>li:hover{
+    color:@primary;
+}
+#content{
+    background-color: @primary;
+    height:100%;
+    width:100%-@nav-width;
+}
+a:hover, a:visited, a:link, a:active{
+    text-decoration: none;
+}
+#content{
+    color:@second;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size:40px;
+    -webkit-box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
+    box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
+}
