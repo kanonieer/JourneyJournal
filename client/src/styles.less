@@ -4,7 +4,7 @@
 @primary: #531d63;
 @second:#f2f2f2;
 @third:#cc1c71;
-@nav-width:20%;
+@nav-width:18%;
 @nav-font-size:30px;
 @primary-font: 'Ubuntu', sans-serif;
 @logo-font: 'Fascinate Inline', cursive;
@@ -29,8 +29,9 @@
     width:@nav-width;
     display: flex;
     flex-direction: column;
-    justify-content: flex;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 50px;
 }
 .logo{
     font-family: @logo-font;
@@ -38,7 +39,13 @@
     display:flex;
     flex-direction: column;
     justify-content: flex-start;
-    margin: 60px;
+    margin-bottom:60px;
+}
+.logo{
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
 }
 .link{
     color: @third; 
@@ -61,6 +68,7 @@
     background-color: @primary;
     height:100%;
     width:100%-@nav-width;
+
 }
 a:hover, a:visited, a:link, a:active{
     text-decoration: none;
