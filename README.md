@@ -1,0 +1,2 @@
+# JourneyJournal
+Grupowy Projekt Inżynierski 
