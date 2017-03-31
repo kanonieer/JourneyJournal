@@ -1,6 +1,26 @@
 # JourneyJournal
 Grupowy Projekt Inżynierski 
 
+Instalacja/uruchomienie:
+1. Klient (w folderze client)
+    instalacja:
+    ```
+    npm install
+    ```
+    uruchomienie:
+    ```
+    ng serve
+    ```
+2. Serwer (w folderze server)
+    instalacja:
+    ```
+    npm install
+    ```
+    uruchomienie:
+    ```
+    npm run start:dev
+    ```
+
 Idea:
 Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebieg) o przebytej przez użytkownika podróży. Przesyła informację na serwer. Dane o podróży pakuje w bazie danych, zdjęcia przechowuje na dysku cloudowym uzytkownika. Strona webowa pozwala na przegladanie podróży, dzielenie się linkami do galerii, udostepnianie zdjęć.
 
@@ -86,3 +106,13 @@ Budowa obiektów/klas:
     - email + hasło / facebook
     - podróże (4) []
     - dysk []
+
+Hosting:
+1. Google Drive
+https://developers.google.com/drive/v2/reference/
+
+2. OneDrive 
+https://msdn.microsoft.com/en-us/library/office/dn659752.aspx
+
+3. Dropbox
+https://www.dropbox.com/developers-v1/core/docs

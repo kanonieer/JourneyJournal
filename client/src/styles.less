@@ -15,14 +15,14 @@
     margin: 0px;
     padding: 0px;
 }
-#wrapper{
+.wrapper{
     width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
 }
-#nav-panel{
+.nav{
     background-color: @second;
     color: @third; 
     height:100%;
@@ -53,27 +53,21 @@
 .link:hover{
     color:@primary;
 }
-#nav-panel>ul{
+.list{
     list-style: none;
     font-family: @primary-font;
     font-size: @nav-font-size;
 }
-#nav-panel>ul>li{
+.list>li{
     margin:15px 0px;
 }
-#nav-panel>ul>li:hover{
+.list>.link:hover{
     color:@primary;
 }
-#content{
+.content{
     background-color: @primary;
     height:100%;
     width:100%-@nav-width;
-
-}
-a:hover, a:visited, a:link, a:active{
-    text-decoration: none;
-}
-#content{
     color:@second;
     display:flex;
     flex-direction: column;
@@ -83,4 +77,7 @@ a:hover, a:visited, a:link, a:active{
     -webkit-box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
     -moz-box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
     box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
+}
+a:hover, a:visited, a:link, a:active{
+    text-decoration: none;
 }
