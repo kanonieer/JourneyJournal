@@ -3,7 +3,6 @@ var router      = express.Router();
 var User        = require('./../models/user'); // users
 
 // middleware here
-//router.use((req,res,next) => {});
 
 // create new user (POST http://localhost:8080/api/users)
 router.post('/users', (req, res) => {

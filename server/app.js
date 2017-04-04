@@ -1,7 +1,7 @@
 const express     = require('express');
 const bodyParser  = require('body-parser');
 const morgan      = require('morgan');
-const config      = require('./config');
+const database    = require('./config/database');
 const app         = express();
 const api         = require('./routes/api');
 
@@ -16,6 +16,7 @@ app.use(morgan('dev'));
 
 //Api
 app.use('/api',api);
+
 
 //secret for middleware
 //app.set('superSecret', config.secret); // secret variable
