@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-buttons end>
-      <button ion-button icon-only (click)="openModal()">
+      <button ion-button icon-only [navPush]="addTravelPage">
         <ion-icon name="add-circle"></ion-icon>
       </button>
     </ion-buttons>
@@ -28,8 +28,8 @@
 
       <ion-item>
         <span item-left><i>16.01.2018</i></span>
-        <button ion-button icon-left clear item-right>
-          <ion-icon name="ios-images"></ion-icon>
+        <button ion-button icon-left clear item-right large [navPush]="detailsTravelPage">
+          <ion-icon name="md-images"></ion-icon>
           More
         </button>
       </ion-item>
@@ -45,8 +45,8 @@
 
       <ion-item>
         <span item-left><i>20.05.2016</i></span>
-        <button ion-button icon-left clear item-right>
-          <ion-icon name="ios-images"></ion-icon>
+        <button ion-button icon-left clear item-right large [navPush]="detailsTravelPage">
+          <ion-icon name="md-images"></ion-icon>
           More
         </button>
       </ion-item>
@@ -62,12 +62,11 @@
 
       <ion-item>
         <span item-left><i>10.07.2015</i></span>
-        <button ion-button icon-left clear item-right>
-          <ion-icon name="ios-images"></ion-icon>
+        <button ion-button icon-left clear item-right large [navPush]="detailsTravelPage">
+          <ion-icon name="md-images"></ion-icon>
           More
         </button>
       </ion-item>
     </ion-card>
-
   </ion-list>
 </ion-content>

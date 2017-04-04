@@ -42,7 +42,7 @@ $ cd mobile
 $ ionic serve
 ```
 
-> CLIENT: localhost:4200
+> CLIENT: localhost:4200 <br>
 > IONIC: localhost:8100
 
 ## Idea
