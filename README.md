@@ -1,37 +1,61 @@
 # JourneyJournal
-Grupowy Projekt Inżynierski 
+Grupowy Projekt Inżynierski
 
-Instalacja/uruchomienie:
-1. Klient (w folderze client)
-    instalacja:
-    ```
-    npm install
-    ```
-    uruchomienie:
-    ```
-    ng serve
-    ```
-2. Serwer (w folderze server)
-    instalacja:
-    ```
-    npm install
-    ```
-    uruchomienie:
-    ```
-    npm run start:dev
-    ```
+## Instalacja
+```
+[Node v7.x] (https://nodejs.org/en/)
+```
+```
+[Npm] (https://docs.npmjs.com/getting-started/installing-node)
+```
+```
+[Angular] (https://angular.io/docs/ts/latest/cli-quickstart.html)
+```
+```
+[MongoDB] (https://docs.mongodb.com/manual/installation/)
+```
+```
+[Ionic] (https://ionicframework.com/getting-started/)
+```
+```
+$ git clone git@github.com:kanonieer/JourneyJournal.git JourneyJournal
+$ cd JourneyJournal/client
+$ npm install
+$ cd ../server
+$ npm install
+```
 
-Idea:
+## Użycie
+* Server
+```
+$ cd server
+$ npm run start:dev
+```
+* Client
+```
+$ cd client
+$ ng serve
+```
+* Ionic
+```
+$ cd mobile
+$ ionic serve
+```
+
+> CLIENT: localhost:4200
+> IONIC: localhost:8100
+
+## Idea
 Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebieg) o przebytej przez użytkownika podróży. Przesyła informację na serwer. Dane o podróży pakuje w bazie danych, zdjęcia przechowuje na dysku cloudowym uzytkownika. Strona webowa pozwala na przegladanie podróży, dzielenie się linkami do galerii, udostepnianie zdjęć.
 
-Warstwy:
+## Warstwy
 1. Mobile - Ionic 2 + Angular 2 (iOS, Android)
 2. Web - Angular 2 (Chrome, Mozilla, Safari, Opera)
 3. Server - Node.js + Express
 4. Hosting - Google Drive / Dropbox / Apple Cloud
 5. Baza danych - Postrges / Mongo
 
-Widoki:
+## Widoki
 1. Mobile:
     - niezalogowany:
         - logowanie przez facebook / email
@@ -44,7 +68,7 @@ Widoki:
             - wyświetlenie listy trwającej / zaplanowanych podróży
         - archival journeys:
             - lista odbytych podróży
-        - profile 
+        - profile
             - zarządzanie kontem
             - dodawanie / zmiania dysku cloudowego
 
@@ -81,8 +105,8 @@ Widoki:
         - about:
             - krótkie info odnośnie projektu
 
-Budowa obiektów/klas:
-1. Zdjęcie (plik) 
+## Budowa obiektów/klas
+1. Zdjęcie (plik)
 
 2. Etap
     - data rozpoczęcia
@@ -101,17 +125,17 @@ Budowa obiektów/klas:
     - trasa
     - etapy (2) []
     - zdjęcia (3) []
-    
+
 5. User:
     - email + hasło / facebook
     - podróże (4) []
     - dysk []
 
-Hosting:
+## Hosting
 1. Google Drive
 https://developers.google.com/drive/v2/reference/
 
-2. OneDrive 
+2. OneDrive
 https://msdn.microsoft.com/en-us/library/office/dn659752.aspx
 
 3. Dropbox

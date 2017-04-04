@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openModal()">
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>JourneyJournal</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-searchbar
+      [(ngModel)]="myInput"
+      [showCancelButton]="shouldShowCancel"
+      (ionInput)="onInput($event)"
+      (ionCancel)="onCancel($event)">
+    </ion-searchbar>
+
+    <ion-card>
+      <img src="img/Barcelona.jpg">
+
+      <ion-item>
+        <h1>Hiszpania</h1>
+        <p>Barcelona</p>
+      </ion-item>
+
+      <ion-item>
+        <span item-left><i>16.01.2018</i></span>
+        <button ion-button icon-left clear item-right>
+          <ion-icon name="ios-images"></ion-icon>
+          More
+        </button>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <img src="img/Chiny.jpg">
+
+      <ion-item>
+        <h1>Chiny</h1>
+        <p>Huairou</p>
+      </ion-item>
+
+      <ion-item>
+        <span item-left><i>20.05.2016</i></span>
+        <button ion-button icon-left clear item-right>
+          <ion-icon name="ios-images"></ion-icon>
+          More
+        </button>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <img src="img/Solina.jpg">
+
+      <ion-item>
+        <h1>Polska</h1>
+        <p><i>Solina</i></p>
+      </ion-item>
+
+      <ion-item>
+        <span item-left><i>10.07.2015</i></span>
+        <button ion-button icon-left clear item-right>
+          <ion-icon name="ios-images"></ion-icon>
+          More
+        </button>
+      </ion-item>
+    </ion-card>
+
+  </ion-list>
+</ion-content>
