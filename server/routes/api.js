@@ -1,22 +1,62 @@
-var express     = require('express');
-var router      = express.Router();
-var User        = require('./../models/user'); // users
-var passport = require('passport');
-// middleware here
+const express       = require('express');
+const router        = express.Router();
+const User          = require('./../models/user'); 
+const passport      = require('passport');
+const expressJwt    = require('express-jwt');
+const jwt           = require('jsonwebtoken');
+const authenticate  = expressJwt(
+    {secret: 'server secret temp',
+     getToken: function (req) {
+        var token = req.body.access_token || req.query.access_token || req.headers['x-access-token'] ;
+        if (token) {
+            return token;
+        } 
+            return null;
+    }});
 
- // =====================================
-    // FACEBOOK ROUTES =====================
-    // =====================================
-    // route for facebook authentication and login
-router.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+module.exports = function(app, passport) {
+
+    // process the login form
+    app.post('/login', passport.authenticate('local-login', {
+        session:false
+    }), generateToken, (req, res) => {
+        res.status(200).json({
+            user: req.user,
+            token: req.token
+        });
+    });
+
+    // process the signup form
+    app.post('/signup', passport.authenticate('local-signup', {
+        session:false
+    }),(req, res) =>{
+        res.status(201).json(req.user);
+    });
+
+    app.get('/profile', authenticate, function(req, res){
+        res.status(200).json(req.user);
+    });
+};
+
+const generateToken = (req, res, next) => {
+    req.token = jwt.sign(req.user,'server secret temp',{expiresIn:60*120});
+    next();
+}
+/*
+
+router.get('/auth/facebook', passport.authenticate('facebook', { session: false }),
+    (req, res) => {
+        console.log()
+    }
+);
 
 // handle the callback after facebook has authenticated the user
 router.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
-        successRedirect : '/profile',
-        failureRedirect : '/'
-    }), (req, res) => 
-        console.log("Pomyślnie zalogowano"));
+    passport.authenticate('facebook',  (req, res) => {
+        console.log("Pomyślnie zalogowano");
+        res.status(200).json({msg:'Pomyslnie zalogowano'});
+    })
+);
 
 
 router.post('/signup', passport.authenticate('local-signup', (req, res) => {
@@ -58,5 +98,5 @@ router.get('/users', (req, res) => {
 router.get('/test', (req, res) => {
     res.json({message: "Hello World"});
 });
-
-module.exports = router;  
+*/
+//module.exports = router;  

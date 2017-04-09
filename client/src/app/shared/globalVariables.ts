@@ -1,0 +1,1 @@
+export var apiAdress = 'http://localhost:8080/api'

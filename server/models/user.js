@@ -1,10 +1,8 @@
 const mongoose  = require('mongoose');
 const database  = require('./../config/database');
 const Schema    = mongoose.Schema;
-var passportLocalMongoose = require('passport-local-mongoose');
+const bcrypt    = require('bcrypt-nodejs');
 
-
-//mongoose.connect(database.database);
 const user = new Schema({
     local            : {
         email        : String,
@@ -18,17 +16,16 @@ const user = new Schema({
     }
 });
 
-user.plugin(passportLocalMongoose);
-/*// methods ======================
+// methods ======================
 // generating a hash
-userSchema.methods.generateHash = function(password) {
+user.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-// checking if password is valid
-userSchema.methods.validPassword = function(password) {
+//checking if password is valid
+user.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
-};*/
+};
 
 const User = mongoose.model('User', user);
 

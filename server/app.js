@@ -4,24 +4,75 @@ const morgan      = require('morgan');
 const database    = require('./config/database');
 const app         = express();
 const mongoose    = require('mongoose');
-const api         = require('./routes/api');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var cookieParser = require('cookie-parser');
-var configAuth = require('./config/auth');
+const passport    = require('passport');
 
 let port = process.env.PORT || 8080;
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Method", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //Body Parser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(require('express-session')({
+app.use(bodyParser.urlencoded({extended: true}));
+
+//Logger 
+app.use(morgan('dev'));
+
+//Passport config
+require('./config/pass.js')(passport);
+
+//Api
+require('./routes/api.js')(app, passport);
+
+mongoose.connect(database.database);
+
+module.exports = app;
+
+/*
+require('./config/pass2.js')(passport);
+
+
+app.use(passport.initialize())
+
+var usersRoutes = require('./routes/api')(app, express, passport);
+app.use('/users', usersRoutes);
+*/
+ 
+
+/*
+app.get('/test',(req, res) => {
+    res.status(200).json({msg:"działa?"});
+});
+app.get('/api/users/me',
+  passport.authenticate('local', { session: false }),
+  function(req, res) {
+    res.json({ id: req.user.id, username: req.user.username });
+  });
+
+app.post('/login', 
+  passport.authenticate('local',{session: false}),
+  function(req, res) {
+      console.log('po authcie');
+    res.json({msg:'nie wiem co tu wpisać'});
+  });
+  */
+// routes ======================================================================
+ // load our routes and pass in our app and fully configured passport
+
+
+
+//app.use(cookieParser());
+/*app.use(require('express-session')({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false
 }));
+*/
+/*
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
@@ -33,6 +84,7 @@ passport.deserializeUser(function(user, done) {
 });
 
 var User = require('./models/user');
+
 passport.use(new LocalStrategy(User.authenticate()));
 
 
@@ -134,16 +186,8 @@ passport.use(new FacebookStrategy({
         });
 
     }));
-
-
-//Logger 
-app.use(morgan('dev'));
-
+*/
 //Api
-app.use('/api',api);
-
-mongoose.connect(database.database);
+//app.use('/api',api);
 //secret for middleware
 //app.set('superSecret', config.secret); // secret variable
-
-module.exports = app;
