@@ -21,7 +21,9 @@
     "@angular/platform-browser-dynamic": "^2.4.0",
     "@angular/router": "^3.4.0",
     "core-js": "^2.4.1",
+    "notyf": "^2.0.1",
     "rxjs": "^5.1.0",
+    "w3-css": "^2.9.9",
     "zone.js": "^0.7.6"
   },
   "devDependencies": {

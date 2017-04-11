@@ -1,83 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css?family=Fascinate+Inline|Ubuntu');
-
-@primary: #531d63;
-@second:#f2f2f2;
-@third:#cc1c71;
-@nav-width:18%;
-@nav-font-size:30px;
-@primary-font: 'Ubuntu', sans-serif;
-@logo-font: 'Fascinate Inline', cursive;
-@logo-size:50px;
+@import './variables.less';
 
 *{
     box-sizing: border-box;
     margin: 0px;
     padding: 0px;
 }
-.wrapper{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
-.nav{
-    background-color: @second;
-    color: @third; 
-    height:100%;
-    width:@nav-width;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 30px;
-}
-.logo{
-    font-family: @logo-font;
-    font-size: @logo-size;
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-bottom:60px;
-}
-.logo{
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
-}
-.link{
-    color: @third; 
-}
-.link:hover{
-    color:@primary;
-}
-.list{
-    list-style: none;
-    font-family: @primary-font;
-    font-size: @nav-font-size;
-}
-.list>li{
-    margin:15px 0px;
-}
-.list>.link:hover{
-    color:@primary;
-}
-.content{
-    background-color: @primary;
-    height:100%;
-    width:100%-@nav-width;
-    color:@second;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size:40px;
-    -webkit-box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
-    -moz-box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
-    box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
-}
-a:hover, a:visited, a:link, a:active{
-    text-decoration: none;
-}
+

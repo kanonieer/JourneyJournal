@@ -10,9 +10,12 @@ import { JourneysModule} from './journeys/journeys.module';
 import { ProfileModule}  from './profile/profile.module';
 import { SummaryModule}  from './summary/summary.module';
 import { HomeModule }    from './home/home.module';
+import { AuthModule }    from './auth/auth.module';
 
 //components
 import { AppComponent }  from './app.component';
+
+import { IsUserLoggedIn } from './shared/isUserLoggedIn';
 
 @NgModule({
   declarations: [
@@ -27,9 +30,10 @@ import { AppComponent }  from './app.component';
     JourneysModule,
     ProfileModule,
     SummaryModule,
-    HomeModule
+    HomeModule,
+    AuthModule
   ],
-  providers: [],
+  providers: [IsUserLoggedIn],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

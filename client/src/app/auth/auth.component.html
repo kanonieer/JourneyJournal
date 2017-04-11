@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="form-nav">
+    <div class="form-nav-btn" (click)="this.toggleForm('login')">Login</div>
+    <div class="form-nav-btn" (click)="this.toggleForm('signup')">Sign up</div>
+  </div>
+  <div class="login-form" *ngIf="this.formToggle">
+    <form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm)">
+      <label for="email">Email</label>
+      <input type="text" name="email" id="email" ngModel>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" ngModel>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+  <div class="login-form" *ngIf="!this.formToggle">
+    <form #signupForm="ngForm" (ngSubmit)="signUpUser(signupForm)">
+      <label for="email">Email</label>
+      <input type="text" name="email" id="email" ngModel>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" ngModel>
+<!--
+      <label for="vpassword">Valid password</label>
+      <input type="password" name="vpassword" id="vpassword" ngModel>
+-->
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+</div>

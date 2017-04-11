@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile.component';
 
-import { AuthService } from './../services/auth.service';
 
 @NgModule({
   imports: [
@@ -12,7 +11,6 @@ import { AuthService } from './../services/auth.service';
     ProfileComponent
   ],
   providers: [
-    AuthService
   ],
   exports: [
     ProfileComponent
