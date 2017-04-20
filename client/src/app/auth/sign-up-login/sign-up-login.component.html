@@ -1,4 +1,4 @@
-<!--<div class="card">
+<div class="card">
   <div class="form-nav">
     <div class="form-nav-btn" [ngClass]="{'form-nav-btn-active': isSelected(1)}" (click)="setTab(1)">Login</div>
     <div class="form-nav-btn" [ngClass]="{'form-nav-btn-active': isSelected(2)}" (click)="setTab(2)">Sign up</div>
@@ -22,15 +22,17 @@
 
         <label for="password">Password</label>
         <input type="password" name="password" id="password" ngModel>
-
+  <!--
+        <label for="vpassword">Valid password</label>
+        <input type="password" name="vpassword" id="vpassword" ngModel>
+  -->
         <button type="submit">Sign Up</button>
       </form>
     </div>
   </div> 
 </div>
-<div class="facebook-login" (click)="authWithFacebook()">
-  <span>Continue with Facebook</span>
-</div>
-<a href="http://localhost:8080/auth/facebook">Login with facebook </a>-->
-
-<router-outlet></router-outlet>
+<a href="http://localhost:8080/auth/facebook">
+  <div class="facebook-login">
+    <span>Continue with Facebook</span>
+  </div>
+</a>

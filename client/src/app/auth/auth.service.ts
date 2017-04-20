@@ -16,20 +16,26 @@ export class AuthService {
   private headers = new Headers({'Content-Type':'application/json'});
   private options = new RequestOptions({headers: this.headers});
 
+
   authFacebook(): Observable<any>{
     return this._http.get(apiAdress+'/auth/facebook', this.options)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
+  getMe(payload: any): Observable<any>{
+    return this._http.post(apiAdress+'/profile', JSON.stringify(payload), this.options)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
 
   signUpBasic(payload: any): Observable<any>{
-    return this._http.post(apiAdress+'/signup',JSON.stringify(payload), this.options)
+    return this._http.post(apiAdress+'/signup', JSON.stringify(payload), this.options)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
 
   loginBasic(payload: any): Observable<any>{
-    return this._http.post(apiAdress+'/login',JSON.stringify(payload), this.options)
+    return this._http.post(apiAdress+'/login', JSON.stringify(payload), this.options)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
