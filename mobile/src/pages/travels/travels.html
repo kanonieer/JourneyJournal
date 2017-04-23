@@ -2,24 +2,24 @@
   <ion-navbar color="primary">
     <ion-buttons end>
       <button ion-button icon-only [navPush]="addTravelPage">
-        <ion-icon name="add-circle"></ion-icon>
+        <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>JourneyJournal</ion-title>
+    <ion-title>Journey Journal</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <ion-list>
-    <ion-searchbar
+    <!-- <ion-searchbar
       [(ngModel)]="myInput"
       [showCancelButton]="shouldShowCancel"
       (ionInput)="onInput($event)"
       (ionCancel)="onCancel($event)">
-    </ion-searchbar>
+    </ion-searchbar> -->
 
     <ion-card>
-      <img src="img/Barcelona.jpg">
+      <img src="assets/img/Barcelona.jpg">
 
       <ion-item>
         <h1>Hiszpania</h1>
@@ -36,7 +36,7 @@
     </ion-card>
 
     <ion-card>
-      <img src="img/Chiny.jpg">
+      <img src="assets/img/Chiny.jpg">
 
       <ion-item>
         <h1>Chiny</h1>
@@ -53,7 +53,7 @@
     </ion-card>
 
     <ion-card>
-      <img src="img/Solina.jpg">
+      <img src="assets/img/Solina.jpg">
 
       <ion-item>
         <h1>Polska</h1>

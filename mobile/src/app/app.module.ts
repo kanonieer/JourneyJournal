@@ -1,5 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { AuthService } from '../providers/auth-service';
 import { MyApp } from './app.component';
 import { TravelsPage } from '../pages/travels/travels';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -7,6 +8,8 @@ import { SettingsPage } from '../pages/settings/settings';
 import { AboutPage } from '../pages/about/about';
 import { AddTravelPage } from '../pages/addTravel/addTravel';
 import { DetailsTravelPage } from '../pages/detailsTravel/detailsTravel';
+import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,6 +20,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     TravelsPage,
     AddTravelPage,
     DetailsTravelPage,
+    LoginPage,
+    RegisterPage,
     AboutPage,
     TabsPage,
     SettingsPage
@@ -30,6 +35,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     TravelsPage,
     AddTravelPage,
     DetailsTravelPage,
+    LoginPage,
+    RegisterPage,
     AboutPage,
     TabsPage,
     SettingsPage
@@ -37,6 +44,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    AuthService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

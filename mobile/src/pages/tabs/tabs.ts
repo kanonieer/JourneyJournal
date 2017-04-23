@@ -9,8 +9,8 @@ import { SettingsPage } from '../settings/settings';
 export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  tab1Root: any = TravelsPage;
-  tab2Root: any = SettingsPage;
+  tabTravels: any = TravelsPage;
+  tabSettings: any = SettingsPage;
 
   constructor() {
 

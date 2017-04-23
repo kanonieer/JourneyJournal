@@ -23,6 +23,8 @@ $ cd JourneyJournal/client
 $ npm install
 $ cd ../server
 $ npm install
+$ cd ../mobile
+$ npm install
 ```
 
 ## Użycie
@@ -42,18 +44,19 @@ $ cd mobile
 $ ionic serve
 ```
 
+> SERVER: localhost:8080 <br>
 > CLIENT: localhost:4200 <br>
-> IONIC: localhost:8100
+> MOBILE: localhost:8100
 
 ## Idea
-Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebieg) o przebytej przez użytkownika podróży. Przesyła informację na serwer. Dane o podróży pakuje w bazie danych, zdjęcia przechowuje na dysku cloudowym uzytkownika. Strona webowa pozwala na przegladanie podróży, dzielenie się linkami do galerii, udostepnianie zdjęć.
+Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebieg) o przebytej przez użytkownika podróży. Przesyła informację na serwer. Dane o podróży pakuje w bazie danych, zdjęcia przechowuje na dysku cloudowym użytkownika. Strona webowa pozwala na przeglądanie podróży, dzielenie się linkami do galerii, udostępnianie zdjęć.
 
 ## Warstwy
 1. Mobile - Ionic 2 + Angular 2 (iOS, Android)
 2. Web - Angular 2 (Chrome, Mozilla, Safari, Opera)
 3. Server - Node.js + Express
-4. Hosting - Google Drive / Dropbox / Apple Cloud
-5. Baza danych - Postrges / Mongo
+4. Hosting - Google Drive / Dropbox / Apple Cloud / OneDrive
+5. Baza danych - Mongo
 
 ## Widoki
 1. Mobile:
@@ -70,7 +73,7 @@ Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebi
             - lista odbytych podróży
         - profile
             - zarządzanie kontem
-            - dodawanie / zmiania dysku cloudowego
+            - dodawanie / zmiana dysku cloudowego
 
 2. Web:
     - niezarejestrowany:
@@ -88,7 +91,7 @@ Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebi
                 - generowanie linku do galerii
                 - możliwość wydruku (?)
                 - zdjęcia:
-                    - powiekszenie (slider?)
+                    - powiększenie (slider?)
                     - udostępnienie (facebook)
         - summary:
             - wyświetla podsumowanie wszystkich podróży usera
@@ -105,7 +108,7 @@ Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebi
         - about:
             - krótkie info odnośnie projektu
 
-## Budowa obiektów/klas
+## Budowa obiektów / klas
 1. Zdjęcie (plik)
 
 2. Etap
