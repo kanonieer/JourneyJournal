@@ -1,6 +1,6 @@
-import { Component, OnInit }      from '@angular/core';
+import { Component, OnInit }              from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { AuthService }            from './../auth.service';
+import { AuthService }                    from './../auth.service';
 
 @Component({
   selector: 'app-facebook',
@@ -20,15 +20,15 @@ export class FacebookComponent implements OnInit {
       access_token: ''
     }
     this.activatedRoute.queryParams.subscribe((params: Params) => {
-        localStorage.setItem['tempToken'] = params['token'];
+        localStorage.setItem('tempToken', params['token']);
         payload.access_token = params['token'];
       });
 
     this.authService.getMe(payload).subscribe(
       data => {
         localStorage.setItem('user_id', data._id.toString());
-        localStorage.setItem('token', localStorage.getItem['tempToken']);
-        localStorage.removeItem['tempToken'];
+        localStorage.setItem('token', localStorage.getItem('tempToken'));
+        localStorage.removeItem('tempToken');
         localStorage.setItem('user_logged', 'true');
 
         this.router.navigateByUrl('');

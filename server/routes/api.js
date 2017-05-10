@@ -4,6 +4,7 @@ const User          = require('./../models/user');
 const passport      = require('passport');
 const expressJwt    = require('express-jwt');
 const jwt           = require('jsonwebtoken');
+const account       = require('./../controller/account');
 const authenticate  = expressJwt(
     {secret: 'server secret temp',
      getToken: function (req) {
@@ -12,10 +13,11 @@ const authenticate  = expressJwt(
             return token;
         } 
             return null;
-    }});
+    }}
+);
 
 module.exports = function(app, passport) {
-
+    //login email+password
     app.post('/login', passport.authenticate('local-login', {
             session:false
         }), generateToken, (req, res) => {
@@ -24,20 +26,27 @@ module.exports = function(app, passport) {
                 token: req.token
             });
         });
+    //sign up email+password
     app.post('/signup', passport.authenticate('local-signup', {
         session:false
-     }),(req, res) =>{
-        res.status(201).json(req.user);
-     });
+        }),(req, res) =>{
+            res.status(201).json(req.user);
+        });
+    //auth by facebook
     app.get('/auth/facebook', passport.authenticate('facebook'));
-    app.get('/auth/facebook/callback', passport.authenticate('facebook',
-     { session:false }),
+    //facebook auth callback
+    app.get('/auth/facebook/callback', passport.authenticate('facebook',{ session:false }),
       generateToken, (req, res) => {
         res.redirect('http://localhost:4200/login/facebook?token='+req.token);  
-     });
-    app.post('/profile', authenticate, function(req, res){
-        res.status(200).json(req.user._doc);
-     });
+      });
+    //profile data
+    app.post('/profile', authenticate, (req, res) => { res.status(200).json(req.user._doc) });
+    //update email 
+    app.patch('/email', authenticate, (req, res) => { account.changeEmail(req, res) });
+    //change password
+    app.patch('/password', authenticate, (req, res) => { account.changePassword(req, res) });
+    //face add email and password
+    app.post('/email',authenticate);
 };
 
 const generateToken = (req, res, next) => {

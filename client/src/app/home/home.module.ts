@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home.component';
+import { NgModule }       from '@angular/core';
+import { CommonModule }   from '@angular/common';
+import { HomeComponent }  from './home.component';
+import { LogoutService }  from './../logout.service';
 
 @NgModule({
   imports: [
@@ -8,6 +9,9 @@ import { HomeComponent } from './home.component';
   ],
   declarations: [
     HomeComponent
+  ],
+  providers: [
+
   ],
   exports: [
     HomeComponent

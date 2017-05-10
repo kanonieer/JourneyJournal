@@ -42,7 +42,6 @@ export class AuthComponent implements OnInit {
     };
     this.authService.signUpBasic(payload).subscribe(
       data => {
-        console.log(data)
         alert('Zostałeś zarejestrowany, możesz się zalogować!');
         this.router.navigateByUrl('login');
       },
@@ -55,7 +54,6 @@ export class AuthComponent implements OnInit {
   authWithFacebook(){
     this.authService.authFacebook().subscribe(
       data => {
-        console.log(data);
         localStorage.setItem('user_id', data.user._id.toString());
         localStorage.setItem('token', data.token);
         localStorage.setItem('user_logged', 'true');

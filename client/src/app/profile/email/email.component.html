@@ -1,0 +1,14 @@
+<div>
+  <form #emailForm="ngForm" (ngSubmit)="changeEmail(emailForm)">
+    <label for="oldEmail">Old email</label>
+    <input type="text" name="oldEmail" id="oldEmail" ngModel>
+
+    <label for="newEmail">New email</label>
+    <input type="text" name="newEmail" id="newEmail" ngModel>
+<!--
+    <label for="vpassword">Valid password</label>
+    <input type="password" name="vpassword" id="vpassword" ngModel>
+-->
+    <button type="submit">Change email</button>
+  </form>
+</div>

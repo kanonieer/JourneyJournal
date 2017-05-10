@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit }  from '@angular/core';
+import { LogoutService }      from './../logout.service';
 
 @Component({
   selector: 'app-home',
@@ -8,14 +8,10 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private logoutService: LogoutService) { }
 
-  logout(): void {
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('token');
-    localStorage.removeItem('user_logged');
-
-    this.router.navigateByUrl('login');
+  logout(){
+    this.logoutService.logout();
   }
 
   ngOnInit() {
