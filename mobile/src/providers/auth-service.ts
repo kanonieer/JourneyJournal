@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 export class User {
   email: string;
@@ -10,22 +13,36 @@ export class User {
   }
 }
 
+
 @Injectable()
 export class AuthService {
   currentUser: User;
+  constructor(private _http: Http) { }
 
-  public login(credentials) {
-    if (credentials.email === null || credentials.password === null) {
-      return Observable.throw("Please insert credentials");
-    } else {
-      return Observable.create(observer => {
-        // At this point make a request to your backend to make a real check!
-        let access = (credentials.password === "pass" && credentials.email === "email");
-        this.currentUser = new User('saimon@devdactic.com');
-        observer.next(access);
-        observer.complete();
-      });
-    }
+  private headers = new Headers({'Content-Type':'application/json'});
+  private options = new RequestOptions({headers: this.headers});
+
+  loginBasic(payload: any): Observable<any>{
+    return this._http.post('http://localhost:8080/login', JSON.stringify(payload), this.options)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  authFacebook(): Observable<any>{
+    return this._http.get('http://localhost:8080/auth/mobile/facebook', this.options)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+  getMe(payload: any): Observable<any>{
+    return this._http.post('http://localhost:8080/profile', JSON.stringify(payload), this.options)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  signUpBasic(payload: any): Observable<any>{
+    return this._http.post('http://localhost:8080/signup', JSON.stringify(payload), this.options)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
   }
 
   public register(credentials) {
@@ -50,5 +67,15 @@ export class AuthService {
       observer.next(true);
       observer.complete();
     });
+  }
+  private handleError(error: Response) {
+            if (error.status === 401) {
+                return Observable.throw('Unauthorized');
+            }
+            if (error.status === 500) {
+                return Observable.throw('Server down');
+            }else{
+                return Observable.throw(error.json().error || 'Server error');             
+            }
   }
 }

@@ -18,21 +18,23 @@ export class LoginPage {
     this.nav.push(RegisterPage);
   }
 
-  public login() {
-    this.showLoading()
-    this.auth.login(this.registerCredentials).subscribe(allowed => {
-      if (allowed) {
-        setTimeout(() => {
+  public loginUser(){
+  this.showLoading();
+  this.auth.loginBasic(this.registerCredentials).subscribe(
+      data => {
+        localStorage.setItem('user_id', data.user._id.toString());
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user_logged', 'true');
         this.loading.dismiss();
-        this.nav.setRoot(TabsPage)
-        });
-      } else {
-        this.showError("Access Denied");
+        this.nav.setRoot(TabsPage);
+      },
+      err => {
+        if(err === 'Unauthorized'){
+          alert('Błędne dane logowania!');
+          this.loading.dismiss();
+        }
       }
-    },
-    error => {
-      this.showError(error);
-    });
+    );
   }
 
   showLoading() {
