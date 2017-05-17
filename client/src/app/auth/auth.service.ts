@@ -22,6 +22,12 @@ export class AuthService {
       .catch(handleError);
   }
 
+  authDropbox(): Observable<any>{
+    return this._http.get(apiAdress+'/auth/dropbox', this.options)
+      .map((response: Response) => response.json())
+      .catch(handleError);
+  }  
+
   getMe(payload: any): Observable<any>{
     return this._http.post(apiAdress+'/profile', JSON.stringify(payload), this.options)
       .map((response: Response) => response.json())

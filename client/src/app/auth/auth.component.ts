@@ -50,7 +50,7 @@ export class AuthComponent implements OnInit {
       }
     );
   }
-  
+
   authWithFacebook(){
     this.authService.authFacebook().subscribe(
       data => {

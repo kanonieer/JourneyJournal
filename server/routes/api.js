@@ -5,6 +5,9 @@ const passport      = require('passport');
 const expressJwt    = require('express-jwt');
 const jwt           = require('jsonwebtoken');
 const account       = require('./../controller/account');
+const node_dropbox  = require('node-dropbox');
+const config        = require('./../config/auth');
+var access_token    = '';
 const authenticate  = expressJwt(
     {secret: 'server secret temp',
      getToken: function (req) {
@@ -15,6 +18,7 @@ const authenticate  = expressJwt(
             return null;
     }}
 );
+
 
 module.exports = function(app, passport) {
     //login email+password
@@ -47,6 +51,25 @@ module.exports = function(app, passport) {
     app.patch('/password', authenticate, (req, res) => { account.changePassword(req, res) });
     //face add email and password
     app.post('/email',authenticate);
+    //test dropbox
+    app.get('/auth/dropbox', (req, res) => {
+        node_dropbox.Authenticate(config.dropboxAuth.key, config.dropboxAuth.secret, config.dropboxAuth.callbackURL, function(err, url){
+        res.redirect(url);    
+        // redirect user to the url.
+        // looks like this: "https://www.dropbox.com/1/oauth2/authorize?client_id=<key_here>&response_type=code&redirect_uri=<redirect_url_here>"
+        });
+    });
+
+    app.get('/auth/dropbox/callback', (req, res) => {
+        node_dropbox.AccessToken(config.dropboxAuth.key, config.dropboxAuth.secret, req.query.code, config.dropboxAuth.callbackURL, function(err, body) {
+	        access_token = body.access_token;
+            api = node_dropbox.api(access_token);
+            api.account(function(err, res, body) {
+                console.log(body);
+            });
+            res.redirect('http://localhost:4200');
+        });
+    });
 };
 
 const generateToken = (req, res, next) => {
