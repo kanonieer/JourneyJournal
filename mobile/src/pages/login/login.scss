@@ -5,11 +5,11 @@ page-login {
 
     .logo-row {
       padding-top: 50px;
-      padding-bottom: 20px;
+      padding-bottom: 0px;
     }
 
     .login-box {
-      padding: 20px 20px 0px 20px;
+      padding: 0px 20px 0px 20px;
       margin-top: 30px;
     }
 
@@ -29,7 +29,7 @@ page-login {
      }
 
      .signup-col {
-       margin: 30px 20px 0px 20px;
+       margin: 0px 20px -20px 20px;
        padding-bottom: 20px;
      }
 
@@ -47,6 +47,11 @@ page-login {
      .register-btn {
        color: #ffffff;
        font-size: 0.9em;
+     }
+
+     .facebook-icon {
+       font-size: 28px;
+       margin: 0px 0px 0px 6px;
      }
   }
 
