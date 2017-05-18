@@ -3,6 +3,8 @@ import { NavController, AlertController, LoadingController, Loading } from 'ioni
 import { AuthService } from '../../providers/auth-service';
 import { RegisterPage } from '../register/register';
 import { TabsPage } from '../tabs/tabs';
+import { Facebook,FacebookLoginResponse } from '@ionic-native/facebook';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @Component({
   selector: 'page-login',
@@ -11,13 +13,15 @@ import { TabsPage } from '../tabs/tabs';
 export class LoginPage {
   loading: Loading;
   registerCredentials = {email: '', password: ''};
+  constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController,
+   private nativeStorage: NativeStorage, private fb: Facebook ) {}
 
-  constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {}
-
-  public createAccount() {
-    this.nav.push(RegisterPage);
+  public loginFacebook(){
+    this.fb.login(['public_profile', 'user_friends', 'email'])
+  .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
+  .catch(e => console.log('Error logging into Facebook', e));
   }
-
+  
   public loginUser(){
   this.showLoading();
   this.auth.loginBasic(this.registerCredentials).subscribe(
@@ -37,6 +41,9 @@ export class LoginPage {
     );
   }
 
+  createAccount(){
+    this.nav.setRoot(RegisterPage);
+  }
   showLoading() {
     this.loading = this.loadingCtrl.create({
       content: 'Please wait...'

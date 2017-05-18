@@ -1,5 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, } from 'ionic-angular';
 import { AuthService } from '../providers/auth-service';
 import { MyApp } from './app.component';
 import { TravelsPage } from '../pages/travels/travels';
@@ -10,9 +10,11 @@ import { AddTravelPage } from '../pages/addTravel/addTravel';
 import { DetailsTravelPage } from '../pages/detailsTravel/detailsTravel';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
+import { Facebook } from '@ionic-native/facebook';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { NativeStorage } from '@ionic-native/native-storage';
 
 @NgModule({
   declarations: [
@@ -39,12 +41,14 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     RegisterPage,
     AboutPage,
     TabsPage,
-    SettingsPage
+    SettingsPage,
   ],
   providers: [
+    Facebook,
     StatusBar,
     SplashScreen,
     AuthService,
+    NativeStorage,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -32,11 +32,6 @@
 
     </form>
     <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button>
-    <a href="http://localhost:8080/auth/mobile/facebook">
-     <div class="facebook-login">
-      <button ion-button class="submit-btn">Login Facebook<ion-icon name="logo-facebook"></ion-icon>
-      </button>
-      </div>
-    </a>
+      <button ion-button class="submit-btn" (click)="loginFacebook()">Login Facebook<ion-icon name="logo-facebook"></ion-icon></button>
   </div>
 </ion-content>
