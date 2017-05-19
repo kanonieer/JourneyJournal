@@ -18,7 +18,11 @@ export class LoginPage {
 
   public loginFacebook(){
     this.fb.login(['public_profile', 'user_friends', 'email'])
-  .then((res: FacebookLoginResponse) => console.log('Logged into Facebook!', res))
+  .then((res: FacebookLoginResponse) => 
+  {
+    console.log('Logged into Facebook!', res)
+    this.nav.setRoot(TabsPage);
+  })
   .catch(e => console.log('Error logging into Facebook', e));
   }
   
@@ -42,7 +46,7 @@ export class LoginPage {
   }
 
   createAccount(){
-    this.nav.setRoot(RegisterPage);
+    this.nav.push(RegisterPage);
   }
   showLoading() {
     this.loading = this.loadingCtrl.create({
