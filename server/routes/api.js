@@ -59,7 +59,9 @@ module.exports = function(app, passport) {
         // looks like this: "https://www.dropbox.com/1/oauth2/authorize?client_id=<key_here>&response_type=code&redirect_uri=<redirect_url_here>"
         });
     });
-
+    app.get('/users',(req,res)=>{
+         User.find({}, (err, user) => {res.json(user)})
+    })
     app.get('/auth/dropbox/callback', (req, res) => {
         node_dropbox.AccessToken(config.dropboxAuth.key, config.dropboxAuth.secret, req.query.code, config.dropboxAuth.callbackURL, function(err, body) {
 	        access_token = body.access_token;
