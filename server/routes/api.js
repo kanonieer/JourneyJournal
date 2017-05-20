@@ -1,10 +1,12 @@
 const express       = require('express');
 const router        = express.Router();
-const User          = require('./../models/user'); 
+const User          = require('./../models/user');
+const Journey       = require('./../models/journey'); 
 const passport      = require('passport');
 const expressJwt    = require('express-jwt');
 const jwt           = require('jsonwebtoken');
 const account       = require('./../controller/account');
+const journeyController       = require('./../controller/journey.controller');
 const node_dropbox  = require('node-dropbox');
 const config        = require('./../config/auth');
 var access_token    = '';
@@ -59,9 +61,6 @@ module.exports = function(app, passport) {
         // looks like this: "https://www.dropbox.com/1/oauth2/authorize?client_id=<key_here>&response_type=code&redirect_uri=<redirect_url_here>"
         });
     });
-    app.get('/users',(req,res)=>{
-         User.find({}, (err, user) => {res.json(user)})
-    })
     app.get('/auth/dropbox/callback', (req, res) => {
         node_dropbox.AccessToken(config.dropboxAuth.key, config.dropboxAuth.secret, req.query.code, config.dropboxAuth.callbackURL, function(err, body) {
 	        access_token = body.access_token;
@@ -72,6 +71,21 @@ module.exports = function(app, passport) {
             res.redirect('http://localhost:4200');
         });
     });
+    app.post('/journey', authenticate, (req, res)=> {journeyController.CreateJourney(req, res)});
+
+    ///do testowania
+    app.get('/users',(req,res)=>{
+         User.find({}, (err, user) => {res.json(user)});
+    });
+    app.get('/journeys',(req,res)=>{
+        Journey.find({},(err, journey)=>{res.json(journey)});
+    });
+    app.delete('/journeys', (req,res)=>{
+        Journey.remove({}, function (err) {
+        if (err) return handleError(err);
+         res.status(201).json({ message:'Journeys deleted'});
+        });
+    })
 };
 
 const generateToken = (req, res, next) => {
