@@ -13,7 +13,10 @@ const user = new Schema({
         token        : String,
         email        : String,
         name         : String
-    }
+    },
+    dropbox          :{
+        access_token : String      
+    } 
 });
 
 // methods ======================

@@ -7,6 +7,7 @@ module.exports = {
     'dropboxAuth' : {
         'key'           :'3r3023rippa392m',
         'secret'        :'g4539w2dfqgerfs',
-        'callbackURL'   :'http://localhost:8080/auth/dropbox/callback'
+        'callbackURL'   :'http://localhost:8080/auth/dropbox/callback',
+        'redirectURL'   :'http://localhost:4200/dropbox',
     }
 };

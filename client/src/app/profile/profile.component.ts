@@ -12,4 +12,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
   }
+  redirectToDropbox(){
+    window.location.href = "http://localhost:8080/auth/dropbox?access_token="+localStorage.getItem('token');
+  }
 }
