@@ -1,7 +1,4 @@
-<div (click)="getImages()">
+<div class="journey" (click)="getImages()">
   <h3>{{ journey.title }}</h3>
-  <p>Start: {{journey.date_start | date:short}}</p>
-  <p>End: {{journey.date_end | date:short}}</p>
-  <p> Id: {{journey._id}}</p>
-  
+  <p>{{journey.date_start | date:short}} - {{journey.date_end | date:short}}</p>
 </div>

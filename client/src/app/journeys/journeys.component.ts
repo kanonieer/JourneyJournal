@@ -11,7 +11,9 @@ export class JourneysComponent implements OnInit {
 
   journeys: Array<Journey> = []
 
-  constructor(private journeysService: JourneysService) { }
+  constructor(private journeysService: JourneysService) {
+    this.getJourneys();
+   }
 
   ngOnInit() {
   }

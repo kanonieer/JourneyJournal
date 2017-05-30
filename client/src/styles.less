@@ -163,3 +163,29 @@ input{
     opacity:0.8;
     transition: all 0.5s ease; 
 }
+.journey{
+    font-family: @primary-font;
+    padding: 30px;
+    margin: 20px;
+    background-color: @second;
+    color: @third;
+    transition: all 0.3s ease-out;
+    min-width: 500px;
+    min-height: 200px;
+
+    &:hover{
+        border-left: 8px solid @third;
+    }
+    h3{
+        border-bottom: 5px solid @primary;
+        width:20px;
+        transition: all 0.4s ease-out;
+    }
+    &:hover h3{
+        width:200px
+    }
+    p{
+        padding:10px;
+        font-size: 25px;
+    }
+}
