@@ -49,6 +49,11 @@ export class AuthService {
     .map((response: Response)=> response.json())
     .catch(this.handleError);
   }
+  saveImage(payload: any): Observable<any>{
+    return this._http.post('http://localhost:8080/image', JSON.stringify(payload), this.options)
+    .map((response: Response)=> response.json())
+    .catch(this.handleError);
+  }
 
   public register(credentials) {
     if (credentials.email === null || credentials.password === null) {

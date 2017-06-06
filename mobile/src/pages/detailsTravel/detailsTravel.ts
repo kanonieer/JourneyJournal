@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
+import { AuthService } from '../../providers/auth-service';
  
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
@@ -15,8 +16,16 @@ export class DetailsTravelPage {
   lastImage: string = null;
   loading: Loading;
  
-  constructor(public navCtrl: NavController, private camera: Camera, private file: File, private filePath: FilePath, public actionSheetCtrl: ActionSheetController, public toastCtrl: ToastController, public platform: Platform, public loadingCtrl: LoadingController) { }
- 
+  constructor(public navCtrl: NavController, 
+  private camera: Camera, 
+  private file: File, 
+  private filePath: FilePath, 
+  public actionSheetCtrl: ActionSheetController, 
+  public toastCtrl: ToastController, 
+  public platform: Platform, 
+  public loadingCtrl: LoadingController,
+  private auth: AuthService) { }
+  imageCredentials;
   public presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Select Image Source',
@@ -62,6 +71,24 @@ export class DetailsTravelPage {
           let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
           let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+          let image = this.file.readAsDataURL(correctPath, currentName);
+          this.imageCredentials={
+            file           : image,
+            date           : "",
+            longitude      : "",
+            latitude       : "",
+            id_journey     : "592adb8cdad2f811c822f8cf",
+            tags           : [],
+            access_token : localStorage.getItem('token')
+          }
+          this.auth.saveImage(this.imageCredentials).subscribe(
+            data=>{
+              alert("Udalo sie zapisac zdjecie");
+            },
+            err=>{
+              alert("Nie udalo zapisac zdjecia");
+            }
+          );
         });
     } else {
       var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
