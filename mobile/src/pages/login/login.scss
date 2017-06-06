@@ -4,33 +4,28 @@ page-login {
     background: #387ef5;
 
     .logo-row {
-      padding-top: 50px;
+      padding-top: 30px;
       padding-bottom: 0px;
+      align-items: center;
+      text-align: center;
     }
 
     .login-box {
-      padding: 0px 20px 0px 20px;
+      padding: 0px 10px 0px 10px;
       margin-top: 30px;
     }
 
-    ion-row {
-       align-items: center;
-       text-align: center;
-     }
-
      ion-item {
-         border-radius: 30px !important;
-         padding-left: 30px !important;
          font-size: 1.0em;
-         margin-bottom: 10px;
+         margin-bottom: 5px;
          border: 1px solid #ffffff;
          border-bottom: 0px !important;
          box-shadow: none !important;
      }
 
      .signup-col {
-       margin: 0px 20px -20px 20px;
-       padding-bottom: 20px;
+       margin: 0px 20px 0px 20px;
+       padding-bottom: 10px;
      }
 
      .item-inner {
@@ -40,7 +35,6 @@ page-login {
 
      .submit-btn {
        background: #32db64;
-       border-radius: 30px !important;
        border: 1px solid #ffffff;
      }
 
@@ -50,9 +44,29 @@ page-login {
      }
 
      .facebook-icon {
-       font-size: 28px;
-       margin: 0px 0px 0px 6px;
+       font-size: 48px;
+       color: #ffffff;
+       margin: 0px 0px 0px 0px;
      }
+
+     .facebook-row {
+       margin: 0px 20px 0px 20px;
+       border-bottom: 1px solid #ffffff;
+     }
+
+     .facebook-btn {
+       background: #32db64;
+       border: 1px solid #ffffff;
+     }
+
+     .facebook-btn-col {
+       margin: 2px 0px 0px 0px; 
+     }
+
+     .facebook-box {
+      padding: 0px 0px 0px 0px;
+      margin-top: 0px;
+    }
   }
 
 }

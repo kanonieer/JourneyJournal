@@ -2,11 +2,21 @@
   <ion-row class="logo-row">
     <ion-col></ion-col>
     <ion-col width-67>
-      <img src="assets/img/sledzik.jpg"/>
+      <img src="assets/img/sledzik.png"/>
     </ion-col>
     <ion-col></ion-col>
   </ion-row>
   <div class="login-box">
+    <div class="facebook-box">
+      <ion-row class="facebook-row">
+        <ion-col col-auto>
+          <ion-icon class="facebook-icon" name="logo-facebook"></ion-icon>
+        </ion-col>
+        <ion-col class="facebook-btn-col">
+          <button ion-button class="facebook-btn" full (click)="loginFacebook()">Sign in with Facebook</button>
+        </ion-col>
+      </ion-row>
+    </div>
     <form (ngSubmit)="loginUser()" #registerForm="ngForm">
       <ion-row>
         <ion-col>
@@ -26,15 +36,10 @@
 
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Sign in</button>
         </ion-col>
       </ion-row>
     </form>
-    <ion-row>
-      <ion-col class="signup-col">
-        <button ion-button class="submit-btn" full type (click)="loginFacebook()">Login Facebook<ion-icon class="facebook-icon" name="logo-facebook"></ion-icon></button>
-      </ion-col>
-    </ion-row>
-    <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button>
+    <button ion-button class="register-btn" block clear (click)="createAccount()">Create an account</button>
   </div>
 </ion-content>

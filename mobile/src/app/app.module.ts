@@ -4,8 +4,6 @@ import { AuthService } from '../providers/auth-service';
 import { MyApp } from './app.component';
 
 import { TravelsPage } from '../pages/travels/travels';
-import { TabsPage } from '../pages/tabs/tabs';
-import { SettingsPage } from '../pages/settings/settings';
 import { AboutPage } from '../pages/about/about';
 import { AddTravelPage } from '../pages/addTravel/addTravel';
 import { DetailsTravelPage } from '../pages/detailsTravel/detailsTravel';
@@ -28,9 +26,7 @@ import { Camera } from '@ionic-native/camera';
     DetailsTravelPage,
     LoginPage,
     RegisterPage,
-    AboutPage,
-    TabsPage,
-    SettingsPage
+    AboutPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -43,9 +39,7 @@ import { Camera } from '@ionic-native/camera';
     DetailsTravelPage,
     LoginPage,
     RegisterPage,
-    AboutPage,
-    TabsPage,
-    SettingsPage,
+    AboutPage
   ],
   providers: [
     Facebook,
