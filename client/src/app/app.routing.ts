@@ -11,12 +11,14 @@ import { AddEmailAuthComponent }  from './profile/add-email-auth/add-email-auth.
 import { AddFaceAuthComponent }   from './profile/add-face-auth/add-face-auth.component';
 import { EmailComponent }         from './profile/email/email.component';
 import { PasswordComponent }      from './profile/password/password.component';
+import { ExploreJourneyComponent } from './explore-journey/explore-journey.component';
 
 import { IsUserLoggedIn } from './shared/isUserLoggedIn';
 
 export const routing = RouterModule.forRoot([
     { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [IsUserLoggedIn]},
-    { path: 'journeys', component: JourneysComponent, canActivate: [IsUserLoggedIn] },
+    { path: 'journeys', component: JourneysComponent, canActivate: [IsUserLoggedIn]},
+    { path: 'journeys/:id', component: ExploreJourneyComponent, canActivate: [IsUserLoggedIn] },
     { path: 'summary', component: SummaryComponent, canActivate: [IsUserLoggedIn] },
     { path: 'about', component: AboutComponent, canActivate: [IsUserLoggedIn] },
     { path: 'profile', component: ProfileComponent, canActivate: [IsUserLoggedIn], children:  [

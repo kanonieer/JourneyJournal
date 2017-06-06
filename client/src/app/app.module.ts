@@ -16,10 +16,12 @@ import { AuthModule }    from './auth/auth.module';
 import { AppComponent }  from './app.component';
 
 import { IsUserLoggedIn } from './shared/isUserLoggedIn';
+import { ExploreJourneyComponent } from './explore-journey/explore-journey.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ExploreJourneyComponent
   ],
   imports: [
     BrowserModule,
