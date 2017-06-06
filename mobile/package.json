@@ -22,7 +22,7 @@
         "@ionic-native/camera": "^3.9.2",
         "@ionic-native/core": "^3.9.2",
         "@ionic-native/facebook": "^3.9.2",
-        "@ionic-native/file": "^3.9.2",
+        "@ionic-native/file": "^3.12.1",
         "@ionic-native/file-path": "^3.9.2",
         "@ionic-native/keyboard": "^3.4.4",
         "@ionic-native/native-storage": "^3.9.2",

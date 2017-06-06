@@ -83,12 +83,17 @@ module.exports = {
                     else{
                         var image = new Image({
                             file        : req.body.file,
-                            date        : "",
-                            longitude   : "",
-                            latitude    : "",
+                            date        : req.body.date,
+                            longitude   : req.body.longitude,
+                            latitude    : req.body.latitude,
                             id_journey  : req.body.id_journey,
                             tags        : [],
-                        })
+                        });
+                        image.save((err) => {
+                                    if (err) throw err;
+                                    
+                                    console.log('Image successfully saved!');
+                        }); 
                     }
                 })
             }
