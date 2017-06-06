@@ -63,5 +63,34 @@ module.exports = {
                 // .pipe(fs.createWriteStream('1.jpg');
             });
         });
+    },
+    saveImage: (req, res)=>{
+        User.findOne({_id : req.user._doc._id}, (err, user) => {
+            if (err) throw err;
+
+            if (!user) {
+                res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
+                console.log('User not found!'); 
+            }
+            if (user) {
+                Journey.findOne({},(err, journey)=>{
+                    if(err) throw err;
+
+                    if(!journey){
+                        res.status(404).json({message:'Not Found', details:'There is no journey with this ID'})
+                    }
+                    else{
+                        var image = new Image({
+                            file        : req.body.file,
+                            date        : "",
+                            longitude   : "",
+                            latitude    : "",
+                            id_journey  : req.body.id_journey,
+                            tags        : [],
+                        })
+                    }
+                })
+            }
+        });
     }
 }
