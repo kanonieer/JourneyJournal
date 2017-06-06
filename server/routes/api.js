@@ -69,7 +69,9 @@ module.exports = function(app, passport) {
     app.get('/journeys', authenticate, (req, res) => { journeyController.getJourneys(req, res)});
     //get images of journey
     app.get('/journeys/:id', authenticate, (req, res) => { imageController.getImages(req, res)});
-
+    
+    //save image to database
+    app.post('/image', authenticate, (req, res)=> {imageController.saveImage(req,res)});
     ///do testowania
     app.get('/users',(req,res)=>{
          User.find({}, (err, user) => {res.json(user)});
