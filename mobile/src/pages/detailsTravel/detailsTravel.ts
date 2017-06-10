@@ -71,24 +71,52 @@ export class DetailsTravelPage {
           let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
           let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-          let image = this.file.readAsDataURL(correctPath, currentName);
-          this.imageCredentials={
-            file           : image,
-            date           : "",
-            longitude      : "",
-            latitude       : "",
-            id_journey     : "592adb8cdad2f811c822f8cf",
-            tags           : [],
-            access_token : localStorage.getItem('token')
-          }
-          this.auth.saveImage(this.imageCredentials).subscribe(
-            data=>{
-              alert("Udalo sie zapisac zdjecie");
-            },
-            err=>{
-              alert("Nie udalo zapisac zdjecia");
-            }
-          );
+
+          this.file.readAsDataURL(correctPath, currentName).then(
+          file64 => {
+            //alert('file in 64: ' + file64);
+              let fileWithoutExtension = ('' + file64 + '').replace(/^data:image\/(png|jpg);base64,/, '');
+              let imageCredentials={
+                file           : file64,
+                date           : "",
+                longitude      : "",
+                latitude       : "",
+                id_journey     : "592adb8cdad2f811c822f8cf",
+                tags           : [],
+                access_token : localStorage.getItem('token')
+              }
+              this.auth.saveImage(imageCredentials).subscribe(
+                data=>{
+                  alert("Udalo sie zapisac zdjecie");
+                },
+                err=>{
+                  alert("Nie udalo sie zapisac zdjecia");
+                }
+              );     
+          }).catch(err => {
+          console.log('booooooo');
+        });
+
+          // let image = this.file.readAsDataURL(correctPath, currentName);
+          // alert(image);
+          // this.imageCredentials={
+          //   file           : image,
+          //   date           : "",
+          //   longitude      : "",
+          //   latitude       : "",
+          //   id_journey     : "592adb8cdad2f811c822f8cf",
+          //   tags           : [],
+          //   access_token : localStorage.getItem('token')
+          // }
+          // this.auth.saveImage(this.imageCredentials).subscribe(
+          //   data=>{
+          //     alert("Udalo sie zapisac zdjecie");
+          //   },
+          //   err=>{
+          //     alert("Nie udalo sie zapisac zdjecia");
+          //   }
+          // );
+          
         });
     } else {
       var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);

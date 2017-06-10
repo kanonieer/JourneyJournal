@@ -1,7 +1,8 @@
 const express       = require('express');
 const router        = express.Router();
 const User          = require('./../models/user');
-const Journey       = require('./../models/journey'); 
+const Journey       = require('./../models/journey');
+const Image         = require('./../models/image');
 const passport      = require('passport');
 const expressJwt    = require('express-jwt');
 const jwt           = require('jsonwebtoken');
@@ -79,6 +80,9 @@ module.exports = function(app, passport) {
     // app.get('/journeys',(req,res)=>{
     //     Journey.find({},(err, journey)=>{res.json(journey)});
     // });
+    app.get('/images', (req,res)=>{
+        Image.find({}, (err, image)=>{res.json(image)});
+    })
     app.delete('/journeys', (req,res)=>{
         Journey.remove({}, function (err) {
         if (err) return handleError(err);

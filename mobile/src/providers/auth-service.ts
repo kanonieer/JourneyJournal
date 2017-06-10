@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { serverAdress } from './../shared/GlobalVariables';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -23,34 +24,34 @@ export class AuthService {
   private options = new RequestOptions({headers: this.headers});
 
   loginBasic(payload: any): Observable<any>{
-    return this._http.post('http://localhost:8080/login', JSON.stringify(payload), this.options)
+    return this._http.post(serverAdress + '/login', JSON.stringify(payload), this.options)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
 
   authFacebook(): Observable<any>{
-    return this._http.get('http://localhost:8080/auth/mobile/facebook', this.options)
+    return this._http.get(serverAdress + '/facebook', this.options)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
   getMe(payload: any): Observable<any>{
-    return this._http.post('http://localhost:8080/profile', JSON.stringify(payload), this.options)
+    return this._http.post(serverAdress + '/profile', JSON.stringify(payload), this.options)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
 
   signUpBasic(payload: any): Observable<any>{
-    return this._http.post('http://localhost:8080/signup', JSON.stringify(payload), this.options)
+    return this._http.post(serverAdress + '/signup', JSON.stringify(payload), this.options)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
   addJourney(payload: any): Observable<any>{
-    return this._http.post('http://localhost:8080/journey', JSON.stringify(payload), this.options)
+    return this._http.post(serverAdress + '/journey', JSON.stringify(payload), this.options)
     .map((response: Response)=> response.json())
     .catch(this.handleError);
   }
   saveImage(payload: any): Observable<any>{
-    return this._http.post('http://localhost:8080/image', JSON.stringify(payload), this.options)
+    return this._http.post(serverAdress + '/image', JSON.stringify(payload), this.options)
     .map((response: Response)=> response.json())
     .catch(this.handleError);
   }
