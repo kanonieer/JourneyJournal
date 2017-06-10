@@ -20,8 +20,8 @@ app.use(function(req, res, next) {
 
 //Body Parser
 
-app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 //Logger 

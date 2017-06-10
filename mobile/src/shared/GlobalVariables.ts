@@ -1,0 +1,1 @@
+export var serverAdress =  "https://journeyjournal.herokuapp.com";

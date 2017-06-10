@@ -77,7 +77,7 @@ export class DetailsTravelPage {
             //alert('file in 64: ' + file64);
               let fileWithoutExtension = ('' + file64 + '').replace(/^data:image\/(png|jpg);base64,/, '');
               let imageCredentials={
-                file           : file64,
+                file           : fileWithoutExtension,
                 date           : "",
                 longitude      : "",
                 latitude       : "",
@@ -116,7 +116,7 @@ export class DetailsTravelPage {
           //     alert("Nie udalo sie zapisac zdjecia");
           //   }
           // );
-          
+
         });
     } else {
       var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
