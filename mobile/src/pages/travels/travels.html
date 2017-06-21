@@ -15,7 +15,7 @@
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
-  <ion-list>
+  <ion-list *ngFor="let travel of travels">
     <!-- <ion-searchbar
       [(ngModel)]="myInput"
       [showCancelButton]="shouldShowCancel"
@@ -23,53 +23,19 @@
       (ionCancel)="onCancel($event)">
     </ion-searchbar> -->
 
+    <!--<app-journey *ngFor="let travel of travels" [travel]='travel'></app-journey>-->
     <ion-card>
-      <img src="assets/img/Barcelona.jpg">
-
       <ion-item>
-        <h1>Hiszpania</h1>
-        <p>Barcelona</p>
+          <h1>{{ travel.title }}</h1>
       </ion-item>
 
       <ion-item>
-        <span item-left><i>16.01.2018</i></span>
-        <button ion-button icon-left clear item-right large [navPush]="detailsTravelPage">
-          <ion-icon name="md-images"></ion-icon>
-          More
-        </button>
+          <span item-left><i>{{ travel.date_start | date:short}} - {{ travel.date_end | date:short}}</i></span>
       </ion-item>
-    </ion-card>
-
-    <ion-card>
-      <img src="assets/img/Chiny.jpg">
-
       <ion-item>
-        <h1>Chiny</h1>
-        <p>Huairou</p>
-      </ion-item>
-
-      <ion-item>
-        <span item-left><i>20.05.2016</i></span>
-        <button ion-button icon-left clear item-right large [navPush]="detailsTravelPage">
-          <ion-icon name="md-images"></ion-icon>
-          More
-        </button>
-      </ion-item>
-    </ion-card>
-
-    <ion-card>
-      <img src="assets/img/Solina.jpg">
-
-      <ion-item>
-        <h1>Polska</h1>
-        <p><i>Solina</i></p>
-      </ion-item>
-
-      <ion-item>
-        <span item-left><i>10.07.2015</i></span>
-        <button ion-button icon-left clear item-right large [navPush]="detailsTravelPage">
-          <ion-icon name="md-images"></ion-icon>
-          More
+        <button ion-button icon-left clear item-right large (click)="detailsTravel(travel._id)">
+              <ion-icon name="md-images"></ion-icon>
+              More
         </button>
       </ion-item>
     </ion-card>

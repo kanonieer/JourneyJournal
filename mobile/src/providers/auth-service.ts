@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Travel } from './../models/Travel';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { serverAdress } from './../shared/GlobalVariables';
 import 'rxjs/add/operator/map';
@@ -14,7 +15,6 @@ export class User {
   }
 }
 
-
 @Injectable()
 export class AuthService {
   currentUser: User;
@@ -28,7 +28,6 @@ export class AuthService {
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
-
   authFacebook(): Observable<any>{
     return this._http.get(serverAdress + '/facebook', this.options)
       .map((response: Response) => response.json())
@@ -39,7 +38,6 @@ export class AuthService {
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
-
   signUpBasic(payload: any): Observable<any>{
     return this._http.post(serverAdress + '/signup', JSON.stringify(payload), this.options)
       .map((response: Response) => response.json())
@@ -49,6 +47,12 @@ export class AuthService {
     return this._http.post(serverAdress + '/journey', JSON.stringify(payload), this.options)
     .map((response: Response)=> response.json())
     .catch(this.handleError);
+  }
+  getJourneys():Observable<Array<Travel>> {
+    let access_token = localStorage.getItem('token');
+    return this._http.get(serverAdress + '/journeys?access_token='+localStorage.getItem('token'), this.options)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
   }
   saveImage(payload: any): Observable<any>{
     return this._http.post(serverAdress + '/image', JSON.stringify(payload), this.options)

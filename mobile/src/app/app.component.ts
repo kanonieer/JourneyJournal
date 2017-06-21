@@ -18,6 +18,9 @@ export class MyApp {
       if(localStorage.getItem('user_logged') == 'true') {
         app.getActiveNav().setRoot(TravelsPage);
       }
+      if(localStorage.getItem('user_logged_fb') == 'true') {
+        app.getActiveNav().setRoot(TravelsPage);
+      }
       statusBar.styleDefault();
       splashScreen.hide();
     });

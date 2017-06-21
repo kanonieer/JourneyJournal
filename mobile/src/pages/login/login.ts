@@ -38,7 +38,6 @@ export class LoginPage {
     // localStorage.setItem('public_profile', data.public_profile);
     // localStorage.setItem('user_friends', data.user_friends);
     // localStorage.setItem('email', data.email);
-    // localStorage.setItem('user_logged', 'true');
     localStorage.setItem('user_logged_fb', 'true');
     console.log('Logged into Facebook!', res)
     this.loading.dismiss();

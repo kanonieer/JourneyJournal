@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ActionSheetController, ToastController, Platform, LoadingController, Loading } from 'ionic-angular';
+import { NavController, ActionSheetController, ToastController, Platform, LoadingController, Loading, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
  
 import { File } from '@ionic-native/file';
@@ -24,8 +24,11 @@ export class DetailsTravelPage {
   public toastCtrl: ToastController, 
   public platform: Platform, 
   public loadingCtrl: LoadingController,
-  private auth: AuthService) { }
+  private auth: AuthService,
+  public navParams: NavParams) { }
+  
   imageCredentials;
+  
   public presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Select Image Source',
@@ -34,12 +37,6 @@ export class DetailsTravelPage {
           text: 'Load from Library',
           handler: () => {
             this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-          }
-        },
-        {
-          text: 'Use Camera',
-          handler: () => {
-            this.takePicture(this.camera.PictureSourceType.CAMERA);
           }
         },
         {
@@ -81,7 +78,7 @@ export class DetailsTravelPage {
                 date           : "",
                 longitude      : "",
                 latitude       : "",
-                id_journey     : "592adb8cdad2f811c822f8cf",
+                id_journey     : this.navParams.get("id_travel"),
                 tags           : [],
                 access_token : localStorage.getItem('token')
               }
