@@ -15,12 +15,15 @@ export class ExploreJourneyComponent implements OnInit {
 
   journey_id: String = '';
   images: Array<Image> = [];
+  bigImage: Image;
 
   constructor(
     private journeyService: JourneyService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-   ) { }
+   ) {
+     this.bigImage = new Image();
+    }
 
 
   ngOnInit() {
@@ -33,6 +36,9 @@ export class ExploreJourneyComponent implements OnInit {
           console.log(this.images);
         });
     });
+  }
+  showImage(image: Image) {
+    this.bigImage = image;
   }
 
 }

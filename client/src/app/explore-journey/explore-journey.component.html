@@ -1,5 +1,20 @@
 <div class="container">
-  <div class="image-container" *ngFor="let image of images">
+  <div class="image-container" *ngFor="let image of images" (click)="showImage(image)" data-toggle="modal" data-target="#myModal">
       <img src="{{image.file}}" />
   </div> 
+</div>
+<!-- Modal for auth -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="{{bigImage.file}}" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
