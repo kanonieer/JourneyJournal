@@ -20,6 +20,7 @@ export class AddTravelPage {
   AddJourney(){
     this.auth.addJourney(this.journeyCredentials).subscribe(
     data=>{
+      alert("Udalo sie utworzyc podroz");
     },
     err=>{
       alert("Nie udalo sie utworzyc podrozy");
