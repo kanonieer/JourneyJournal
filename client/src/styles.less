@@ -64,18 +64,20 @@
     color:@primary;
 }
 .content{
+    padding-top:100px;
     background-color: @primary;
     height:100%;
     width:100%-@nav-width;
     color:@second;
     display:flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     font-size:40px;
     -webkit-box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
     -moz-box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
     box-shadow: inset 39px 0px 96px -36px rgba(0,0,0,0.75);
+        overflow: scroll;
 }
 a:hover, a:visited, a:link, a:active{
     text-decoration: none;
