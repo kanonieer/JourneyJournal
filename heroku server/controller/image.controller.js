@@ -93,7 +93,8 @@ module.exports = {
                                     if (err) throw err;
                                     
                                     console.log('Image successfully saved!');
-                        }); 
+                        });
+                        res.status(201).json({ message:'Image saved', details: 'Image successfully saved'})
                     }
                 })
             }
