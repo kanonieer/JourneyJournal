@@ -9,7 +9,7 @@ import { Camera } from '@ionic-native/camera';
 declare var cordova: any;
  
 @Component({
-  selector: 'detailsTravel',
+  selector: 'page-detailsTravel',
   templateUrl: 'detailsTravel.html'
 })
 export class DetailsTravelPage {
@@ -28,24 +28,9 @@ export class DetailsTravelPage {
   public navParams: NavParams) { }
   
   imageCredentials;
-  
-  public presentActionSheet() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Select Image Source',
-      buttons: [
-        {
-          text: 'Load from Library',
-          handler: () => {
-            this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-          }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        }
-      ]
-    });
-    actionSheet.present();
+
+  public loadPhoto() {
+    this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
   }
 
   public takePicture(sourceType) {

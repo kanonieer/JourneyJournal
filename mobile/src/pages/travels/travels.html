@@ -15,6 +15,7 @@
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
+
   <ion-list *ngFor="let travel of travels">
     <!-- <ion-searchbar
       [(ngModel)]="myInput"
@@ -23,8 +24,9 @@
       (ionCancel)="onCancel($event)">
     </ion-searchbar> -->
 
-    <!--<app-journey *ngFor="let travel of travels" [travel]='travel'></app-journey>-->
     <ion-card>
+      <img src="assets/img/example.jpg" (click)="detailsTravel(travel._id)">
+
       <ion-item>
           <h1>{{ travel.title }}</h1>
       </ion-item>

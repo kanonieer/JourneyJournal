@@ -4,7 +4,7 @@ import { NavController } from 'ionic-angular';
 import { TravelsPage } from '../travels/travels';
 
 @Component({
-  selector: 'addTravel',
+  selector: 'page-addTravel',
   templateUrl: 'addTravel.html'
 })
 export class AddTravelPage {

@@ -1,15 +1,21 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-buttons end>
-      <button ion-button icon-only (click)="presentActionSheet()">
-        <ion-icon name="md-menu"></ion-icon>
-      </button>
-    </ion-buttons>
     <ion-title>Details</ion-title>
   </ion-navbar>
 </ion-header>
  
-<ion-content padding>
-  <img src="{{pathForImage(lastImage)}}" style="width: 100%" [hidden]="lastImage === null">
-  <h3 [hidden]="lastImage !== null">Please Select Image!</h3>
+<ion-content class="detailsTravel-content" padding>
+  <div class="detailsTravel-box">
+    <ion-row>
+      <ion-col>
+        <img src="{{pathForImage(lastImage)}}" style="width: 100%" [hidden]="lastImage === null">
+        <h3 [hidden]="lastImage !== null">Please Select Image!</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="detailsTravel-col">
+        <button ion-button class="load-btn" full (click)="loadPhoto()">Add photo...</button>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>
