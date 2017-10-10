@@ -9,7 +9,6 @@ import { SignUpLoginComponent } from './sign-up-login/sign-up-login.component';
 
 import { AuthService }          from './auth.service';
 
-
 @NgModule({
   imports: [
     CommonModule,

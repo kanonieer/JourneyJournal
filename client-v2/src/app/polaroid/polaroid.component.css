@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Nothing+You+Could+Do');
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+.polaroid-container {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+    -webkit-box-shadow: 0px 0px 36px -5px rgba(89,88,87,1);
+    -moz-box-shadow: 0px 0px 36px -5px rgba(89,88,87,1);
+    box-shadow: 0px 0px 36px -5px rgba(89,88,87,1);
+}
+.polaroid-image {
+    width: 280px;
+    height: 280px;
+    -webkit-box-shadow: inset 0px 0px 85px -5px rgba(61,36,18,1);
+    -moz-box-shadow: inset 0px 0px 85px -5px rgba(61,36,18,1);
+    box-shadow: inset 0px 0px 85px -5px rgba(61,36,18,1);
+}
+.polaroid-photo > img {
+    height: 280px;
+    width: 280px;
+    object-fit: contain;
+}
+.polaroid-info {
+    margin-top:10px;
+    width:280px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: 'Pacifico', cursive;
+}

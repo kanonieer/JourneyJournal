@@ -1,0 +1,44 @@
+<section class="hero is-dark">
+  <div class="container is-fullhd">
+    <div class="hero-body">
+      <p class="title">
+        Sign Up!
+      </p>
+      <p class="subtitle">
+        Just <strong>one</strong> more step.
+      </p>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" type="email" placeholder="Email" name="email" ngModel>
+          <span class="icon is-small is-left">
+            <i class="fa fa-envelope"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fa fa-check"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="password" placeholder="Password" name="password" ngModel>
+          <span class="icon is-small is-left">
+            <i class="fa fa-lock"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control">
+          <button type="submit" class="button is-dark">
+            Login
+          </button>
+        </p>
+      </div>
+    </form>
+  </div>
+</section>

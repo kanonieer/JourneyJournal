@@ -1,6 +1,6 @@
-import { Component, OnInit }              from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { AuthService }                    from './../auth.service';
+import { AuthService } from './../auth.service';
 
 @Component({
   selector: 'app-facebook',

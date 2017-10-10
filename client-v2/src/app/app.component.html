@@ -1,0 +1,33 @@
+<nav class="navbar is-white is-size-5" role="navigation" aria-label="main navigation">
+  <div class="container is-fullhd">
+    <div class="navbar-brand">
+      <a class="navbar-item" routerLink="">
+        JourneyJournal  | Welcome, {{ name }}
+      </a>
+
+      <button class="button navbar-burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <p class="navbar-item">
+          <a routerLink="gallery">Gallery</a>
+        </p>
+        <p class="navbar-item">
+          <a routerLink="journeys">Journeys</a>
+        </p>
+        <p class="navbar-item">
+          <a routerLink="about">About</a>
+        </p>
+        <p class="navbar-item">
+          <a routerLink="" class="button is-outlined is-size-5">Sign up</a>
+        </p> 
+      </div>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>

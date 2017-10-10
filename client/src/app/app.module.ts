@@ -17,6 +17,7 @@ import { AppComponent }  from './app.component';
 
 import { IsUserLoggedIn } from './shared/isUserLoggedIn';
 import { ExploreJourneyComponent } from './explore-journey/explore-journey.component';
+import { DropboxService } from './services/dropbox.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,10 @@ import { ExploreJourneyComponent } from './explore-journey/explore-journey.compo
     HomeModule,
     AuthModule
   ],
-  providers: [IsUserLoggedIn],
+  providers: [
+    IsUserLoggedIn,
+    DropboxService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
