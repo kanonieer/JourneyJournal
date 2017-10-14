@@ -64,5 +64,18 @@ module.exports = {
                 }).select('-id_disc');
             }
         });
+    },
+
+    getJourneyById: (req, res) => {
+        Journey.findOne({ _id : req.params.id}, (err, journey) => {
+            if (err) throw err;
+
+            if (!journey) {
+                res.status(404).json({ message:'Not Found', details: 'There is no journey with this ID' });
+                console.log('Journey not found!');                 
+            } else {
+                res.status(200).json(journey);
+            }
+        }).select('-id_disc');;
     }
 }

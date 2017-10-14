@@ -2,6 +2,8 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler, } from 'ionic-angular';
 import { AuthService } from '../providers/auth-service';
 import { MyApp } from './app.component';
+// import { CloudinaryModule } from '@cloudinary/angular-4.x';
+// import * as  Cloudinary from 'cloudinary-core';
 
 import { TravelsPage } from '../pages/travels/travels';
 import { AboutPage } from '../pages/about/about';
@@ -15,6 +17,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativeStorage } from '@ionic-native/native-storage';
 import { Facebook } from '@ionic-native/facebook';
 import { File } from '@ionic-native/file';
+import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 
@@ -29,6 +32,7 @@ import { Camera } from '@ionic-native/camera';
     AboutPage
   ],
   imports: [
+    //CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'dzgtgeotp'}),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -46,6 +50,7 @@ import { Camera } from '@ionic-native/camera';
     StatusBar,
     SplashScreen,
     File,
+    FileTransfer,
     Camera,
     FilePath,
     AuthService,
