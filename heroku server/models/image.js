@@ -3,12 +3,12 @@ const database  = require('./../config/database');
 const Schema    = mongoose.Schema;
 
 const image = new Schema({
-        file        : String,
         date        : String,
         longitude   : String,
         latitude    : String,
         id_journey  : String,
         tags        : Array,
+        isFavourite : Boolean
 
 });
 
