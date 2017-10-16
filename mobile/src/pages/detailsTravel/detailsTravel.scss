@@ -1,0 +1,24 @@
+page-detailsTravel {
+  .detailsTravel-content {
+
+    .detailsTravel-box {
+      padding: 0px 20px 0px 20px;
+      margin-top: 10px;
+    }
+
+    ion-row {
+       align-items: center;
+       text-align: center;
+     }
+
+     .detailsTravel-col {
+       margin: 00px 20px 0px 20px;
+       padding-top: 20px;
+     }
+
+     .load-btn {
+       background: #32db64;
+       border: 1px solid #ffffff;
+     }
+  }
+}

@@ -12,7 +12,7 @@ const config        = require('./../config/auth');
 module.exports = {
     getImages: (req, res) => {
         Image.find({id_journey: req.params.id}, (err, images) => {
-            res.status(200).json({images:images});
+            res.status(200).json(images);
             // api = node_dropbox.api(req.user._doc.dropbox.access_token);
             // let tmp = 'temp';
             // // var dropbox = new DropboxClient(config.dropboxAuth.key, config.dropboxAuth.secret);
@@ -82,7 +82,6 @@ module.exports = {
                     }
                     else{
                         var image = new Image({
-                            file        : req.body.file,
                             date        : req.body.date,
                             longitude   : req.body.longitude,
                             latitude    : req.body.latitude,
@@ -94,7 +93,7 @@ module.exports = {
                                     
                                     console.log('Image successfully saved!');
                         });
-                        res.status(201).json({ message:'Image saved', details: 'Image successfully saved'})
+                        res.status(201).json(image);
                     }
                 })
             }

@@ -62,13 +62,16 @@ module.exports = function(app, passport) {
         // looks like this: "https://www.dropbox.com/1/oauth2/authorize?client_id=<key_here>&response_type=code&redirect_uri=<redirect_url_here>"
         });
     });
+    
     app.get('/auth/dropbox/callback', (req, res) => { accountController.addDropbox(req, app.get('user_id'), res)}, app.set('user_id', false));
     //post new journey
     app.post('/journey', authenticate, (req, res) => { journeyController.createJourney(req, res)});
     //get user journeys
     app.get('/journeys', authenticate, (req, res) => { journeyController.getJourneys(req, res)});
+    //app journey by id
+    app.get('/journeys/:id', authenticate, (req, res) => { journeyController.getJourneyById(req, res)});
     //get images of journey
-    app.get('/journeys/:id', authenticate, (req, res) => { imageController.getImages(req, res)});
+    app.get('/imagesByJourneysId/:id', authenticate, (req, res) => { imageController.getImages(req, res)});
     
     //save image to database
     app.post('/image', authenticate, (req, res)=> {imageController.saveImage(req,res)});

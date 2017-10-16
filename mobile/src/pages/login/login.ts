@@ -18,8 +18,9 @@ export class LoginPage {
      events.subscribe('user:logout', () => {
         if (localStorage.getItem('user_logged') == "true") {
           this.logoutUser();
-        } else {
-         this.logoutFacebook();
+        }
+        if (localStorage.getItem('user_logged_fb') == "true") {
+          this.logoutFacebook();
         }
      });
    }
@@ -40,8 +41,8 @@ export class LoginPage {
     // localStorage.setItem('email', data.email);
     localStorage.setItem('user_logged_fb', 'true');
     console.log('Logged into Facebook!', res)
-    this.loading.dismiss();
     this.nav.setRoot(TravelsPage);
+    this.loading.dismiss();
   })
   .catch(error => console.log('Error logging into Facebook', error));
   }
@@ -53,8 +54,8 @@ export class LoginPage {
         localStorage.setItem('user_id', data.user._id.toString());
         localStorage.setItem('token', data.token);
         localStorage.setItem('user_logged', 'true');
-        this.loading.dismiss();
         this.nav.setRoot(TravelsPage);
+        this.loading.dismiss();
       },
       err => {
         if(err === 'Unauthorized'){
@@ -89,10 +90,11 @@ export class LoginPage {
   }
 
   public logoutFacebook() {
-    //this.showLoading();
+    this.showLoading();
     this.fb.logout()
     .then((res: FacebookLoginResponse) => {
-      //this.loading.dismiss();
+      localStorage.removeItem('user_logged_fb');
+      this.loading.dismiss();
       this.nav.setRoot(LoginPage);
     }).catch(error => console.log('Error logouting into Facebook', error));
   }
