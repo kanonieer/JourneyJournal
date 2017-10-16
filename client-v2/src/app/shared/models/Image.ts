@@ -1,6 +1,5 @@
 export class Image{
     _id: String;
-    file: String;
     date: String;
     longitude: String;
     latitude: String;
@@ -9,7 +8,6 @@ export class Image{
 
     constructor() {
         this._id = '';
-        this.file = '';
         this.date = '';
         this.longitude = '';
         this.latitude = '';

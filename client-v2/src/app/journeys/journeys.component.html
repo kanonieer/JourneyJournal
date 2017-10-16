@@ -22,8 +22,8 @@
     </div>
   </div>
 </section>
-<cl-image 
-  public-id="sample" 
-  class="thumbnail inline" 
-  format="jpg">
-</cl-image>
+<section class="hero is-light">
+  <div class="container is-fullhd flex-container">
+    <app-journey-card *ngFor="let journey of journeys" [journey]='journey'></app-journey-card>
+  </div>
+</section>

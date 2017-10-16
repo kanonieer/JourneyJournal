@@ -20,7 +20,7 @@
       "prefix": "app",
       "styles": [
         "./../node_modules/bulma/css/bulma.css",
-        "styles.css"
+        "styles.less"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -55,7 +55,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "less",
     "component": {
     }
   }

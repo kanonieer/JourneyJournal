@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private _http: Http) { }
 
-  private headers = new Headers({'Content-Type':'application/json'});
+  private headers = new Headers({'Content-Type': 'application/json'});
   private options = new RequestOptions({headers: this.headers});
 
   public authFacebook(): Observable<any>{

@@ -1,8 +1,8 @@
-<nav class="navbar is-white is-size-5" role="navigation" aria-label="main navigation">
+<!-- <nav class="navbar is-size-5" role="navigation" aria-label="main navigation">
   <div class="container is-fullhd">
     <div class="navbar-brand">
-      <a class="navbar-item" routerLink="">
-        JourneyJournal  | Welcome, {{ name }}
+      <a class="navbar-item is-danger" routerLink="">
+        JOURNEYJOURNAL
       </a>
 
       <button class="button navbar-burger">
@@ -25,9 +25,45 @@
         </p>
         <p class="navbar-item">
           <a routerLink="" class="button is-outlined is-size-5">Sign up</a>
-        </p> 
+        </p>
       </div>
     </div>
   </div>
-</nav>
+</nav> -->
+<div class="container">
+    <nav class="navbar">
+      <span class="navbar-logo">JJ</span>
+      <ul class="navbar-list">
+        <li class="navbar-list__item">
+          <a routerLink="gallery">Gallery</a>
+        </li>
+        <li class="navbar-list__item">
+          <a routerLink="journeys">Journeys</a>
+        </li>
+        <li class="navbar-list__item">
+          <a routerLink="profile">Profile</a>
+        </li>
+        <li class="navbar-list__item">
+          <a routerLink="about">About</a>
+        </li>
+      </ul>
+  </nav>
+</div>
+<!-- <nav class="navbar container">
+  <span class="navbar-logo">JJ</span>
+  <ul class="navbar-list">
+      <p class="navbar-list__item">
+        <a routerLink="gallery">Gallery</a>
+      </p>
+      <p class="navbar-list__item">
+        <a routerLink="journeys">Journeys</a>
+      </p>
+      <p class="navbar-list__item">
+        <a routerLink="profile">Profile</a>
+      </p>
+      <p class="navbar-list__item">
+        <a routerLink="about">About</a>
+      </p>
+  </ul>
+</nav> -->
 <router-outlet></router-outlet>
