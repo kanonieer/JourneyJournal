@@ -21,6 +21,7 @@ import { IsLogged } from './shared/global/isLogged';
 import { PolaroidComponent } from './polaroid/polaroid.component';
 import { JourneyCardComponent } from './journey-card/journey-card.component';
 import { ImageService } from './shared/services/image.service';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ImageService } from './shared/services/image.service';
     AboutComponent,
     LoginComponent,
     PolaroidComponent,
-    JourneyCardComponent
+    JourneyCardComponent,
+    FooterComponent
   ],
   imports: [
     CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'dzgtgeotp'}),

@@ -1,4 +1,4 @@
-<section class="hero is-dark">
+<!-- <section class="hero is-dark">
   <div class="container is-fullhd">
     <div class="hero-body">
       <p class="title">
@@ -41,4 +41,15 @@
       </div>
     </form>
   </div>
-</section>
+</section> -->
+<form class="form" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+  <input class="form-input" type="email" placeholder="EMAIL" name="email" ngModel>
+  <input class="form-input" type="password" placeholder="PASSWORD" name="password" ngModel>
+  <div class="form-auth-group">
+    <a><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
+    <button type="submit" class="button">
+      SIGN IN
+    </button>
+  </div>
+</form>
+<a class="link_signup">Don't have an account? Sign up now!</a>

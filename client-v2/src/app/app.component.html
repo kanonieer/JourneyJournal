@@ -30,40 +30,27 @@
     </div>
   </div>
 </nav> -->
-<div class="container">
-    <nav class="navbar">
-      <span class="navbar-logo">JJ</span>
+<div class="wrapper-primary navbar-fixed">
+    <nav class="container navbar">
+      <a class="navbar-logo" routerLink="">
+        JOURNEY JOURNAL
+      </a>
       <ul class="navbar-list">
         <li class="navbar-list__item">
-          <a routerLink="gallery">Gallery</a>
+          <a routerLink="gallery">GALLERY</a>
         </li>
         <li class="navbar-list__item">
-          <a routerLink="journeys">Journeys</a>
+          <a routerLink="journeys">JOURNEYS</a>
         </li>
         <li class="navbar-list__item">
-          <a routerLink="profile">Profile</a>
+          <a routerLink="profile">PROFILE</a>
         </li>
         <li class="navbar-list__item">
-          <a routerLink="about">About</a>
+          <a routerLink="about">ABOUT</a>
         </li>
       </ul>
   </nav>
 </div>
-<!-- <nav class="navbar container">
-  <span class="navbar-logo">JJ</span>
-  <ul class="navbar-list">
-      <p class="navbar-list__item">
-        <a routerLink="gallery">Gallery</a>
-      </p>
-      <p class="navbar-list__item">
-        <a routerLink="journeys">Journeys</a>
-      </p>
-      <p class="navbar-list__item">
-        <a routerLink="profile">Profile</a>
-      </p>
-      <p class="navbar-list__item">
-        <a routerLink="about">About</a>
-      </p>
-  </ul>
-</nav> -->
+<div class="navbar-clearfix"></div>
 <router-outlet></router-outlet>
+<app-footer></app-footer>
