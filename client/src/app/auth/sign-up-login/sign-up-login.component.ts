@@ -1,7 +1,9 @@
-import { Component, OnInit }  from '@angular/core';
-import { AuthService }        from './../auth.service';
-import { Router }             from '@angular/router';
-import { NgForm }             from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+
+import { AuthService } from './../auth.service';
+import { DropboxService } from './../../services/dropbox.service';
 
 @Component({
   selector: 'app-sign-up-login',
@@ -10,12 +12,16 @@ import { NgForm }             from '@angular/forms';
 })
 export class SignUpLoginComponent implements OnInit {
 
-  tab: number = 1;
+  tab = 1;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private dropboxService: DropboxService,
+    private router: Router
+  ) {}
 
-  loginUser(form: NgForm) {
-    let payload = {
+  loginUser(form: NgForm): void {
+    const payload = {
       email: form.value.email,
       password: form.value.password
     };
@@ -28,21 +34,21 @@ export class SignUpLoginComponent implements OnInit {
         this.router.navigateByUrl('');
       },
       err => {
-        if(err === 'Unauthorized'){
+        if (err === 'Unauthorized') {
           alert('Błędne dane logowania!');
         }
       }
     );
   }
 
-  signUpUser(form: NgForm) {
-    let payload = {
+  signUpUser(form: NgForm): void {
+    const payload = {
       email: form.value.email,
       password: form.value.password
     };
     this.authService.signUpBasic(payload).subscribe(
       data => {
-        console.log(data)
+        console.log(data);
         alert('Zostałeś zarejestrowany, możesz się zalogować!');
         this.router.navigateByUrl('login');
       },
@@ -51,8 +57,8 @@ export class SignUpLoginComponent implements OnInit {
       }
     );
   }
-  
-  authWithFacebook(){
+
+  public authWithFacebook(): void {
     this.authService.authFacebook().subscribe(
       data => {
         console.log(data);
@@ -63,11 +69,15 @@ export class SignUpLoginComponent implements OnInit {
         this.router.navigateByUrl('');
       },
       err => {
-        if(err === 'Unauthorized'){
+        if (err === 'Unauthorized') {
           alert('Błędne dane logowania!');
         }
       }
     );
+  }
+
+  public authDropbox(): void {
+    this.dropboxService.authUser();
   }
 
   setTab(num: number) {

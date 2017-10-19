@@ -16,7 +16,7 @@ export class AuthService {
   private options = new RequestOptions({ headers: this.headers });
 
   facebookAuth():Observable<any>{
-    return this._http.get(apiAdress+'/auth/facebook',this.options)
+    return this._http.get(apiAdress + '/auth/facebook', this.options)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }

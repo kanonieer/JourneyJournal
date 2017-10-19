@@ -1,0 +1,17 @@
+<section class="hero is-danger">
+  <div class="container is-fullhd">
+    <div class="hero-body">
+      <p class="title">
+        {{ journey.title }}
+      </p>
+      <p class="subtitle">
+        11.07 - 18.07. <strong>128</strong> photos.
+      </p>
+    </div>
+  </div>
+</section>
+<section class="hero is-light">
+  <div class="container is-fullhd flex-container">
+    <app-polaroid *ngFor="let image of images" [image]='image'></app-polaroid>
+  </div>
+</section>

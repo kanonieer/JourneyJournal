@@ -1,0 +1,61 @@
+@import './variables.less';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: @white;
+}
+
+.wrapper-primary {
+    background-color: @primary;
+}
+
+.wrapper-secondary {
+    background-color: @secondary;
+}
+
+.wrapper-white {
+    background-color: @white;
+}
+
+.container {
+    max-width: 1366px;
+    margin: 0 auto;
+
+    @media screen and (max-width: @big-screen) and (min-width: @medium-screen) {
+        max-width: 1200px;
+    }
+
+    @media screen and (max-width: @medium-screen) and (min-width: @small-screen) {
+        max-width: 1100px;
+    }
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.button {
+    color: @white;
+    background-color: @secondary;
+    border-radius: 5px;
+    border-width: 0;
+    padding: 20px 30px;
+    font-weight: 600;
+
+    &:hover {
+        -webkit-box-shadow: 0px 10px 50px -9px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 10px 50px -9px rgba(0,0,0,0.75);
+        box-shadow: 0px 10px 50px -9px rgba(0,0,0,0.75);
+    }
+}
