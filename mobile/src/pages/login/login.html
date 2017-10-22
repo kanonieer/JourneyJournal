@@ -1,10 +1,8 @@
-<ion-content class="login-content" padding>
-  <ion-row class="logo-row">
-    <ion-col></ion-col>
-    <ion-col width-67>
+<ion-content overflow-scroll="true" class="login-content" padding>
+  <ion-row class="logo">
+    <ion-col>
       <img src="assets/img/logo.png"/>
     </ion-col>
-    <ion-col></ion-col>
   </ion-row>
   <div class="login-box">
     <div class="facebook-box">
@@ -27,7 +25,9 @@
             </ion-item>
 
             <ion-item>
-              <ion-input type="password" placeholder="Password" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
+              <ion-input type="{{type}}" placeholder="Password" clearOnEdit="false" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
+              <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
+              <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
             </ion-item>
 
           </ion-list>
@@ -36,7 +36,7 @@
 
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Sign in</button>
+          <button ion-button color="secondary" full type="submit" [disabled]="!registerForm.form.valid">Sign in</button>
         </ion-col>
       </ion-row>
     </form>

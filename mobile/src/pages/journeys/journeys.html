@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Journeys</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<!-- Main content -->
+<ion-content overflow-scroll="true" class="main-content" padding>
+
+  <!-- Add button (fab) -->
+  <ion-fab right bottom>
+    <button ion-fab [navPush]="addJourneyPage">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <!-- List of travels -->
+  <ion-list class="journeys-list" *ngFor="let travel of travels" #item>
+    
+    <!-- <ion-searchbar
+      [(ngModel)]="myInput"
+      [showCancelButton]="shouldShowCancel"
+      (ionInput)="onInput($event)"
+      (ionCancel)="onCancel($event)">
+    </ion-searchbar> -->
+
+    <!-- The look of the journey -->
+    <ion-card class="journeys-card">
+      <ion-item-sliding>
+        <ion-item class="journeys-item">
+          <img src="assets/img/example.jpg" (click)="detailsJourney(travel._id)">
+          <div class="card-title">{{ travel.title }}</div>
+          <div class="card-subtitle"><i>{{ travel.date_start | date:short}} - {{ travel.date_end | date:short}}</i></div>
+        </ion-item>
+
+        <!-- <ion-item-options side="left">
+          <button ion-button color="secondary" (click)="detailsTravel(travel._id)">
+            <ion-icon name="menu"></ion-icon>
+              More
+          </button>
+        </ion-item-options> -->
+        <ion-item-options (ionSwipe)="deleteTravel(travel._id)">
+          <button ion-button color="danger" expandable (click)="deleteTravel(travel._id)">
+            <ion-icon name="trash" class="expand-hide"></ion-icon>
+              <div class="expand-hide">Delete</div>
+              <ion-spinner id="delete-spinner"></ion-spinner>
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-card>
+  </ion-list>
+</ion-content>

@@ -26,6 +26,7 @@
         "@ionic-native/file": "^3.12.1",
         "@ionic-native/file-path": "^3.9.2",
         "@ionic-native/file-transfer": "^4.3.1",
+        "@ionic-native/geolocation": "^4.3.1",
         "@ionic-native/keyboard": "^3.4.4",
         "@ionic-native/native-storage": "^3.9.2",
         "@ionic-native/photo-library": "^4.3.1",
@@ -45,6 +46,7 @@
         "cordova-plugin-file": "^4.3.3",
         "cordova-plugin-file-transfer": "^1.6.3",
         "cordova-plugin-filepath": "^1.0.2",
+        "cordova-plugin-geolocation": "^2.4.3",
         "cordova-plugin-nativestorage": "^2.2.2",
         "cordova-plugin-photo-library": "^2.1.0",
         "cordova-plugin-splashscreen": "^4.0.3",
@@ -94,7 +96,9 @@
                 "PHOTO_LIBRARY_USAGE_DESCRIPTION": "To choose photos"
             },
             "info.protonet.imageresizer": {},
-            "cordova-plugin-file-transfer": {}
+            "cordova-plugin-file-transfer": {},
+            "cordova-plugin-geolocation": {},
+            "cordova-plugin-compat": {}
         },
         "platforms": [
             "android",

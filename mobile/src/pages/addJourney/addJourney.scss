@@ -1,0 +1,50 @@
+page-addJourney {
+
+  .addJourney-content {
+    background: #333F4B;
+
+    .addJourney-box {
+      margin-top: 35px;
+    }
+
+    ion-item {
+      font-size: 1.0em;
+      margin-bottom: 5px;
+      border: 1px solid #ffffff;
+      border-bottom: 0px !important;
+      box-shadow: none !important;
+    }
+
+    .addJourney-col {
+      margin: 0px 20px 0px 20px;
+      padding-bottom: 10px;
+    }
+
+    .item-inner {
+      border-bottom-color: #ffffff !important;
+      box-shadow: none !important;
+    }
+
+    .col {
+      padding: 3px;
+    }
+
+    .list-md[inset] {
+      margin-top: 8px;
+      margin-bottom: 5px;
+    }
+
+    .test {
+      width: 210px;
+      height: 40px;
+    }
+
+    .text-input {
+      margin-left: 0px;
+    }
+
+    .label {
+      margin: 0px;
+    }
+  }
+}

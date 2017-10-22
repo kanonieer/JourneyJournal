@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, Loading, Events } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service';
 import { RegisterPage } from '../register/register';
-import { TravelsPage } from '../travels/travels';
+import { JourneysPage } from '../journeys/journeys';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { NativeStorage } from '@ionic-native/native-storage';
 
@@ -10,11 +10,14 @@ import { NativeStorage } from '@ionic-native/native-storage';
   selector: 'page-login',
   templateUrl: 'login.html'
 })
+
 export class LoginPage {
   loading: Loading;
   registerCredentials = {email: '', password: ''};
+
   constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController,
    private nativeStorage: NativeStorage, private fb: Facebook, public events: Events ) {
+     
      events.subscribe('user:logout', () => {
         if (localStorage.getItem('user_logged') == "true") {
           this.logoutUser();
@@ -24,6 +27,19 @@ export class LoginPage {
         }
      });
    }
+
+  public type = "password";
+  public showPass = false;
+
+  showPassword() {
+    this.showPass = !this.showPass;
+     
+    if(this.showPass) {
+      this.type = 'text';
+    } else {
+      this.type = 'password';
+    }
+  }
 
   public loginFacebook(){
 
@@ -41,7 +57,7 @@ export class LoginPage {
     // localStorage.setItem('email', data.email);
     localStorage.setItem('user_logged_fb', 'true');
     console.log('Logged into Facebook!', res)
-    this.nav.setRoot(TravelsPage);
+    this.nav.setRoot(JourneysPage);
     this.loading.dismiss();
   })
   .catch(error => console.log('Error logging into Facebook', error));
@@ -54,7 +70,7 @@ export class LoginPage {
         localStorage.setItem('user_id', data.user._id.toString());
         localStorage.setItem('token', data.token);
         localStorage.setItem('user_logged', 'true');
-        this.nav.setRoot(TravelsPage);
+        this.nav.setRoot(JourneysPage);
         this.loading.dismiss();
       },
       err => {

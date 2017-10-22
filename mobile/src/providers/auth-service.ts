@@ -54,6 +54,12 @@ export class AuthService {
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
+  deleteJourney(payload: any): Observable<any> {
+    let access_token = localStorage.getItem('token');
+    return this._http.delete(serverAdress + '/journeys?access_token=' + localStorage.getItem('token'), this.options)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
   saveImage(payload: any): Observable<any>{
     return this._http.post(serverAdress + '/image', JSON.stringify(payload), this.options)
     .map((response: Response)=> response.json())

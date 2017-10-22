@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../providers/auth-service';
 import { NavController } from 'ionic-angular';
-import { TravelsPage } from '../travels/travels';
+import { JourneysPage } from '../journeys/journeys';
 
 @Component({
-  selector: 'page-addTravel',
-  templateUrl: 'addTravel.html'
+  selector: 'page-addJourney',
+  templateUrl: 'addJourney.html'
 })
-export class AddTravelPage {
+export class AddJourneyPage {
 
   constructor(public navCtrl: NavController, private auth: AuthService) {}
 
@@ -22,11 +22,11 @@ export class AddTravelPage {
   AddJourney(){
     this.auth.addJourney(this.journeyCredentials).subscribe(
     data=>{
-      alert("Udalo sie utworzyc podroz");
-      this.navCtrl.setRoot(TravelsPage);
+      alert("Journey was added");
+      this.navCtrl.setRoot(JourneysPage);
     },
     err=>{
-      alert("Nie udalo sie utworzyc podrozy");
+      alert("Journey wasn't added");
       console.log(err);
     }
     );

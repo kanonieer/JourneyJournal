@@ -5,12 +5,14 @@ import { MyApp } from './app.component';
 // import { CloudinaryModule } from '@cloudinary/angular-4.x';
 // import * as  Cloudinary from 'cloudinary-core';
 
-import { TravelsPage } from '../pages/travels/travels';
+import { JourneysPage } from '../pages/journeys/journeys';
 import { AboutPage } from '../pages/about/about';
-import { AddTravelPage } from '../pages/addTravel/addTravel';
-import { DetailsTravelPage } from '../pages/detailsTravel/detailsTravel';
+import { AddJourneyPage } from '../pages/addJourney/addJourney';
+import { DetailsJourneyPage } from '../pages/detailsJourney/detailsJourney';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
+import { MapsPage } from '../pages/maps/maps';
+import { SettingsPage } from '../pages/settings/settings';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,16 +22,19 @@ import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
     MyApp,
-    TravelsPage,
-    AddTravelPage,
-    DetailsTravelPage,
+    JourneysPage,
+    AddJourneyPage,
+    DetailsJourneyPage,
     LoginPage,
     RegisterPage,
-    AboutPage
+    AboutPage,
+    MapsPage,
+    SettingsPage
   ],
   imports: [
     //CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'dzgtgeotp'}),
@@ -38,12 +43,14 @@ import { Camera } from '@ionic-native/camera';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    TravelsPage,
-    AddTravelPage,
-    DetailsTravelPage,
+    JourneysPage,
+    AddJourneyPage,
+    DetailsJourneyPage,
     LoginPage,
     RegisterPage,
-    AboutPage
+    AboutPage,
+    MapsPage,
+    SettingsPage
   ],
   providers: [
     Facebook,
@@ -53,6 +60,7 @@ import { Camera } from '@ionic-native/camera';
     FileTransfer,
     Camera,
     FilePath,
+    Geolocation,
     AuthService,
     NativeStorage,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

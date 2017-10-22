@@ -52,10 +52,10 @@ $ ionic serve
 Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebieg) o przebytej przez użytkownika podróży. Przesyła informację na serwer. Dane o podróży pakuje w bazie danych, zdjęcia przechowuje na dysku cloudowym użytkownika. Strona webowa pozwala na przeglądanie podróży, dzielenie się linkami do galerii, udostępnianie zdjęć.
 
 ## Warstwy
-1. Mobile - Ionic 2 + Angular 2 (iOS, Android)
+1. Mobile - Ionic 2 + Angular 2 (Android)
 2. Web - Angular 2 (Chrome, Mozilla, Safari, Opera)
 3. Server - Node.js + Express
-4. Hosting - Google Drive / Dropbox / Apple Cloud / OneDrive
+4. Hosting - Cloudinary
 5. Baza danych - Mongo
 
 ## Widoki
@@ -66,14 +66,12 @@ Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebi
         - new journey:
             - tworzenie nowej podróży
             - ustalenie daty rozpoczęcia i zakończenia
-            - ustalenie docelowego dysku cloudowego (?)
         - undergoing journeys:
             - wyświetlenie listy trwającej / zaplanowanych podróży
         - archival journeys:
             - lista odbytych podróży
         - profile
             - zarządzanie kontem
-            - dodawanie / zmiana dysku cloudowego
 
 2. Web:
     - niezarejestrowany:
@@ -135,11 +133,5 @@ Aplikacja mobilna "Journey Journal" zbiera informację (zdjęcia, trasę, przebi
     - dysk []
 
 ## Hosting
-1. Google Drive
-https://developers.google.com/drive/v2/reference/
-
-2. OneDrive
-https://msdn.microsoft.com/en-us/library/office/dn659752.aspx
-
-3. Dropbox
-https://www.dropbox.com/developers-v1/core/docs
+1. Cloudinary
+https://cloudinary.com

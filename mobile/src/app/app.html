@@ -1,1 +1,29 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="menu">
+    <ion-header>
+        <ion-toolbar>
+            <img src="assets/img/logo.png" alt="">
+        </ion-toolbar>
+    </ion-header>
+    <ion-content class="menu-content">  
+        <ion-list>
+            <button ion-item color="light" *ngFor="let page of pages" (click)="goToPage(page.component)" menuClose>
+                <ion-icon item-left name="{{ page.icon }}"></ion-icon>
+                {{ page.title }}
+            </button>
+        </ion-list>
+    </ion-content>
+    <ion-footer>
+        <ion-toolbar>
+            <button ion-item color="light" (click)="logout()" menuClose>
+                <ion-icon item-left name="exit"></ion-icon>
+                Logout
+            </button>
+            <button ion-item color="light" (click)="goToSettings()" menuClose>
+                <ion-icon item-left name="settings"></ion-icon>
+                Settings
+            </button>
+        </ion-toolbar>
+    </ion-footer>
+</ion-menu>
+
+<ion-nav #menu [root]="rootPage"></ion-nav>

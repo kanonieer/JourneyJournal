@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Geolocation } from '@ionic-native/geolocation';
 import {
   NavController,
   ActionSheetController,
@@ -24,10 +25,10 @@ declare var cordova: any;
 //var cloudinary = require('cloudinary');
 
 @Component({
-  selector: "page-detailsTravel",
-  templateUrl: "detailsTravel.html"
+  selector: "page-detailsJourney",
+  templateUrl: "detailsJourney.html"
 })
-export class DetailsTravelPage {
+export class DetailsJourneyPage {
   lastImage: string = null;
   loading: Loading;
 
@@ -42,6 +43,7 @@ export class DetailsTravelPage {
     public loadingCtrl: LoadingController,
     private auth: AuthService,
     public navParams: NavParams,
+    public geolocation: Geolocation,
     //private cloudinary: Cloudinary,
     private transfer: FileTransfer
   ) {}
@@ -57,12 +59,12 @@ export class DetailsTravelPage {
       sourceType: this.camera.PictureSourceType.CAMERA,
       allowEdit: true,
       encodingType: this.camera.EncodingType.JPEG,
-      saveToPhotoAlbum: false
+      saveToPhotoAlbum: true
     };
     this.camera.getPicture(PhotoOptions).then(imageData => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
-
+      
       let imageCredentials = {
         date: "",
         longitude: "",
@@ -75,10 +77,12 @@ export class DetailsTravelPage {
       this.auth.saveImage(imageCredentials).subscribe(
         data => {
           this.uploadToCloudinary(imageData, data._id);
-          alert("Udalo sie zapisac zdjecie");
+          //alert("Picture was saved");
+          this.presentToast("Picture was saved");
         },
         err => {
-          alert("Nie udalo sie zapisac zdjecia");
+          //alert("Picture wasn't saved");
+          this.presentToast("Picture wasn't saved");
         }
       );
     });
@@ -105,7 +109,8 @@ export class DetailsTravelPage {
       .then(
         data => {
           // success
-          alert("success" + imageName);
+          //alert("success" + imageName);
+          this.presentToast("Success: " + imageName);
         },
         err => {
           // error
@@ -123,7 +128,7 @@ export class DetailsTravelPage {
         encodingType: this.camera.EncodingType.JPEG,
         targetWidth: 300,
         targetHeight: 300,
-        saveToPhotoAlbum: false
+        saveToPhotoAlbum: true
       })
       .then(
         imageData => {
@@ -144,10 +149,12 @@ export class DetailsTravelPage {
             )
             .then(
               data => {
-                alert("udalo sie wyslac zdjecia " + data);
+                this.presentToast("Picture was send: " + data);
+                //alert("Picture was send " + data);
               },
               err => {
-                alert("nie udalo sie wyslac zdjecia " + err);
+                this.presentToast("Picture wasn't send: " + err);
+                //alert("Picture wasn't send " + err);
               }
             );
           alert(imageData);
@@ -251,7 +258,7 @@ export class DetailsTravelPage {
           this.lastImage = newFileName;
         },
         error => {
-          this.presentToast("Error while storing file.");
+          this.presentToast("Error while storing file");
         }
       );
   }

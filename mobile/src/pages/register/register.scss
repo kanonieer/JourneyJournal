@@ -1,39 +1,37 @@
 page-register {
-  .login-content {
-    background: #387ef5;
+  
+  .register-content {
+    background: #333F4B;
 
-    .login-box {
-      padding: 0px 20px 0px 20px;
-      margin-top: 30px;
+    .register-box {
+      margin-top: 20px;
     }
 
-    ion-row {
-       align-items: center;
-       text-align: center;
-     }
+    ion-item {
+      font-size: 1.0em;
+      margin-bottom: 5px;
+      border: 1px solid #ffffff;
+      border-bottom: 0px !important;
+      box-shadow: none !important;
+    }
 
-     ion-item {
-         padding-left: 30px !important;
-         font-size: 1.0em;
-         margin-bottom: 10px;
-         border: 1px solid #ffffff;
-         border-bottom: 0px !important;
-         box-shadow: none !important;
-     }
+    .signup-col {
+      margin: 0px 20px 0px 20px;
+      padding-bottom: 10px;
+    }
 
-     .signup-col {
-       margin: 00px 20px 0px 20px;
-       padding-bottom: 20px;
-     }
+    .item-inner {
+      border-bottom-color: #ffffff !important;
+      box-shadow: none !important;
+    }
 
-     .item-inner {
-       border-bottom-color: #ffffff !important;
-       box-shadow: none !important;
-     }
+    .col {
+      padding: 3px;
+    }
 
-     .submit-btn {
-       background: #32db64;
-       border: 1px solid #ffffff;
-     }
+    .list-md[inset] {
+      margin-top: 8px;
+      margin-bottom: 5px;
+    }
   }
 }

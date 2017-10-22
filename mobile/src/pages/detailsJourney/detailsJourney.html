@@ -4,8 +4,8 @@
   </ion-navbar>
 </ion-header>
  
-<ion-content class="detailsTravel-content" padding>
-  <div class="detailsTravel-box">
+<ion-content overflow-scroll="true" class="detailsJourney-content" padding>
+  <div class="detailsJourney-box">
     <ion-row>
       <ion-col>
         <img src="{{pathForImage(lastImage)}}" style="width: 100%" [hidden]="lastImage === null">
@@ -13,8 +13,8 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col class="detailsTravel-col">
-        <button ion-button class="load-btn" full (click)="upload()">Take Photo...</button>
+      <ion-col class="detailsJourney-col">
+        <button ion-button color="secondary" full (click)="upload()">Take Photo...</button>
       </ion-col>
     </ion-row>
   </div>

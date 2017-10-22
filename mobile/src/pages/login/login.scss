@@ -1,18 +1,16 @@
 page-login {
 
   .login-content {
-    background: #387ef5;
+    background: #333F4B;
 
-    .logo-row {
-      padding-top: 30px;
-      padding-bottom: 0px;
+    .logo {
+      padding-top: 15px;
       align-items: center;
       text-align: center;
     }
 
     .login-box {
-      padding: 0px 10px 0px 10px;
-      margin-top: 30px;
+      margin-top: 25px;
     }
 
      ion-item {
@@ -33,30 +31,23 @@ page-login {
        box-shadow: none !important;
      }
 
-     .submit-btn {
-       background: #32db64;
-       border: 1px solid #ffffff;
-     }
-
      .register-btn {
        color: #ffffff;
        font-size: 0.9em;
+       margin-top: 0px;
      }
 
      .facebook-icon {
        font-size: 48px;
        color: #ffffff;
-       margin: 0px 0px 0px 0px;
      }
 
      .facebook-row {
-       margin: 0px 20px 0px 20px;
        border-bottom: 1px solid #ffffff;
      }
 
      .facebook-btn {
-       background: #32db64;
-       border: 1px solid #ffffff;
+       background: #3b5998;
      }
 
      .facebook-btn-col {
@@ -64,8 +55,16 @@ page-login {
      }
 
      .facebook-box {
-      padding: 0px 0px 0px 0px;
-      margin-top: 0px;
+      padding: 0px 20px 0px 20px;
+    }
+
+    .col {
+      padding: 3px;
+    }
+
+    .list-md[inset] {
+      margin-top: 8px;
+      margin-bottom: 5px;
     }
   }
 }

@@ -4,8 +4,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content class="login-content" padding>
-  <div class="login-box">
+<ion-content overflow-scroll="true" class="register-content" padding>
+  <div class="register-box">
 
     <form (ngSubmit)="register()" #registerForm="ngForm">
       <ion-row>
@@ -17,7 +17,9 @@
             </ion-item>
 
             <ion-item>
-              <ion-input type="password" placeholder="Password" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
+                <ion-input type="{{type}}" placeholder="Password" clearOnEdit="false" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
+              <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
+              <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
             </ion-item>
 
           </ion-list>
@@ -26,7 +28,7 @@
 
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Register</button>
+          <button ion-button color="secondary" full type="submit" [disabled]="!registerForm.form.valid">Create an account</button>
         </ion-col>
       </ion-row>
 
