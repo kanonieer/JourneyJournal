@@ -86,7 +86,7 @@ module.exports = function(app, passport) {
     // app.get('/journeys',(req,res)=>{
     //     Journey.find({},(err, journey)=>{res.json(journey)});
     // });
-    app.delete('/journeys/:id', authenticate, (req,res)=>{journeyController.deleteJourneyById(req, res)});
+    app.delete('/journeys/:id', authenticate, (req, res)=>{journeyController.deleteJourneyById(req, res)});
 
 };
 

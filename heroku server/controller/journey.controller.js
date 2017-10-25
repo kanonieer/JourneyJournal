@@ -1,4 +1,5 @@
 const Journey   = require('./../models/journey');
+const Image     = require('./../models/image');
 const User      = require('./../models/user');
 const cloudinary  = require('cloudinary');
 const CloudinaryConfig = require('./../config/cloudinary')
@@ -88,22 +89,19 @@ module.exports = {
     },
 
     deleteJourneyById: (req, res) => {
-        Image.find({id_journey : req.params.id}), (err, images) => {
+        Image.find({id_journey : req.params.id}, (err, images) => {
             if(err) throw err;
 
             for (var i=0; i<images.length; i++){
-                Image.findOneAndRemove({_id : image._id}), (err) => {
+                Image.findOneAndRemove({_id : images[i]._id}, (err) => {
                     if(err) throw err;
-                }
-                cloudinary.uploader.destroy(image, function(result) { console.log(result) });
+                });
+                cloudinary.uploader.destroy(images[i]._id, function(result) { console.log(result) });
             }
-            Journey.findOneAndRemove({_id : req.params.id}), (err) => {
+            Journey.findOneAndRemove({_id : req.params.id}, function(err) {
                 if (err) throw err;
-                else{
                     res.status(200).json("Journey with images successfully deleted");
-                    console.log("zajebiscie!!!!!!!!!!!!!!!!!!!!!!!!!");
-                }
-            }
-        }
+            });
+        });
     }
 }

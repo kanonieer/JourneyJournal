@@ -86,7 +86,8 @@ module.exports = {
                             longitude   : req.body.longitude,
                             latitude    : req.body.latitude,
                             id_journey  : req.body.id_journey,
-                            tags        : [],
+                            tags        : req.body.tags,
+                            isFavourite : req.body.isFavourite
                         });
                         image.save((err) => {
                                     if (err) throw err;
