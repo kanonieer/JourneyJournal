@@ -91,7 +91,7 @@ module.exports = {
         Image.find({id_journey : req.params.id}), (err, images) => {
             if(err) throw err;
 
-            for (let image of images){
+            for (var i=0; i<images.length; i++){
                 Image.findOneAndRemove({_id : image._id}), (err) => {
                     if(err) throw err;
                 }
