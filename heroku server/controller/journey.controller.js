@@ -100,7 +100,8 @@ module.exports = {
             Journey.findOneAndRemove({_id : req.params.id}), (err) => {
                 if (err) throw err;
                 else{
-                    res.status().json(200).json("Journey with images successfully deleted")
+                    res.status(200).json("Journey with images successfully deleted");
+                    console.log("zajebiscie!!!!!!!!!!!!!!!!!!!!!!!!!");
                 }
             }
         }
