@@ -1,7 +1,7 @@
 const Journey   = require('./../models/journey');
 const User      = require('./../models/user');
 const cloudinary  = require('cloudinary');
-const CloudinaryConfig = require('/./../config/cloudinary')
+const CloudinaryConfig = require('./../config/cloudinary')
 
 cloudinary.config({ 
   cloud_name: CloudinaryConfig.cloud_name, 
