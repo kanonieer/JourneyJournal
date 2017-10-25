@@ -15,7 +15,7 @@ export class LoginPage {
   loading: Loading;
   registerCredentials = {email: '', password: ''};
 
-  constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController,
+  constructor(public navCtrl: NavController, private auth: AuthService, private alertCtrl: AlertController, public loadingCtrl: LoadingController,
    private nativeStorage: NativeStorage, private fb: Facebook, public events: Events ) {
      
      events.subscribe('user:logout', () => {
@@ -57,7 +57,7 @@ export class LoginPage {
     // localStorage.setItem('email', data.email);
     localStorage.setItem('user_logged_fb', 'true');
     console.log('Logged into Facebook!', res)
-    this.nav.setRoot(JourneysPage);
+    this.navCtrl.setRoot(JourneysPage);
     this.loading.dismiss();
   })
   .catch(error => console.log('Error logging into Facebook', error));
@@ -70,7 +70,7 @@ export class LoginPage {
         localStorage.setItem('user_id', data.user._id.toString());
         localStorage.setItem('token', data.token);
         localStorage.setItem('user_logged', 'true');
-        this.nav.setRoot(JourneysPage);
+        this.navCtrl.setRoot(JourneysPage);
         this.loading.dismiss();
       },
       err => {
@@ -82,7 +82,7 @@ export class LoginPage {
   }
 
   createAccount(){
-    this.nav.push(RegisterPage);
+    this.navCtrl.push(RegisterPage);
   }
   
   showLoading() {
@@ -111,7 +111,7 @@ export class LoginPage {
     .then((res: FacebookLoginResponse) => {
       localStorage.removeItem('user_logged_fb');
       this.loading.dismiss();
-      this.nav.setRoot(LoginPage);
+      this.navCtrl.setRoot(LoginPage);
     }).catch(error => console.log('Error logouting into Facebook', error));
   }
 
@@ -123,7 +123,7 @@ export class LoginPage {
         localStorage.removeItem('token');
         localStorage.removeItem('user_logged');
         this.loading.dismiss();
-        this.nav.setRoot(LoginPage);
+        this.navCtrl.setRoot(LoginPage);
       });
   }
 }

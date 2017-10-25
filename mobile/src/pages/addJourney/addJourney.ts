@@ -1,34 +1,47 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../providers/auth-service';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
+
 import { JourneysPage } from '../journeys/journeys';
 
 @Component({
   selector: 'page-addJourney',
   templateUrl: 'addJourney.html'
 })
+
 export class AddJourneyPage {
 
-  constructor(public navCtrl: NavController, private auth: AuthService) {}
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, private auth: AuthService) {
 
-  journeyCredentials={
-        date_start   : '',
-        date_end     : '',
-        title        : '',
-        id_disc      : '',
-        access_token : localStorage.getItem('token')
+  }
+
+  journeyCredentials = {
+    date_start   : '',
+    date_end     : '',
+    title        : '',
+    id_disc      : '',
+    access_token : localStorage.getItem('token')
   }
   
   AddJourney(){
     this.auth.addJourney(this.journeyCredentials).subscribe(
-    data=>{
-      alert("Journey was added");
-      this.navCtrl.setRoot(JourneysPage);
-    },
-    err=>{
-      alert("Journey wasn't added");
-      console.log(err);
-    }
+      data=>{
+        this.presentToast("Journey was added");
+        this.navCtrl.setRoot(JourneysPage);
+      },
+      err=>{
+        this.presentToast("Journey wasn't added");
+        console.log(err);
+      }
     );
   };
+
+  private presentToast(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 2000,
+      position: "bottom"
+    });
+    toast.present();
+  }
 }

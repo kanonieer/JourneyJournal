@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, App, LoadingController, Loading, Nav, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { NativeStorage } from '@ionic-native/native-storage';
 
 import { LoginPage } from '../pages/login/login';
 import { JourneysPage } from '../pages/journeys/journeys';
@@ -16,13 +15,14 @@ import { SettingsPage } from '../pages/settings/settings';
 })
 
 export class MyApp {
+  
   @ViewChild('menu') menu: Nav;
   loading: Loading;
 
   public rootPage: any;
   public pages: Array<{ title: string, component: any, icon: string }>;
   
-  constructor(platform: Platform, nativeStorage: NativeStorage, statusBar: StatusBar, splashScreen: SplashScreen, app: App, public events: Events, public loadingCtrl: LoadingController) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, app: App, public events: Events, public loadingCtrl: LoadingController) {
 
     this.rootPage = LoginPage;
     this.pages = [
@@ -50,7 +50,9 @@ export class MyApp {
 
   showLoading() {
     this.loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      spinner: 'crescent',
+      content: 'Please wait...',
+      duration: 2000
     });
     this.loading.present();
   }

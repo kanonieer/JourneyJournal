@@ -1,6 +1,6 @@
 <ion-menu [content]="menu">
-    <ion-header>
-        <ion-toolbar>
+    <ion-header no-border>
+        <ion-toolbar class="top-toolbar">
             <img src="assets/img/logo.png" alt="">
         </ion-toolbar>
     </ion-header>
@@ -12,8 +12,8 @@
             </button>
         </ion-list>
     </ion-content>
-    <ion-footer>
-        <ion-toolbar>
+    <ion-footer no-border>
+        <ion-toolbar class="bottom-toolbar">
             <button ion-item color="light" (click)="logout()" menuClose>
                 <ion-icon item-left name="exit"></ion-icon>
                 Logout

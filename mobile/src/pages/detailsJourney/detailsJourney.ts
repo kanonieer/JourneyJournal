@@ -1,56 +1,38 @@
 import { Component } from "@angular/core";
-import { Geolocation } from '@ionic-native/geolocation';
-import {
-  NavController,
-  ActionSheetController,
-  ToastController,
-  Platform,
-  LoadingController,
-  Loading,
-  NavParams
-} from "ionic-angular";
-import { AuthService } from "../../providers/auth-service";
-// import { Cloudinary } from '@cloudinary/angular-4.x';
-import {
-  FileTransfer,
-  FileUploadOptions,
-  FileTransferObject
-} from "@ionic-native/file-transfer";
+import { ToastController, Platform, NavParams } from "ionic-angular";
 
+import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer";
+import { Geolocation } from '@ionic-native/geolocation';
 import { File } from "@ionic-native/file";
 import { FilePath } from "@ionic-native/file-path";
 import { Camera } from "@ionic-native/camera";
 
+import { AuthService } from "../../providers/auth-service";
+
 declare var cordova: any;
-//var cloudinary = require('cloudinary');
 
 @Component({
   selector: "page-detailsJourney",
   templateUrl: "detailsJourney.html"
 })
+
 export class DetailsJourneyPage {
+
   lastImage: string = null;
-  loading: Loading;
 
-  constructor(
-    public navCtrl: NavController,
-    private camera: Camera,
-    private file: File,
-    private filePath: FilePath,
-    public actionSheetCtrl: ActionSheetController,
-    public toastCtrl: ToastController,
-    public platform: Platform,
-    public loadingCtrl: LoadingController,
-    private auth: AuthService,
-    public navParams: NavParams,
-    public geolocation: Geolocation,
-    //private cloudinary: Cloudinary,
-    private transfer: FileTransfer
-  ) {}
+  lat: string = "";
+  long: string = "";
 
-  public base64Image: string;
+  constructor(public toastCtrl: ToastController, public platform: Platform, public navParams: NavParams, public geolocation: Geolocation,
+    private camera: Camera, private file: File, private filePath: FilePath, private auth: AuthService, private transfer: FileTransfer) {
 
-  public upload() {
+  }
+
+  // TAKE PICTURE
+  public takePicture() {
+
+    this.getGeo();
+
     let PhotoOptions = {
       quality: 100,
       targetWidth: 2000,
@@ -61,16 +43,18 @@ export class DetailsJourneyPage {
       encodingType: this.camera.EncodingType.JPEG,
       saveToPhotoAlbum: true
     };
+
     this.camera.getPicture(PhotoOptions).then(imageData => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
       
       let imageCredentials = {
         date: "",
-        longitude: "",
-        latitude: "",
+        longitude: "" + this.long,
+        latitude: "" + this.lat,
         id_journey: this.navParams.get("id_travel"),
         tags: [],
+        isFavourite: false,
         access_token: localStorage.getItem("token")
       };
 
@@ -100,72 +84,20 @@ export class DetailsJourneyPage {
       }
     };
 
-    fileTransfer
-      .upload(
-        file,
-        "http://api.cloudinary.com/v1_1/dzgtgeotp/upload",
-        UploadOptions
-      )
-      .then(
-        data => {
-          // success
-          //alert("success" + imageName);
-          this.presentToast("Success: " + imageName);
-        },
-        err => {
-          // error
-          alert("error" + JSON.stringify(err));
-        }
-      );
-  }
-  public takePicture() {
-    this.camera
-      .getPicture({
-        quality: 75,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        allowEdit: true,
-        encodingType: this.camera.EncodingType.JPEG,
-        targetWidth: 300,
-        targetHeight: 300,
-        saveToPhotoAlbum: true
-      })
-      .then(
-        imageData => {
-          let options: FileUploadOptions = {
-            fileKey: "file",
-            fileName: "name.jpg",
-            params: {
-              upload_preset: "z1ydzdqc"
-            }
-          };
-          //cloudinary.uploader.upload
-          const fileTransfer = this.transfer.create();
-          fileTransfer
-            .upload(
-              imageData,
-              "https://api.cloudinary.com/v1_1/dzgtgeotp/upload",
-              options
-            )
-            .then(
-              data => {
-                this.presentToast("Picture was send: " + data);
-                //alert("Picture was send " + data);
-              },
-              err => {
-                this.presentToast("Picture wasn't send: " + err);
-                //alert("Picture wasn't send " + err);
-              }
-            );
-          alert(imageData);
-          //this.base64Image = "data:image/jpeg;base64," + imageData;
-        },
-        error => {
-          console.log("ERROR -> " + JSON.stringify(error));
-        }
-      );
+    fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
+      data => {
+        // success
+        alert("success: " + imageName);
+        //this.presentToast("Success: " + imageName);
+      },
+      err => {
+        // error
+        alert("error" + JSON.stringify(err));
+      }
+    );
   }
 
+  // FROM LIBRARY
   //   public loadPhoto() {
   //     this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
   //   }
@@ -241,33 +173,31 @@ export class DetailsJourneyPage {
   // }
 
   // Create a new name for the image
-  private createFileName() {
-    var d = new Date(),
-      n = d.getTime(),
-      newFileName = n + ".jpg";
-    return newFileName;
-  }
+  // private createFileName() {
+  //   var d = new Date(),
+  //     n = d.getTime(),
+  //     newFileName = n + ".jpg";
+  //   return newFileName;
+  // }
 
   // Copy the image to a local folder
   // copyFileToLocalDir: Copy from the current path to our app and use new name from createFileName
-  private copyFileToLocalDir(namePath, currentName, newFileName) {
-    this.file
-      .copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName)
-      .then(
-        success => {
-          this.lastImage = newFileName;
-        },
-        error => {
-          this.presentToast("Error while storing file");
-        }
-      );
-  }
+  // private copyFileToLocalDir(namePath, currentName, newFileName) {
+  //   this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(
+  //     success => {
+  //       this.lastImage = newFileName;
+  //     },
+  //     error => {
+  //       this.presentToast("Error while storing file");
+  //     }
+  //   );
+  // }
 
   private presentToast(text) {
     let toast = this.toastCtrl.create({
       message: text,
-      duration: 3000,
-      position: "top"
+      duration: 2000,
+      position: "bottom"
     });
     toast.present();
   }
@@ -279,5 +209,16 @@ export class DetailsJourneyPage {
     } else {
       return cordova.file.dataDirectory + img;
     }
+  }
+
+  getGeo() {
+    
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = "" + resp.coords.latitude,
+      this.long = "" + resp.coords.longitude
+
+    }).catch((err) => {
+      console.log('err', err);
+    });
   }
 }

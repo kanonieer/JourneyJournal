@@ -2,8 +2,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler, } from 'ionic-angular';
 import { AuthService } from '../providers/auth-service';
 import { MyApp } from './app.component';
-// import { CloudinaryModule } from '@cloudinary/angular-4.x';
-// import * as  Cloudinary from 'cloudinary-core';
 
 import { JourneysPage } from '../pages/journeys/journeys';
 import { AboutPage } from '../pages/about/about';
@@ -37,7 +35,6 @@ import { Geolocation } from '@ionic-native/geolocation';
     SettingsPage
   ],
   imports: [
-    //CloudinaryModule.forRoot(Cloudinary, { cloud_name: 'dzgtgeotp'}),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -66,4 +63,5 @@ import { Geolocation } from '@ionic-native/geolocation';
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
+
 export class AppModule {}
