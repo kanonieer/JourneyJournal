@@ -5,13 +5,14 @@
   "scripts": {
     "start:dev": "nodemon ./bin/www.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-	 "start": "node ./bin/www.js"
+    "start": "node ./bin/www.js"
   },
   "author": "Paweł Łukasik, Adam Kulczycki, Patryk Wylegała",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.1",
+    "cloudinary": "^1.9.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.3",
     "dropbox": "^2.5.4",

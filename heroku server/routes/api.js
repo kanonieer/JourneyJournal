@@ -65,29 +65,29 @@ module.exports = function(app, passport) {
     
     app.get('/auth/dropbox/callback', (req, res) => { accountController.addDropbox(req, app.get('user_id'), res)}, app.set('user_id', false));
     //post new journey
-    app.post('/journey', authenticate, (req, res) => { journeyController.createJourney(req, res)});
+    app.post('/journeys', authenticate, (req, res) => { journeyController.createJourney(req, res)});
     //get user journeys
     app.get('/journeys', authenticate, (req, res) => { journeyController.getJourneys(req, res)});
     //app journey by id
     app.get('/journeys/:id', authenticate, (req, res) => { journeyController.getJourneyById(req, res)});
     //get images of journey
-    app.get('/imagesByJourneysId/:id', authenticate, (req, res) => { imageController.getImages(req, res)});
-    
+    app.get('/journeys/:id/images', authenticate, (req, res) => { imageController.getImages(req, res)});  
     //save image to database
-    app.post('/image', authenticate, (req, res)=> {imageController.saveImage(req,res)});
+    app.post('/images', authenticate, (req, res)=> {imageController.saveImage(req,res)});
+
+    ///
     ///do testowania
     app.get('/users',(req,res)=>{
          User.find({}, (err, user) => {res.json(user)});
     });
+    
+    ////
+    ////
     // app.get('/journeys',(req,res)=>{
     //     Journey.find({},(err, journey)=>{res.json(journey)});
     // });
-    app.delete('/journeys', (req,res)=>{
-        Journey.remove({}, function (err) {
-        if (err) return handleError(err);
-         res.status(201).json({ message:'Journeys deleted'});
-        });
-    })
+    app.delete('/journeys/:id', authenticate, (req,res)=>{imageController.deleteJourneyById(req, res)});
+
 };
 
 const generateToken = (req, res, next) => {
