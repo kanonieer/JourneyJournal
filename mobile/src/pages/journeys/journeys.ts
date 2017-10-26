@@ -20,9 +20,16 @@ export class JourneysPage implements OnInit {
   mapsPage = MapsPage;
 
   public journeys: Array<Journey>;
+  public loadedJourneys: Array<Journey>;
+  public showSearchbar: boolean = false;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, private journeyService: AuthService) {
     this.getJourneys();
+  }
+
+
+  toggleSearchbar() {
+    this.showSearchbar = !this.showSearchbar;
   }
 
   ngOnInit() {
@@ -32,9 +39,14 @@ export class JourneysPage implements OnInit {
     this.journeyService.getJourneys().subscribe((
       data:Array<Journey>) => {
         this.journeys = data;
+        this.loadedJourneys = data;
       }, 
       err => console.log(err)
     );
+  }
+
+  initializeItems(): void {
+    this.journeys = this.loadedJourneys;
   }
 
   public detailsJourney(id: string) {
@@ -53,6 +65,8 @@ export class JourneysPage implements OnInit {
           err => console.log(err)
         );
         this.presentToast("Journey was deleted");
+        this.getJourneys();
+        this.showSearchbar = false;
       }
     }
   }
@@ -95,13 +109,18 @@ export class JourneysPage implements OnInit {
     toast.present();
   }
 
-  filterItems(ev: any) {
-    this.getJourneys();
-    let val = ev.target.value;
+  getItems(searchbar) {
+    this.initializeItems();
+    let q = searchbar.srcElement.value;
 
-    if (val && val.trim() !== '') {
+    if (q && q.trim() !== '') {
       this.journeys = this.journeys.filter((journey) => {
-        return (journey.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        if(journey.title && q) {
+          if(journey.title.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+            return true;
+          }
+          return false;
+        }
       });
     }
   }

@@ -1,10 +1,19 @@
-<ion-header>
+<ion-header no-border>
   <ion-navbar color="primary">
     <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Journeys</ion-title>
+    <ion-buttons end>
+      <button class="search-btn" ion-button icon-only (click)="toggleSearchbar()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+
+  <ion-toolbar class="search-toolbar" transparent *ngIf="showSearchbar">
+    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <!-- Main content -->
@@ -16,9 +25,6 @@
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
-
-  <!-- Searchbar -->
-  <ion-searchbar placeholder="Search" (ionInput)="filterItems($event)"></ion-searchbar>
 
   <!-- List of journeys -->
   <ion-list class="journeys-list">
