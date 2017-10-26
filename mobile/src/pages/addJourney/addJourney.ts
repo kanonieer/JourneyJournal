@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../providers/auth-service';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, MenuController } from 'ionic-angular';
 
 import { JourneysPage } from '../journeys/journeys';
 
@@ -11,7 +11,15 @@ import { JourneysPage } from '../journeys/journeys';
 
 export class AddJourneyPage {
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, private auth: AuthService) {
+  ionViewDidLoad() {
+    this.menuCtrl.enable(false);
+  }
+
+  ionViewWillLeave() {
+    this.menuCtrl.enable(true);
+  }
+
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private auth: AuthService) {
 
   }
 

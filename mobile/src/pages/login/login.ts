@@ -87,22 +87,11 @@ export class LoginPage {
   
   showLoading() {
     this.loading = this.loadingCtrl.create({
-      content: 'Please wait...'
+      spinner: 'crescent',
+      content: 'Please wait...',
+      duration: 2000
     });
     this.loading.present();
-  }
-
-  showError(text) {
-    setTimeout(() => {
-      this.loading.dismiss();
-    });
-
-    let alert = this.alertCtrl.create({
-      title: 'Fail',
-      subTitle: text,
-      buttons: ['OK']
-    });
-    alert.present(prompt);
   }
 
   public logoutFacebook() {

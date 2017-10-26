@@ -4,59 +4,51 @@ page-journeys {
     background: #ebebeb;
 
     .journeys-list {
-      
-      ion-card {
-        position: relative;
-        text-align: left;
-      }
-      
-      .card-title {
-        font-size: 2.0em;
-        position: absolute;
-        bottom: 15%;
-        left: 5%;
-        width: 90%;
-        font-weight: bold;
-        color: #fff;
-        border-top: 1px solid #ffffff;
-      }
-      
-      .card-subtitle {
-        font-size: 1.0em;
-        position: absolute;
-        bottom: 5%;
-        left: 5%;
-        width: 90%;
-        color: #fff;
-      }
 
-      #delete-spinner,
-      .deleting .expand-hide {
-        display: none;
-      }
+      .journeys-sliding {
+        margin-top: 15px;
 
-      #delete-spinner.spinner-ios line,
-      #delete-spinner.spinner-crescent circle {
-        stroke: #fff;
-      }
-      #delete-spinner.spinner-circles circle {
-        fill: #fff;
-      }
-      .deleting #delete-spinner {
-        display: block;
-      }
-    }
+        .journeys-item {
+          padding: 0px !important;
   
-    .journeys-item {
-      padding: 0px !important;
-    }
-    
-    .label {
-      margin: 0px !important;
-    }
-    
-    .item-inner {
-      padding: 0px !important;
+          .item-title {
+            font-size: 2.0em;
+            position: absolute;
+            bottom: 15%;
+            left: 5%;
+            width: 90%;
+            font-weight: bold;
+            color: #fff;
+            border-top: 1px solid #ffffff;
+          }
+          
+          .item-subtitle {
+            font-size: 1.0em;
+            position: absolute;
+            bottom: 5%;
+            left: 5%;
+            width: 90%;
+            color: #fff;
+          }
+        }
+      }
+      
+      .label {
+        margin: 0px !important;
+      }
+      
+      .item-inner {
+        padding: 0px !important;
+      }
+      
+      .item-options {
+        border: 0px;
+      }
+
+      .options-btn {
+        margin: 0px;
+        height: 100%;
+      }
     }
   }
 }

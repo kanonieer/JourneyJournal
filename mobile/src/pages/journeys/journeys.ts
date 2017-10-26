@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, ItemSliding, ToastController } from 'ionic-angular';
 import { Journey } from './../../models/Journey';
 import { AuthService } from '../../providers/auth-service';
 
@@ -19,19 +19,19 @@ export class JourneysPage implements OnInit {
   aboutPage = AboutPage;
   mapsPage = MapsPage;
 
-  travels: Array<Journey> = []
+  public journeys: Array<Journey>;
 
-  constructor(public navCtrl: NavController, private journeyService: AuthService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, private journeyService: AuthService) {
     this.getJourneys();
   }
 
   ngOnInit() {
   }
 
-  getJourneys() {
+  public getJourneys() {
     this.journeyService.getJourneys().subscribe((
       data:Array<Journey>) => {
-        this.travels = data;
+        this.journeys = data;
       }, 
       err => console.log(err)
     );
@@ -43,14 +43,66 @@ export class JourneysPage implements OnInit {
     });
   }
 
-  deleteJourney(id: string) {
-    console.log(id);
-    
-    this.journeyService.deleteJourney(id).subscribe(
-        result => console.log(result),
-        err => console.log(err)
-      );
+  public deleteJourney(id) {
 
-      this.navCtrl.setRoot(JourneysPage);
+    for(let i = 0; i < this.journeys.length; i++) {
+      if(this.journeys[i]._id == id) {
+        this.journeys.splice(i, 1);
+        this.journeyService.deleteJourney(id).subscribe(
+          result => console.log(result),
+          err => console.log(err)
+        );
+        this.presentToast("Journey was deleted");
+      }
+    }
+  }
+
+  public editJourney(id, item: ItemSliding) {
+
+    alert(id);
+    item.close();
+
+  }
+
+  public deleteConfirm(id, item: ItemSliding) {
+
+    item.close();
+    const alert = this.alertCtrl.create({
+      title: 'Confirm delete',
+      message: 'Do you want to delete this journey?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteJourney(id);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  private presentToast(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 2000,
+      position: "bottom"
+    });
+    toast.present();
+  }
+
+  filterItems(ev: any) {
+    this.getJourneys();
+    let val = ev.target.value;
+
+    if (val && val.trim() !== '') {
+      this.journeys = this.journeys.filter((journey) => {
+        return (journey.title.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
+    }
   }
 }

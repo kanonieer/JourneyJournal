@@ -17,39 +17,29 @@
     </button>
   </ion-fab>
 
-  <!-- List of travels -->
-  <ion-list class="journeys-list" *ngFor="let travel of travels" #item>
-    
-    <!-- <ion-searchbar
-      [(ngModel)]="myInput"
-      [showCancelButton]="shouldShowCancel"
-      (ionInput)="onInput($event)"
-      (ionCancel)="onCancel($event)">
-    </ion-searchbar> -->
-    
-    <!-- The look of the journey -->
-    <ion-card class="journeys-card">
-      <ion-item-sliding>
-        <ion-item class="journeys-item">
-          <img src="assets/img/example.jpg" (click)="detailsJourney(travel._id)">
-          <div class="card-title">{{ travel.title }}</div>
-          <div class="card-subtitle"><i>{{ travel.date_start | date:short}} - {{ travel.date_end | date:short}}</i></div>
-        </ion-item>
+  <!-- Searchbar -->
+  <ion-searchbar placeholder="Search" (ionInput)="filterItems($event)"></ion-searchbar>
 
-        <!-- <ion-item-options side="left">
-          <button ion-button color="secondary" (click)="detailsTravel(travel._id)">
-            <ion-icon name="menu"></ion-icon>
-              More
-          </button>
-        </ion-item-options> -->
-        <ion-item-options (ionSwipe)="deleteJourney(travel._id)">
-          <button ion-button color="danger" expandable (click)="deleteJourney(travel._id)">
-            <ion-icon name="trash" class="expand-hide"></ion-icon>
-              <div class="expand-hide">Delete</div>
-              <ion-spinner id="delete-spinner"></ion-spinner>
-          </button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-card>
+  <!-- List of journeys -->
+  <ion-list class="journeys-list">
+    <!-- The look of the journey -->
+    <ion-item-sliding class="journeys-sliding" *ngFor="let journey of journeys" #slidingItems>
+      <ion-item class="journeys-item">
+        <img src="assets/img/example.jpg" (click)="detailsJourney(journey._id)">
+        <div class="item-title">{{ journey.title }}</div>
+        <div class="item-subtitle"><i>{{ journey.date_start | date:short}} - {{ journey.date_end | date:short}}</i></div>
+      </ion-item>
+      <!-- Slide options -->
+      <ion-item-options class="item-options" (ionSwipe)="deleteConfirm(journey._id, slidingItems)">
+        <button class="options-btn" ion-button color="primary" (click)="editJourney(journey._id, slidingItems)">
+          <ion-icon name="clipboard"></ion-icon>
+            <div>Edit</div>
+        </button>
+        <button class="options-btn" ion-button color="danger" expandable (click)="deleteConfirm(journey._id, slidingItems)">
+          <ion-icon name="trash"></ion-icon>
+            <div>Delete</div>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>

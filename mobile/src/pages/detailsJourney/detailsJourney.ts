@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { ToastController, Platform, NavParams } from "ionic-angular";
+import { ToastController, Platform, NavParams, MenuController } from "ionic-angular";
 
 import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer";
 import { Geolocation } from '@ionic-native/geolocation';
@@ -18,12 +18,20 @@ declare var cordova: any;
 
 export class DetailsJourneyPage {
 
+  ionViewDidLoad() {
+    this.menuCtrl.enable(false);
+  }
+
+  ionViewWillLeave() {
+    this.menuCtrl.enable(true);
+  }
+
   lastImage: string = null;
 
   lat: string = "";
   long: string = "";
 
-  constructor(public toastCtrl: ToastController, public platform: Platform, public navParams: NavParams, public geolocation: Geolocation,
+  constructor(public toastCtrl: ToastController, public platform: Platform, public navParams: NavParams, public geolocation: Geolocation, public menuCtrl: MenuController,
     private camera: Camera, private file: File, private filePath: FilePath, private auth: AuthService, private transfer: FileTransfer) {
 
   }
