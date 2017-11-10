@@ -65,6 +65,35 @@ module.exports = {
             // });
         });
     },
+    updateImage: (req, res) => {
+        Image.findOne({_id : req.params.id}, (err, image) => {
+            if (err) throw err;
+
+            if(typeof(req.body.isFavourite) === "boolean"){
+                image.isFavourite = req.body.isFavourite;
+            }
+            
+            image.save((err) => {
+                if (err) throw err;
+                
+            });
+            res.status(200).json("Image updated");
+        });
+    },
+
+    getImagesWithParam: (req, res) => {
+        User.findOne({_id: req.user._doc._id}, (err, user) => {
+            if (err) throw err;
+            var param = req.query.isFavourite;
+            console.log(param);
+            Image.find({isFavourite: param}, (err, images) => {
+                if (err) throw err;
+
+                res.status(200).json(images);
+            })
+        })
+    },
+
     saveImage: (req, res)=>{
         User.findOne({_id : req.user._doc._id}, (err, user) => {
             if (err) throw err;
@@ -96,7 +125,7 @@ module.exports = {
                         });
                         res.status(201).json(image);
                     }
-                })
+                });
             }
         });
     }

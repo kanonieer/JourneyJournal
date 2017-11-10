@@ -73,7 +73,11 @@ module.exports = function(app, passport) {
     //get images of journey
     app.get('/journeys/:id/images', authenticate, (req, res) => { imageController.getImages(req, res)});  
     //save image to database
-    app.post('/images', authenticate, (req, res)=> {imageController.saveImage(req,res)});
+    app.post('/images', authenticate, (req, res) => {imageController.saveImage(req, res)});
+    //update image
+    app.patch('/images/:id', authenticate, (req, res) => {imageController.updateImage(req, res)});
+    //get images
+    app.get('/images', authenticate, (req, res) => {imageController.getImagesWithParam(req, res)});
 
     ///
     ///do testowania
