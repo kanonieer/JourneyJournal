@@ -1,35 +1,39 @@
 <ion-header>
   <ion-navbar color="light">
-    <ion-title>Add journey</ion-title>
+    <ion-title>Add new journey</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content overflow-scroll="true" class="addJourney-content" padding>
+<ion-content overflow-scroll="true" class="main-content" padding>
   <div class="addJourney-box">
     <form (ngSubmit)="AddJourney()" #JourneyForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list>
-            <ion-item>
+          <ion-list class="addJourney-list">
+            <ion-item class="list-item">
               <ion-input type="text" placeholder="Name" name="title" clearInput [(ngModel)]="journeyCredentials.title" required></ion-input>
             </ion-item>
-            <ion-item>
-              <label>
-              <span style="padding-right: 52px;">Start</span>
-              <input class="test" type="date" name="start" clearInput [(ngModel)]="journeyCredentials.date_start" required></label>
-            </ion-item>
-            <ion-item>
-              <label>
-              <span style="padding-right: 59px;">End</span>
-              <input class="test" type="date" name="end" clearInput [(ngModel)]="journeyCredentials.date_end" required></label>
-            </ion-item>
+            <ion-row>
+              <ion-col class="date-col-left">
+                <ion-item class="list-item">
+                  <ion-label class="item-label">Start</ion-label>
+                  <ion-datetime displayFormat="DD.MM.YYYY" min="2000" max="2100" name="start" [(ngModel)]="journeyCredentials.date_start" required></ion-datetime>
+                </ion-item>
+              </ion-col>
+              <ion-col class="date-col-right">
+                <ion-item class="list-item">
+                  <ion-label class="item-label">End</ion-label>
+                  <ion-datetime displayFormat="DD.MM.YYYY" min="2000" max="2100" name="end" [(ngModel)]="journeyCredentials.date_end" required></ion-datetime>
+                </ion-item>
+              </ion-col>
+            </ion-row>
           </ion-list>
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col class="addJourney-col">
-          <button ion-button color="secondary" full type="submit" [disabled]="!JourneyForm.form.valid">Add Journey</button>
+          <button ion-button color="secondary" full type="submit" [disabled]="!JourneyForm.form.valid">Add new Journey</button>
         </ion-col>
       </ion-row>
     </form>

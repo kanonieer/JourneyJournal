@@ -1,4 +1,4 @@
-<ion-content overflow-scroll="true" class="login-content" padding>
+<ion-content overflow-scroll="true" class="main-content" padding>
   <ion-row class="logo">
     <ion-col>
       <img src="assets/img/logo.png"/>
@@ -8,7 +8,7 @@
     <div class="facebook-box">
       <ion-row class="facebook-row">
         <ion-col col-auto>
-          <ion-icon class="facebook-icon" name="logo-facebook"></ion-icon>
+          <ion-icon class="facebook-icon" name="logo-facebook" (click)="loginFacebook()"></ion-icon>
         </ion-col>
         <ion-col class="facebook-btn-col">
           <button ion-button class="facebook-btn" full (click)="loginFacebook()">Sign in with Facebook</button>
@@ -18,16 +18,14 @@
     <form (ngSubmit)="loginUser()" #registerForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list inset>
+          <ion-list class="login-list" inset>
 
-            <ion-item>
+            <ion-item class="list-item">
               <ion-input type="text" placeholder="E-mail" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
 
-            <ion-item>
-              <ion-input type="{{type}}" placeholder="Password" clearOnEdit="false" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
-              <button *ngIf="!showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-off-outline"></ion-icon></button>
-              <button *ngIf="showPass" ion-button clear color="dark" type="button" item-right (click)="showPassword()"> <ion-icon name="ios-eye-outline"></ion-icon></button>
+            <ion-item class="list-item">
+              <ion-input type="password" placeholder="Password" clearOnEdit="false" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
             </ion-item>
 
           </ion-list>
@@ -35,7 +33,7 @@
       </ion-row>
 
       <ion-row>
-        <ion-col class="signup-col">
+        <ion-col class="signin-col">
           <button ion-button color="secondary" full type="submit" [disabled]="!registerForm.form.valid">Sign in</button>
         </ion-col>
       </ion-row>

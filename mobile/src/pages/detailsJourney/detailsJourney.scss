@@ -1,19 +1,39 @@
 page-detailsJourney {
 
-  .detailsJourney-content {
+  .main-content {
     background: #ebebeb;
-
-    .detailsJourney-box {
-      margin-top: 10px;
-    }
 
     ion-row {
       align-items: center;
       text-align: center;
     }
 
-    .detailsJourney-col {
-      padding-top: 20px;
+    .detailsJourney-box {
+      margin-top: 10px;
+
+      .detailsJourney-col {
+        padding-top: 20px;
+      }
     }
   }
+}
+
+.success {
+  background: linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5));
+
+    .toast-wrapper {
+      background: #32db64;
+    }
+}
+
+.error {
+  background: linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5));
+
+    .toast-wrapper {
+      background: #e71717;
+    }
 }

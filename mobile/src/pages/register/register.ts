@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, MenuController } from 'ionic-angular';
+
 import { AuthService } from '../../providers/auth-service';
 
 @Component({
@@ -9,31 +10,22 @@ import { AuthService } from '../../providers/auth-service';
 
 export class RegisterPage {
 
+  ionViewDidLoad() {
+    this.menuCtrl.enable(false);
+  }
+
   createSuccess = false;
   registerCredentials = {
     email: '',
     password: ''
   };
 
-  constructor(public navCtrl: NavController, private alertCtrl: AlertController, private auth: AuthService) {
+  constructor(public navCtrl: NavController, public menuCtrl: MenuController, private alertCtrl: AlertController, private authSvc: AuthService) {
 
-  }
-
-  public type = "password";
-  public showPass = false;
-
-  showPassword() {
-    this.showPass = !this.showPass;
-
-    if (this.showPass) {
-      this.type = 'text';
-    } else {
-      this.type = 'password';
-    }
   }
 
   public register() {
-    this.auth.signUpBasic(this.registerCredentials).subscribe(
+    this.authSvc.signUpBasic(this.registerCredentials).subscribe(
       success => {
         if (success) {
           this.createSuccess = true;

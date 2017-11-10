@@ -32,11 +32,27 @@ page-app {
         box-shadow: 0px 0px 6px rgba(0,0,0,.7);
     }
 
-    .toolbar-md {
+    .toolbar {
         padding: 0px;
     }
 
-    .toolbar-background-md {
+    .toolbar-background {
         background: #333F4B;
+    }
+
+    .menu-button {
+        border-bottom: 1px solid #dedede;
+    }
+
+    .list .item-block .item-inner {
+        border: 0px;
+    }
+
+    .item.item-block .item-inner {
+        border: 0px;
+    }
+
+    .item ion-icon[item-left] + .item-inner, .item ion-icon[item-left] + .item-input {
+        margin-left: 10px;
     }
 }

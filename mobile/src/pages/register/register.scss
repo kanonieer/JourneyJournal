@@ -1,37 +1,38 @@
 page-register {
 
-  .register-content {
+  .main-content {
     background: #333F4B;
+
+    ion-col {
+      padding: 3px;
+    }
 
     .register-box {
       margin-top: 20px;
-    }
 
-    ion-item {
-      font-size: 1.0em;
-      margin-bottom: 5px;
-      border: 1px solid #ffffff;
-      border-bottom: 0px !important;
-      box-shadow: none !important;
-    }
+      ion-list[inset] {
+        margin-top: 8px;
+        margin-bottom: 5px;
+        border-radius: 0px;
 
-    .signup-col {
-      margin: 0px 20px 0px 20px;
-      padding-bottom: 10px;
-    }
+        ion-item {
+          font-size: 1.0em;
+          margin-bottom: 5px;
+          border: 1px solid #ffffff;
+          border-bottom: 0px !important;
+          box-shadow: none !important;
 
-    .item-inner {
-      border-bottom-color: #ffffff !important;
-      box-shadow: none !important;
-    }
+          div.item-inner {
+            border-bottom-color: #ffffff !important;
+            box-shadow: none !important;
+          }
+        }
+      }
 
-    .col {
-      padding: 3px;
-    }
-    
-    .list-md[inset] {
-      margin-top: 8px;
-      margin-bottom: 5px;
+      .signup-col {
+        margin: 0px 20px 0px 20px;
+        padding-bottom: 10px;
+      }
     }
   }
 }

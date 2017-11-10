@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, AlertController, ItemSliding, ToastController } from 'ionic-angular';
-import { Journey } from './../../models/Journey';
-import { AuthService } from '../../providers/auth-service';
+import { NavController, AlertController, ItemSliding, ToastController, MenuController } from 'ionic-angular';
 
 import { AddJourneyPage } from '../addJourney/addJourney';
 import { DetailsJourneyPage} from '../detailsJourney/detailsJourney';
 import { AboutPage } from '../about/about';
 import { MapsPage } from '../maps/maps';
+
+import { JourneyService } from '../../providers/journey-service';
+
+import { Journey } from './../../models/Journey';
 
 @Component({
   selector: 'page-journeys',
@@ -14,6 +16,10 @@ import { MapsPage } from '../maps/maps';
 })
 
 export class JourneysPage implements OnInit {
+
+  ionViewDidLoad() {
+    this.menuCtrl.enable(true);
+  }
 
   addJourneyPage = AddJourneyPage;
   aboutPage = AboutPage;
@@ -23,10 +29,9 @@ export class JourneysPage implements OnInit {
   public loadedJourneys: Array<Journey>;
   public showSearchbar: boolean = false;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, private journeyService: AuthService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService) {
     this.getJourneys();
   }
-
 
   toggleSearchbar() {
     this.showSearchbar = !this.showSearchbar;
@@ -36,7 +41,7 @@ export class JourneysPage implements OnInit {
   }
 
   public getJourneys() {
-    this.journeyService.getJourneys().subscribe((
+    this.journeySvc.getJourneys().subscribe((
       data:Array<Journey>) => {
         this.journeys = data;
         this.loadedJourneys = data;
@@ -45,26 +50,29 @@ export class JourneysPage implements OnInit {
     );
   }
 
+  // Needed for search bar
   initializeItems(): void {
     this.journeys = this.loadedJourneys;
   }
 
-  public detailsJourney(id: string) {
+  public detailsJourney(id: string, title: string) {
     this.navCtrl.push(DetailsJourneyPage, {
-      id_travel: id
+      id_travel: id,
+      title_travel: title
     });
   }
 
-  public deleteJourney(id) {
+  public deleteJourney(id: string) {
 
+    // 'for' loop through the list, and delete selected item
     for(let i = 0; i < this.journeys.length; i++) {
       if(this.journeys[i]._id == id) {
         this.journeys.splice(i, 1);
-        this.journeyService.deleteJourney(id).subscribe(
+        this.journeySvc.deleteJourney(id).subscribe(
           result => console.log(result),
           err => console.log(err)
         );
-        this.presentToast("Journey was deleted");
+        this.presentToastSuccess("Journey was deleted");
         this.getJourneys();
         this.showSearchbar = false;
       }
@@ -100,23 +108,25 @@ export class JourneysPage implements OnInit {
     alert.present();
   }
 
-  private presentToast(text) {
+  private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 2000,
-      position: "bottom"
+      position: "bottom",
+      cssClass: "success"
     });
     toast.present();
   }
 
   getItems(searchbar) {
     this.initializeItems();
-    let q = searchbar.srcElement.value;
+    let typedValue = searchbar.srcElement.value;
 
-    if (q && q.trim() !== '') {
+    // trim => remove whitespace from both sides of a string
+    if (typedValue && typedValue.trim() !== '') {
       this.journeys = this.journeys.filter((journey) => {
-        if(journey.title && q) {
-          if(journey.title.toLowerCase().indexOf(q.toLowerCase()) > -1) {
+        if(journey.title && typedValue) {
+          if(journey.title.toLowerCase().indexOf(typedValue.toLowerCase()) > -1) {
             return true;
           }
           return false;

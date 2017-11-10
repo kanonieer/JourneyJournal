@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../providers/auth-service';
 import { NavController, ToastController, MenuController } from 'ionic-angular';
 
 import { JourneysPage } from '../journeys/journeys';
+
+import { JourneyService } from '../../providers/journey-service';
 
 @Component({
   selector: 'page-addJourney',
@@ -19,8 +20,10 @@ export class AddJourneyPage {
     this.menuCtrl.enable(true);
   }
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private auth: AuthService) {
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService) {
 
+    this.journeyCredentials.date_start = new Date().toISOString();
+    this.journeyCredentials.date_end = new Date().toISOString();
   }
 
   journeyCredentials = {
@@ -32,23 +35,35 @@ export class AddJourneyPage {
   }
   
   AddJourney(){
-    this.auth.addJourney(this.journeyCredentials).subscribe(
-      data=>{
-        this.presentToast("Journey was added");
+    this.journeySvc.addJourney(this.journeyCredentials).subscribe(
+      data => {
+        this.presentToastSuccess(this.journeyCredentials.title + " was added");
         this.navCtrl.setRoot(JourneysPage);
       },
-      err=>{
-        this.presentToast("Journey wasn't added");
+      err => {
+        this.presentToastError(this.journeyCredentials.title + " wasn't added");
+        this.navCtrl.setRoot(JourneysPage);
         console.log(err);
       }
     );
   };
 
-  private presentToast(text) {
+  private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 2000,
-      position: "bottom"
+      position: "bottom",
+      cssClass: "success"
+    });
+    toast.present();
+  }
+
+  private presentToastError(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 2000,
+      position: "bottom",
+      cssClass: "error"
     });
     toast.present();
   }

@@ -1,7 +1,11 @@
 page-login {
 
-  .login-content {
+  .main-content {
     background: #333F4B;
+
+    ion-col {
+      padding: 3px;
+    }
 
     .logo {
       padding-top: 15px;
@@ -11,60 +15,71 @@ page-login {
 
     .login-box {
       margin-top: 25px;
-    }
 
-    ion-item {
-      font-size: 1.0em;
-      margin-bottom: 5px;
-      border: 1px solid #ffffff;
-      border-bottom: 0px !important;
-      box-shadow: none !important;
-    }
+      .facebook-box {
+        padding: 0px 20px 0px 20px;
 
-    .signup-col {
-      margin: 0px 20px 0px 20px;
-      padding-bottom: 10px;
-    }
+        .facebook-row {
+          border-bottom: 1px solid #ffffff;
 
-    .item-inner {
-      border-bottom-color: #ffffff !important;
-      box-shadow: none !important;
-    }
+          .facebook-icon {
+            font-size: 48px;
+            color: #ffffff;
+          }
 
-    .register-btn {
-      color: #ffffff;
-      font-size: 0.9em;
-      margin-top: 0px;
-    }
+          .facebook-btn-col {
+            margin: 1px 0px 2px 0px;
+            padding-bottom: 10px;
 
-    .facebook-icon {
-      font-size: 48px;
-      color: #ffffff;
-    }
+            .facebook-btn {
+              background: #3b5998;
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
 
-    .facebook-row {
-      border-bottom: 1px solid #ffffff;
-    }
+      .login-list {
+        margin-top: 8px;
+        margin-bottom: 5px;
+        border-radius: 0px;
+  
+        .list-item {
+          font-size: 1.0em;
+          margin-bottom: 5px;
+          border: 1px solid #ffffff;
+          border-bottom: 0px !important;
+          box-shadow: none !important;
+  
+          div.item-inner {
+            border-bottom-color: #ffffff !important;
+            box-shadow: none !important;
+            padding: 0px;
+          }
+        }
+      }
 
-    .facebook-btn {
-      background: #3b5998;
-    }
-
-    .facebook-btn-col {
-      margin: 2px 0px 0px 0px;
-    }
-
-    .facebook-box {
-      padding: 0px 20px 0px 20px;
-    }
-
-    .col {
-      padding: 3px;
-    }
-    
-    .list-md[inset] {
-      margin-top: 8px;
-      margin-bottom: 5px;
+      .signin-col {
+        margin: 0px 20px 0px 20px;
+        padding-bottom: 4px;
+      }
+  
+      .register-btn {
+        color: #ffffff;
+        font-size: 0.9em;
+        margin-top: 0px;
+      }
     }
   }
+}
+
+.error {
+  background: linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5));
+
+    .toast-wrapper {
+      background: #e71717;
+    }
 }

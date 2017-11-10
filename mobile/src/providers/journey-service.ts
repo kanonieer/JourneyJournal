@@ -7,19 +7,11 @@ import 'rxjs/add/operator/catch';
 import { serverAdress } from './../shared/globalVariables';
 import { handleError } from './../shared/errorHandler';
 
-export class User {
-  email: string;
-
-  constructor(email: string) {
-    this.email = email;
-  }
-}
+import { Journey } from './../models/Journey';
 
 @Injectable()
 
-export class AuthService {
-
-  currentUser: User;
+export class JourneyService {
 
   constructor(private _http: Http) {
 
@@ -28,29 +20,23 @@ export class AuthService {
   private headers = new Headers({'Content-Type': 'application/json'});
   private options = new RequestOptions({headers: this.headers});
 
-  signUpBasic(payload: any): Observable<any> {
-    return this._http.post(serverAdress + '/signup', JSON.stringify(payload), this.options)
+  addJourney(payload: any): Observable<any> {
+    return this._http.post(serverAdress + '/journeys', JSON.stringify(payload), this.options)
+      .map((response: Response) => response.json())
+      .catch(handleError);
+  }
+
+  getJourneys(): Observable<Array<Journey>> {
+    let access_token = localStorage.getItem('token');
+    return this._http.get(serverAdress + '/journeys?access_token=' + access_token, this.options)
       .map((response: Response) => response.json())
       .catch(handleError);
   }
   
-  loginBasic(payload: any): Observable<any> {
-    return this._http.post(serverAdress + '/login', JSON.stringify(payload), this.options)
+  deleteJourney(id: any): Observable<any> {
+    let access_token = localStorage.getItem('token');
+    return this._http.delete(serverAdress + '/journeys/' + id + '?access_token=' + access_token, this.options)
       .map((response: Response) => response.json())
       .catch(handleError);
-  }
-
-  getMe(payload: any): Observable<any> {
-    return this._http.post(serverAdress + '/profile', JSON.stringify(payload), this.options)
-      .map((response: Response) => response.json())
-      .catch(handleError);
-  }
-
-  public logout() {
-    return Observable.create(observer => {
-      this.currentUser = null;
-      observer.next(true);
-      observer.complete();
-    });
   }
 }

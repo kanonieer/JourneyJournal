@@ -1,13 +1,12 @@
 import { Component } from "@angular/core";
 import { ToastController, Platform, NavParams, MenuController } from "ionic-angular";
-
 import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer";
 import { Geolocation } from '@ionic-native/geolocation';
 import { File } from "@ionic-native/file";
 import { FilePath } from "@ionic-native/file-path";
 import { Camera } from "@ionic-native/camera";
 
-import { AuthService } from "../../providers/auth-service";
+import { ImageService } from "../../providers/image-service";
 
 declare var cordova: any;
 
@@ -30,10 +29,12 @@ export class DetailsJourneyPage {
 
   lat: string = "";
   long: string = "";
+  title_travel: string = "";
 
   constructor(public toastCtrl: ToastController, public platform: Platform, public navParams: NavParams, public geolocation: Geolocation, public menuCtrl: MenuController,
-    private camera: Camera, private file: File, private filePath: FilePath, private auth: AuthService, private transfer: FileTransfer) {
+    private camera: Camera, private file: File, private filePath: FilePath, private imageSvc: ImageService, private transfer: FileTransfer) {
 
+      this.title_travel = navParams.get('title_travel');
   }
 
   // TAKE PICTURE
@@ -66,15 +67,15 @@ export class DetailsJourneyPage {
         access_token: localStorage.getItem("token")
       };
 
-      this.auth.saveImage(imageCredentials).subscribe(
+      this.imageSvc.saveImage(imageCredentials).subscribe(
         data => {
           this.uploadToCloudinary(imageData, data._id);
           //alert("Picture was saved");
-          this.presentToast("Picture was saved");
+          this.presentToastSuccess("Picture was saved");
         },
         err => {
           //alert("Picture wasn't saved");
-          this.presentToast("Picture wasn't saved");
+          this.presentToastError("Picture wasn't saved");
         }
       );
     });
@@ -201,11 +202,22 @@ export class DetailsJourneyPage {
   //   );
   // }
 
-  private presentToast(text) {
+  private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 2000,
-      position: "bottom"
+      position: "bottom",
+      cssClass: "success"
+    });
+    toast.present();
+  }
+
+  private presentToastError(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 2000,
+      position: "bottom",
+      cssClass: "error"
     });
     toast.present();
   }

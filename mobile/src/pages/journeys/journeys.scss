@@ -1,12 +1,7 @@
 page-journeys {
 
   .search-btn {
-    margin-right: 6px;
-  }
-
-  .search-toolbar {
-    padding-left: 20px;
-    padding-right: 20px;
+    margin-right: 10px;
   }
 
   .main-content {
@@ -21,7 +16,8 @@ page-journeys {
           padding: 0px !important;
   
           .item-title {
-            font-size: 2.0em;
+            font-size: 6vw;
+            white-space: normal;
             position: absolute;
             bottom: 15%;
             left: 5%;
@@ -32,7 +28,7 @@ page-journeys {
           }
           
           .item-subtitle {
-            font-size: 1.0em;
+            font-size: 3.5vw;
             position: absolute;
             bottom: 5%;
             left: 5%;
@@ -60,4 +56,14 @@ page-journeys {
       }
     }
   }
+}
+
+.success {
+  background: linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5));
+
+    .toast-wrapper {
+      background: #32db64;
+    }
 }

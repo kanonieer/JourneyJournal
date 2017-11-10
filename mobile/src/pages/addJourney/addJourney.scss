@@ -1,50 +1,77 @@
 page-addJourney {
 
-  .addJourney-content {
+  .main-content {
     background: #333F4B;
 
-    .addJourney-box {
-      margin-top: 35px;
-    }
-
-    ion-item {
-      font-size: 1.0em;
-      margin-bottom: 5px;
-      border: 1px solid #ffffff;
-      border-bottom: 0px !important;
-      box-shadow: none !important;
-    }
-
-    .addJourney-col {
-      margin: 0px 20px 0px 20px;
-      padding-bottom: 10px;
-    }
-
-    .item-inner {
-      border-bottom-color: #ffffff !important;
-      box-shadow: none !important;
-    }
-
-    .col {
+    ion-col {
       padding: 3px;
     }
 
-    .list-md[inset] {
-      margin-top: 8px;
-      margin-bottom: 5px;
-    }
+    .addJourney-box {
+      margin-top: 25px;
 
-    .test {
-      width: 210px;
-      height: 40px;
-    }
+      .addJourney-list {
+        margin-top: 8px;
+        margin-bottom: 15px;
+        border-radius: 0px;
 
-    .text-input {
-      margin-left: 0px;
-    }
+        .list-item {
+          font-size: 1.0em;
+          margin-bottom: 5px;
+          border: 1px solid #ffffff;
+          border-bottom: 0px !important;
+          box-shadow: none !important;
+          padding: 0px;
 
-    .label {
-      margin: 0px;
+          div.item-inner {
+            border-bottom-color: #ffffff !important;
+            box-shadow: none !important;
+            padding: 0px;
+          }
+
+          .item-label {
+            margin: 0px;
+            padding-left: 8px;
+          }
+        }
+
+        .date-col-left {
+          padding-left: 0px;
+          padding-bottom: 0px;
+          padding-top: 0px;          
+        }
+
+        .date-col-right {
+          padding-right: 0px;
+          padding-bottom: 0px;
+          padding-top: 0px;          
+        }
+      }
+
+      .addJourney-col {
+        margin: 0px 20px 0px 20px;
+        padding-bottom: 10px;
+      }
     }
   }
+}
+
+.success {
+  background: linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5));
+
+    .toast-wrapper {
+      background: #32db64;
+    }
+}
+
+.error {
+  background: linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5));
+
+    .toast-wrapper {
+      background: #e71717;
+    }
 }

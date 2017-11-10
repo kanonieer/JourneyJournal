@@ -4,9 +4,9 @@
             <img src="assets/img/logo.png" alt="">
         </ion-toolbar>
     </ion-header>
-    <ion-content class="menu-content">  
+    <ion-content overflow-scroll="true" class="menu-content">  
         <ion-list>
-            <button ion-item color="light" *ngFor="let page of pages" (click)="goToPage(page.component)" menuClose>
+            <button class="menu-button" ion-item color="light" *ngFor="let page of pages" (click)="goToPage(page.component)" menuClose>
                 <ion-icon item-left name="{{ page.icon }}"></ion-icon>
                 {{ page.title }}
             </button>
@@ -14,7 +14,7 @@
     </ion-content>
     <ion-footer no-border>
         <ion-toolbar class="bottom-toolbar">
-            <button ion-item color="light" (click)="logout()" menuClose>
+            <button class="menu-button" ion-item color="light" (click)="logout()" menuClose>
                 <ion-icon item-left name="exit"></ion-icon>
                 Logout
             </button>

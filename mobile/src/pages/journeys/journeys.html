@@ -3,17 +3,14 @@
     <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Journeys</ion-title>
+    <ion-title *ngIf="!showSearchbar">Journeys</ion-title>
+    <ion-searchbar *ngIf="showSearchbar" (ionInput)="getItems($event)"></ion-searchbar>
     <ion-buttons end>
       <button class="search-btn" ion-button icon-only (click)="toggleSearchbar()">
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
-
-  <ion-toolbar class="search-toolbar" transparent *ngIf="showSearchbar">
-    <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 <!-- Main content -->
@@ -31,9 +28,9 @@
     <!-- The look of the journey -->
     <ion-item-sliding class="journeys-sliding" *ngFor="let journey of journeys" #slidingItems>
       <ion-item class="journeys-item">
-        <img src="assets/img/example.jpg" (click)="detailsJourney(journey._id)">
+        <img src="assets/img/example.jpg" (click)="detailsJourney(journey._id, journey.title)">
         <div class="item-title">{{ journey.title }}</div>
-        <div class="item-subtitle"><i>{{ journey.date_start | date:short}} - {{ journey.date_end | date:short}}</i></div>
+        <div class="item-subtitle"><i>{{ journey.date_start | date:'dd.MM.yyyy'}} - {{ journey.date_end | date:'dd.MM.yyyy'}}</i></div>
       </ion-item>
       <!-- Slide options -->
       <ion-item-options class="item-options" (ionSwipe)="deleteConfirm(journey._id, slidingItems)">

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Loading, Events } from 'ionic-angular';
-import { AuthService } from '../../providers/auth-service';
-import { RegisterPage } from '../register/register';
-import { JourneysPage } from '../journeys/journeys';
+import { NavController, AlertController, LoadingController, Loading, Events, MenuController, ToastController } from 'ionic-angular';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { NativeStorage } from '@ionic-native/native-storage';
+
+import { RegisterPage } from '../register/register';
+import { JourneysPage } from '../journeys/journeys';
+
+import { AuthService } from '../../providers/auth-service';
 
 @Component({
   selector: 'page-login',
@@ -12,11 +14,17 @@ import { NativeStorage } from '@ionic-native/native-storage';
 })
 
 export class LoginPage {
+
+  ionViewDidLoad() {
+    this.menuCtrl.enable(false);
+  }
+  
   loading: Loading;
   registerCredentials = {email: '', password: ''};
+  userData = null;
 
-  constructor(public navCtrl: NavController, private auth: AuthService, private alertCtrl: AlertController, public loadingCtrl: LoadingController,
-   private nativeStorage: NativeStorage, private fb: Facebook, public events: Events ) {
+  constructor(public navCtrl: NavController, private authSvc: AuthService, private alertCtrl: AlertController, public loadingCtrl: LoadingController, public menuCtrl: MenuController,
+   private nativeStorage: NativeStorage, private fb: Facebook, public events: Events, public toastCtrl: ToastController) {
      
      events.subscribe('user:logout', () => {
         if (localStorage.getItem('user_logged') == "true") {
@@ -26,46 +34,35 @@ export class LoginPage {
           this.logoutFacebook();
         }
      });
-   }
-
-  public type = "password";
-  public showPass = false;
-
-  showPassword() {
-    this.showPass = !this.showPass;
-     
-    if(this.showPass) {
-      this.type = 'text';
-    } else {
-      this.type = 'password';
     }
-  }
 
   public loginFacebook(){
 
     let permissions = new Array<string>();
-    permissions = ['public_profile', 'user_friends', 'email'];
+    permissions = ['public_profile', 'email'];
     
     this.showLoading();
-    this.fb.login(permissions)
-  .then((res: FacebookLoginResponse) =>
-  {
-    // localStorage.setItem('user_id', data.user_id.toString());
-    // localStorage.setItem('token', data.token);
-    // localStorage.setItem('public_profile', data.public_profile);
-    // localStorage.setItem('user_friends', data.user_friends);
-    // localStorage.setItem('email', data.email);
-    localStorage.setItem('user_logged_fb', 'true');
-    console.log('Logged into Facebook!', res)
-    this.navCtrl.setRoot(JourneysPage);
-    this.loading.dismiss();
-  })
-  .catch(error => console.log('Error logging into Facebook', error));
+    this.fb.login(permissions).then((res: FacebookLoginResponse) => {
+      this.fb.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
+        this.userData = {email: profile['email'], first_name: profile['first_name'], picture: profile['picture_large']['data']['url'], username: profile['name']};
+        localStorage.setItem('user_id', res.authResponse.userID);
+        alert(localStorage.getItem('user_id'));
+        localStorage.setItem('token', res.authResponse.accessToken);
+        alert(localStorage.getItem('token'));
+        localStorage.setItem('email', this.userData.email);
+        alert(localStorage.getItem('email'));
+        localStorage.setItem('name', this.userData.first_name);
+        alert(localStorage.getItem('name'));
+        localStorage.setItem('user_logged_fb', 'true');
+      })
+      this.navCtrl.setRoot(JourneysPage);
+      this.loading.dismiss();
+    }).catch(error => console.log('Error logging into Facebook', error));
   }
   
   public loginUser(){
   this.showLoading();
-  this.auth.loginBasic(this.registerCredentials).subscribe(
+  this.authSvc.loginBasic(this.registerCredentials).subscribe(
       data => {
         localStorage.setItem('user_id', data.user._id.toString());
         localStorage.setItem('token', data.token);
@@ -75,8 +72,8 @@ export class LoginPage {
       },
       err => {
         if(err === 'Unauthorized'){
-          alert('Błędne dane logowania!');
           this.loading.dismiss();
+          this.presentToast("Invalid email or password");
         }
       });
   }
@@ -94,25 +91,37 @@ export class LoginPage {
     this.loading.present();
   }
 
+  private presentToast(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 2000,
+      position: "bottom",
+      cssClass: "error"
+    });
+    toast.present();
+  }
+
   public logoutFacebook() {
     this.showLoading();
-    this.fb.logout()
-    .then((res: FacebookLoginResponse) => {
-      localStorage.removeItem('user_logged_fb');
-      this.loading.dismiss();
-      this.navCtrl.setRoot(LoginPage);
-    }).catch(error => console.log('Error logouting into Facebook', error));
+    this.fb.logout();
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('name');
+    localStorage.removeItem('user_logged_fb');
+    this.navCtrl.setRoot(LoginPage);
+    this.loading.dismiss();
   }
 
   public logoutUser() {
     this.showLoading();
-    this.auth.logout().subscribe(
+    this.authSvc.logout().subscribe(
       data => {
         localStorage.removeItem('user_id');
         localStorage.removeItem('token');
         localStorage.removeItem('user_logged');
-        this.loading.dismiss();
         this.navCtrl.setRoot(LoginPage);
+        this.loading.dismiss();
       });
   }
 }
