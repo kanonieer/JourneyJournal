@@ -109,7 +109,7 @@ module.exports = {
                 console.log('User not found!'); 
             }
             if (user) {
-                Journey.findOne({},(err, journey) => {
+                Journey.findOne({ _id: req.body.id_journey }, (err, journey) => {
                     if(err) throw err;
 
                     if(!journey){
