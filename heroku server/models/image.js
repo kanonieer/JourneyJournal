@@ -8,8 +8,9 @@ const image = new Schema({
         latitude    : String,
         id_journey  : String,
         tags        : Array,
-        isFavourite : Boolean
-
+        isFavourite : Boolean,
+        user_id     : String,
+        title       : String 
 });
 
 

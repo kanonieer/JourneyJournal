@@ -72,6 +72,8 @@ module.exports = {
             if(typeof(req.body.isFavourite) === "boolean"){
                 image.isFavourite = req.body.isFavourite;
             }
+
+            image.title = req.body.title || image.title;
             
             image.save((err) => {
                 if (err) throw err;
@@ -82,11 +84,13 @@ module.exports = {
     },
 
     getImagesWithParam: (req, res) => {
-        User.findOne({_id: req.user._doc._id}, (err, user) => {
+        const user_id = req.user._doc._id;
+        const isFavourite = req.query.isFavourite;
+
+        User.findOne({ _id: user_id }, (err, user) => {
             if (err) throw err;
-            var param = req.query.isFavourite;
-            console.log(param);
-            Image.find({isFavourite: param}, (err, images) => {
+
+            Image.find({ isFavourite: isFavourite, user_id: user_id }, (err, images) => {
                 if (err) throw err;
 
                 res.status(200).json(images);
@@ -94,8 +98,10 @@ module.exports = {
         })
     },
 
-    saveImage: (req, res)=>{
-        User.findOne({_id : req.user._doc._id}, (err, user) => {
+    saveImage: (req, res) => {
+        const user_id = req.user._doc._id;
+
+        User.findOne({_id : user_id }, (err, user) => {
             if (err) throw err;
 
             if (!user) {
@@ -103,7 +109,7 @@ module.exports = {
                 console.log('User not found!'); 
             }
             if (user) {
-                Journey.findOne({},(err, journey)=>{
+                Journey.findOne({},(err, journey) => {
                     if(err) throw err;
 
                     if(!journey){
@@ -116,12 +122,14 @@ module.exports = {
                             latitude    : req.body.latitude,
                             id_journey  : req.body.id_journey,
                             tags        : req.body.tags,
-                            isFavourite : req.body.isFavourite
+                            isFavourite : req.body.isFavourite,
+                            user_id     : user_id,
+                            title       : journey.title
                         });
                         image.save((err) => {
-                                    if (err) throw err;
-                                    
-                                    console.log('Image successfully saved!');
+                            if (err) throw err;
+                            
+                            console.log('Image successfully saved!');
                         });
                         res.status(201).json(image);
                     }
