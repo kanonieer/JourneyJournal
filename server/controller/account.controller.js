@@ -1,6 +1,12 @@
 const User          = require('./../models/user'); 
 const node_dropbox  = require('node-dropbox');
 const config        = require('./../config/auth');
+const jwt           = require('jsonwebtoken');
+
+function generateToken(user) {
+    return jwt.sign(user,'server secret temp',{ expiresIn: 60000*12000 });
+
+}
 
 module.exports = {
     changeEmail: (req, res) => {
@@ -67,6 +73,85 @@ module.exports = {
                     res.status(201).json({ message:'Password changed', details: 'User password successfully changed'});                            
                 }
             }
+        });
+    },
+    authWithFacebook: (req, res) => {
+        const user_id = req.body.user_id;
+        const facebook_user_id = req.body.facebook_user_id;
+        const token = req.body.token;
+
+        console.log('user: ' + user_id);
+
+        User.findOne({ 'facebook.id': facebook_user_id }, (err, facebookUser) => {
+            if (err) throw err;
+
+            User.findOne({ _id: user_id }, (err, user) => {
+                if (err) throw err;
+    
+                if (!user) {
+                    if(!facebookUser) {
+                        let newUser = new User();
+
+                        newUser.facebook.id = facebook_user_id;
+                        newUser.facebook.token = token;
+                        newUser.save(err => {
+                            if (err) throw err;
+                            
+                            console.log('No user before, now created');
+                            const access_token = jwt.sign(newUser, 'server secret temp', { expiresIn: 6000*120 });
+                            const payload_user_id = newUser._id;
+                            res.status(201).json({ 
+                                message: 'Account created', 
+                                details: 'User account created with Facebook auth',
+                                data: { access_token, payload_user_id }
+                            });
+                        }); 
+                    } else {
+                        console.log('Facebook authenticated');
+                        console.log('First case');
+                        const access_token = jwt.sign(facebookUser, 'server secret temp', { expiresIn: 6000*120 });
+                        const payload_user_id = facebookUser._id;
+                        res.status(201).json({
+                            message: 'Success',
+                            details: 'Successfully authenticated with facebook',
+                            data: { access_token, payload_user_id }
+                        });
+                    }
+                } else {
+                    if (!facebookUser) {
+                        if (!user.facebook) {
+                            user.facebook.id = facebook_user_id;
+                            user.facebook.token = token;
+        
+                            user.save(err => {
+                                if (err) throw err;
+        
+                                console.log('No facebook before, now added');
+                                const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
+                                const payload_user_id = user._id;
+                                res.status(201).json({
+                                    message: 'Facebook added',
+                                    details: 'Facebook account successfully added',
+                                    data: { access_token, payload_user_id }
+                                });
+                            })
+                        } else {
+                            console.log('Facebook authenticated');
+                            const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
+                            const payload_user_id = user._id;
+                            res.status(201).json({
+                                message: 'Success',
+                                details: 'Successfully authenticated with facebook',
+                                data: { access_token, payload_user_id }
+                            });
+                        }
+                    } else {
+
+                        console.log('Facebook already used');
+                        res.status(409).json({ message : 'Unsuccessful', details: 'Provided facebook account already in use'});
+                    }
+                }
+            });
         });
     },
     addDropbox: (req, user_id, res) => {

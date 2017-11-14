@@ -45,6 +45,8 @@ module.exports = function(app, passport) {
       generateToken, (req, res) => {
         res.redirect('http://localhost:4200/login/facebook?token='+req.token);  
       });
+    // auth wit facebook new
+    app.post('/facebookAuthorization', (req, res) => { accountController.authWithFacebook(req, res)});
     //profile data
     app.post('/profile', authenticate, (req, res) => { res.status(200).json(req.user._doc) });
     //update email 
@@ -95,6 +97,6 @@ module.exports = function(app, passport) {
 };
 
 const generateToken = (req, res, next) => {
-    req.token = jwt.sign(req.user,'server secret temp',{expiresIn:60*120});
+    req.token = jwt.sign(req.user,'server secret temp',{expiresIn:6000*1200});
     next();
 }
