@@ -51,25 +51,18 @@ export class LoginPage {
         this.userData = {email: profile['email']};
 
         let facebookCredentials = {
-          user_id: '',
+          user_id: null,
           facebook_user_id: res.authResponse.userID,
           token: res.authResponse.accessToken
         };
 
-        alert(facebookCredentials.user_id);
-        alert(facebookCredentials.facebook_user_id);
-        alert(facebookCredentials.token);
-        alert(JSON.stringify(facebookCredentials, null, 4));
-
         this.authSvc.signUpFacebook(facebookCredentials).subscribe(
-          data => {
+          success => {
             this.storageSvc.set('facebook_user_id', res.authResponse.userID);
-            this.storageSvc.set('token', res.authResponse.accessToken);
+            this.storageSvc.set('user_id', success.data.payload_user_id);
+            this.storageSvc.set('token', success.data.access_token);
             this.storageSvc.set('email', this.userData.email);
             this.storageSvc.set('user_logged_fb', 'true');
-            alert(this.storageSvc.get('facebook_user_id'));
-            alert(this.storageSvc.get('token'));
-            alert(this.storageSvc.get('email'));
             this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
             this.loading.dismiss();
           },
