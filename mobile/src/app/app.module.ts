@@ -1,46 +1,50 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler, } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { JourneysPage } from '../pages/journeys/journeys';
+// Pages
 import { AboutPage } from '../pages/about/about';
 import { AddJourneyPage } from '../pages/addJourney/addJourney';
 import { DetailsJourneyPage } from '../pages/detailsJourney/detailsJourney';
-import { LoginPage } from '../pages/login/login';
-import { RegisterPage } from '../pages/register/register';
-import { MapsPage } from '../pages/maps/maps';
-import { SettingsPage } from '../pages/settings/settings';
 import { HelpPage } from '../pages/help/help';
 import { HowToAddJourneyPage } from '../pages/help/howToAddJourney/howToAddJourney';
+import { JourneysPage } from '../pages/journeys/journeys';
+import { LoginPage } from '../pages/login/login';
+import { MapsPage } from '../pages/maps/maps';
+import { RegisterPage } from '../pages/register/register';
+import { SettingsPage } from '../pages/settings/settings';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { NativeStorage } from '@ionic-native/native-storage';
+// Plugins
+import { Camera } from '@ionic-native/camera';
 import { Facebook } from '@ionic-native/facebook';
 import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
-import { Camera } from '@ionic-native/camera';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Keyboard } from '@ionic-native/keyboard';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 
+// Providers
 import { AuthService } from '../providers/auth-service';
-import { JourneyService } from '../providers/journey-service';
 import { ImageService } from '../providers/image-service';
+import { JourneyService } from '../providers/journey-service';
+import { StorageService } from '../providers/storage-service';
+import { UserService } from '../providers/user-service';
 
 @NgModule({
   declarations: [
     MyApp,
-    JourneysPage,
+    AboutPage,
     AddJourneyPage,
     DetailsJourneyPage,
-    LoginPage,
-    RegisterPage,
-    AboutPage,
-    MapsPage,
-    SettingsPage,
     HelpPage,
-    HowToAddJourneyPage
+    HowToAddJourneyPage,
+    JourneysPage,
+    LoginPage,
+    MapsPage,
+    RegisterPage,
+    SettingsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp, { scrollAssist: false, autoFocusAssist: false })
@@ -48,31 +52,32 @@ import { ImageService } from '../providers/image-service';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    JourneysPage,
+    AboutPage,
     AddJourneyPage,
     DetailsJourneyPage,
-    LoginPage,
-    RegisterPage,
-    AboutPage,
-    MapsPage,
-    SettingsPage,
     HelpPage,
-    HowToAddJourneyPage
+    HowToAddJourneyPage,
+    JourneysPage,
+    LoginPage,
+    MapsPage,
+    RegisterPage,
+    SettingsPage
   ],
   providers: [
+    Camera,
     Facebook,
-    StatusBar,
-    SplashScreen,
     File,
     FileTransfer,
-    Camera,
     FilePath,
     Geolocation,
     Keyboard,
+    SplashScreen,
+    StatusBar,
     AuthService,
-    JourneyService,
     ImageService,
-    NativeStorage,
+    JourneyService,
+    StorageService,
+    UserService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -1,12 +1,23 @@
 import { Component } from "@angular/core";
-import { ToastController, Platform, NavParams, MenuController } from "ionic-angular";
-import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer";
-import { Geolocation } from '@ionic-native/geolocation';
-import { File } from "@ionic-native/file";
-import { FilePath } from "@ionic-native/file-path";
-import { Camera } from "@ionic-native/camera";
+import { NavController, ToastController, MenuController, ActionSheetController, AlertController, NavParams } from "ionic-angular";
 
+// Pages
+import { JourneysPage } from '../journeys/journeys';
+
+// Plugins
+import { Camera } from "@ionic-native/camera";
+import { File } from "@ionic-native/file";
+import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer";
+import { FilePath } from "@ionic-native/file-path";
+import { Geolocation } from '@ionic-native/geolocation';
+
+// Providers
 import { ImageService } from "../../providers/image-service";
+import { JourneyService } from "../../providers/journey-service";
+import { StorageService } from "../../providers/storage-service";
+
+// Models
+import { Image } from '../../models/Image';
 
 declare var cordova: any;
 
@@ -26,16 +37,34 @@ export class DetailsJourneyPage {
   }
 
   lastImage: string = null;
-
   lat: string = "";
   long: string = "";
   title_travel: string = "";
+  id_travel;
 
-  constructor(public toastCtrl: ToastController, public platform: Platform, public navParams: NavParams, public geolocation: Geolocation, public menuCtrl: MenuController,
-    private camera: Camera, private file: File, private filePath: FilePath, private imageSvc: ImageService, private transfer: FileTransfer) {
+  public images: Array<Image>;
+
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
+    public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer, private filePath: FilePath, private geolocation: Geolocation, private imageSvc: ImageService,
+    private journeySvc: JourneyService, private storageSvc: StorageService) {
 
       this.title_travel = navParams.get('title_travel');
+      this.id_travel = navParams.get('id_travel');
+      // this.getImages();
   }
+
+  // public getImages() {
+  //   console.log(this.id_travel);
+  //   console.log(this.title_travel);
+  
+  //   this.imageSvc.getImagesByJourney(this.id_travel).subscribe(
+  //     data => {
+  //       this.images = data;
+  //       console.log(this.images);
+  //     }, 
+  //     err => console.log(err)
+  //   );
+  // }
 
   // TAKE PICTURE
   public takePicture() {
@@ -64,7 +93,7 @@ export class DetailsJourneyPage {
         id_journey: this.navParams.get("id_travel"),
         tags: [],
         isFavourite: false,
-        access_token: localStorage.getItem("token")
+        access_token: this.storageSvc.get('token')
       };
 
       this.imageSvc.saveImage(imageCredentials).subscribe(
@@ -201,6 +230,64 @@ export class DetailsJourneyPage {
   //     }
   //   );
   // }
+
+  presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: this.title_travel,
+      buttons: [
+        {
+          text: 'Edit',
+          handler: () => {
+            this.editJourney(this.id_travel);
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteConfirm(this.id_travel);
+          }
+        }
+      ]
+    });
+ 
+    actionSheet.present();
+  }
+
+  public editJourney(id) {
+    
+    alert(id);
+  }
+
+  public deleteConfirm(id) {
+    
+    const alert = this.alertCtrl.create({
+      title: 'Confirm delete',
+      message: 'Do you want to delete ' + this.title_travel + '?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteJourney(id);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  public deleteJourney(id) {
+    
+    this.journeySvc.deleteJourney(id).subscribe(
+      result => console.log(result),
+      err => console.log(err)
+    );
+    this.navCtrl.setRoot(JourneysPage);
+    this.presentToastSuccess(this.title_travel + " was deleted");
+  }
 
   private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({

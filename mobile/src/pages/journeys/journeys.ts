@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, AlertController, ItemSliding, ToastController, MenuController } from 'ionic-angular';
+import { NavController, AlertController, ToastController, MenuController, ItemSliding } from 'ionic-angular';
 
+// Pages
+import { AboutPage } from '../about/about';
 import { AddJourneyPage } from '../addJourney/addJourney';
 import { DetailsJourneyPage} from '../detailsJourney/detailsJourney';
-import { AboutPage } from '../about/about';
 import { MapsPage } from '../maps/maps';
 
+// Providers
 import { JourneyService } from '../../providers/journey-service';
 
+// Models
 import { Journey } from './../../models/Journey';
 
 @Component({
@@ -42,7 +45,7 @@ export class JourneysPage implements OnInit {
 
   public getJourneys() {
     this.journeySvc.getJourneys().subscribe((
-      data:Array<Journey>) => {
+      data: Array<Journey>) => {
         this.journeys = data;
         this.loadedJourneys = data;
       }, 
@@ -55,14 +58,14 @@ export class JourneysPage implements OnInit {
     this.journeys = this.loadedJourneys;
   }
 
-  public detailsJourney(id: string, title: string) {
+  public detailsJourney(id, title: string) {
     this.navCtrl.push(DetailsJourneyPage, {
       id_travel: id,
       title_travel: title
     });
   }
 
-  public deleteJourney(id: string) {
+  public deleteJourney(id) {
 
     // 'for' loop through the list, and delete selected item
     for(let i = 0; i < this.journeys.length; i++) {
@@ -83,7 +86,6 @@ export class JourneysPage implements OnInit {
 
     alert(id);
     item.close();
-
   }
 
   public deleteConfirm(id, item: ItemSliding) {

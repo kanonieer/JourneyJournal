@@ -4,16 +4,21 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+// Shared
 import { serverAdress } from './../shared/globalVariables';
 import { handleError } from './../shared/errorHandler';
 
+// Providers
+import { StorageService } from '../providers/storage-service';
+
+// Models
 import { Journey } from './../models/Journey';
 
 @Injectable()
 
 export class JourneyService {
 
-  constructor(private _http: Http) {
+  constructor(private _http: Http, private storageSvc: StorageService) {
 
   }
 
@@ -27,14 +32,16 @@ export class JourneyService {
   }
 
   getJourneys(): Observable<Array<Journey>> {
-    let access_token = localStorage.getItem('token');
+    const access_token = this.storageSvc.get('token');
+
     return this._http.get(serverAdress + '/journeys?access_token=' + access_token, this.options)
       .map((response: Response) => response.json())
       .catch(handleError);
   }
   
   deleteJourney(id: any): Observable<any> {
-    let access_token = localStorage.getItem('token');
+    const access_token = this.storageSvc.get('token');
+    
     return this._http.delete(serverAdress + '/journeys/' + id + '?access_token=' + access_token, this.options)
       .map((response: Response) => response.json())
       .catch(handleError);

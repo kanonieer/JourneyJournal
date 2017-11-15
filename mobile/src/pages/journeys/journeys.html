@@ -16,19 +16,12 @@
 <!-- Main content -->
 <ion-content overflow-scroll="true" class="main-content" padding>
 
-  <!-- Add button (fab) -->
-  <ion-fab right bottom>
-    <button ion-fab [navPush]="addJourneyPage">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
-
   <!-- List of journeys -->
   <ion-list class="journeys-list">
     <!-- The look of the journey -->
     <ion-item-sliding class="journeys-sliding" *ngFor="let journey of journeys" #slidingItems>
-      <ion-item class="journeys-item">
-        <img src="assets/img/example.jpg" (click)="detailsJourney(journey._id, journey.title)">
+      <ion-item class="journeys-item" (click)="detailsJourney(journey._id, journey.title)">
+        <img src="assets/img/example.jpg">
         <div class="item-title">{{ journey.title }}</div>
         <div class="item-subtitle"><i>{{ journey.date_start | date:'dd.MM.yyyy'}} - {{ journey.date_end | date:'dd.MM.yyyy'}}</i></div>
       </ion-item>
@@ -45,4 +38,11 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
+  <!-- Add button (fab) -->
+  <ion-fab bottom right>
+    <button ion-fab [navPush]="addJourneyPage">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

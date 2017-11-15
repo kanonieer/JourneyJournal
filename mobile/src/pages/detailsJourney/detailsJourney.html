@@ -1,21 +1,26 @@
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>{{title_travel}}</ion-title>
+    <ion-buttons end>
+      <button class="menu-btn" ion-button icon-only (click)="presentActionSheet()">
+          <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
  
 <ion-content overflow-scroll="true" class="main-content" padding>
+
+  <ion-fab right bottom>
+    <button ion-fab color="success" (click)="takePicture()">
+      <ion-icon name="camera"></ion-icon>
+    </button>
+  </ion-fab>
+
   <div class="detailsJourney-box">
     <ion-row>
-      <ion-col>
-        <img src="{{pathForImage(lastImage)}}" style="width: 100%" [hidden]="lastImage === null">
-        <h3 [hidden]="lastImage !== null">Please Select Image!</h3>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="detailsJourney-col">
-        <button ion-button color="secondary" full (click)="takePicture()">Take Photo...</button>
-      </ion-col>
+      <!-- <ion-col *ngFor="let image of images">
+      </ion-col> -->
     </ion-row>
   </div>
 </ion-content>

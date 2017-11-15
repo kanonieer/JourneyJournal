@@ -46,13 +46,22 @@ page-app {
 
     .list .item-block .item-inner {
         border: 0px;
+        padding: 0px;
     }
 
-    .item.item-block .item-inner {
-        border: 0px;
+    .item {
+        padding: 0px;
+    }
+
+    .label {
+        margin: 0px;
     }
 
     .item ion-icon[item-left] + .item-inner, .item ion-icon[item-left] + .item-input {
         margin-left: 10px;
+    }
+
+    .item ion-icon[item-left] {
+        margin-left: 15px;
     }
 }

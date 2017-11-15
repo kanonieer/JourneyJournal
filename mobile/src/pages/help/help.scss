@@ -5,10 +5,14 @@ page-help {
 
     .help-list {
 
-      .help-btn {
+      .help-item {
+        border-bottom: 1px solid white;
+        
+        .help-btn {
 
-        div.item-inner {
-          margin-left: 5px;
+          div.item-inner {
+            margin-left: 5px;
+          }
         }
       }
     }

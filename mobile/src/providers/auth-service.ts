@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+// Shared
 import { serverAdress } from './../shared/globalVariables';
 import { handleError } from './../shared/errorHandler';
 
@@ -40,8 +41,8 @@ export class AuthService {
       .catch(handleError);
   }
 
-  getMe(payload: any): Observable<any> {
-    return this._http.post(serverAdress + '/profile', JSON.stringify(payload), this.options)
+  signUpFacebook(payload: any): Observable<any> {
+    return this._http.post(serverAdress + '/facebookAuthorization', JSON.stringify(payload), this.options)
       .map((response: Response) => response.json())
       .catch(handleError);
   }

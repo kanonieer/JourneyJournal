@@ -14,6 +14,7 @@ page-journeys {
 
         .journeys-item {
           padding: 0px !important;
+          background: #ebebeb;
   
           .item-title {
             font-size: 6vw;
@@ -48,11 +49,12 @@ page-journeys {
       
       .item-options {
         border: 0px;
+        background: #ebebeb;
       }
 
       .options-btn {
         margin: 0px;
-        height: 100%;
+        height: 98%;
       }
     }
   }

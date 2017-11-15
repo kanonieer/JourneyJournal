@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
+// Pages
 import { HowToAddJourneyPage } from '../help/howToAddJourney/howToAddJourney';
 
 @Component({
@@ -10,13 +11,13 @@ import { HowToAddJourneyPage } from '../help/howToAddJourney/howToAddJourney';
 
 export class HelpPage {
 
-  public subPages: Array<{ title: string, component: any }>;
+  public subPages: Array<{ title: string, component: any }> = [];
 
   constructor(public navCtrl: NavController) {
 
-    this.subPages = [
+    this.subPages.push(
       {title: 'How to add new journey', component: HowToAddJourneyPage }
-    ];
+    );
   }
 
   goToPage(subPages) {

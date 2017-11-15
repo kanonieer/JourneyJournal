@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, MenuController } from 'ionic-angular';
 
+// Providers
 import { AuthService } from '../../providers/auth-service';
 
 @Component({

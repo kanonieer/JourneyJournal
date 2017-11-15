@@ -1,4 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+
+// Plugins
 import { Geolocation } from '@ionic-native/geolocation';
 
 declare var google;
@@ -7,12 +9,13 @@ declare var google;
   selector: 'page-maps',
   templateUrl: 'maps.html'
 })
+
 export class MapsPage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
-  constructor(public geolocation: Geolocation) {
+  constructor(private geolocation: Geolocation) {
 
     this.loadMap();
   }
@@ -36,7 +39,7 @@ export class MapsPage {
     });
   }
 
-  addMarker(){
+  addMarker() {
     
     let marker = new google.maps.Marker({
       map: this.map,
@@ -49,7 +52,7 @@ export class MapsPage {
     this.addInfoWindow(marker, content);
   }
 
-  addInfoWindow(marker, content){
+  addInfoWindow(marker, content) {
     
     let infoWindow = new google.maps.InfoWindow({
       content: content

@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, MenuController } from 'ionic-angular';
 
+// Pages
 import { JourneysPage } from '../journeys/journeys';
 
+// Plugins
 import { JourneyService } from '../../providers/journey-service';
+import { StorageService } from '../../providers/storage-service';
 
 @Component({
   selector: 'page-addJourney',
@@ -20,7 +23,7 @@ export class AddJourneyPage {
     this.menuCtrl.enable(true);
   }
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService) {
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService, private storageSvc: StorageService) {
 
     this.journeyCredentials.date_start = new Date().toISOString();
     this.journeyCredentials.date_end = new Date().toISOString();
@@ -31,18 +34,18 @@ export class AddJourneyPage {
     date_end     : '',
     title        : '',
     id_disc      : '',
-    access_token : localStorage.getItem('token')
+    access_token : this.storageSvc.get('token')
   }
   
   AddJourney(){
     this.journeySvc.addJourney(this.journeyCredentials).subscribe(
       data => {
+        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
         this.presentToastSuccess(this.journeyCredentials.title + " was added");
-        this.navCtrl.setRoot(JourneysPage);
       },
       err => {
+        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
         this.presentToastError(this.journeyCredentials.title + " wasn't added");
-        this.navCtrl.setRoot(JourneysPage);
         console.log(err);
       }
     );

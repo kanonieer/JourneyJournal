@@ -1,15 +1,18 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, App, LoadingController, Loading, Nav, Events } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Keyboard } from '@ionic-native/keyboard';
 
-import { LoginPage } from '../pages/login/login';
-import { JourneysPage } from '../pages/journeys/journeys';
-import { MapsPage } from '../pages/maps/maps';
+// Plugins
+import { Keyboard } from '@ionic-native/keyboard';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+
+// Pages
 import { AboutPage } from '../pages/about/about';
-import { SettingsPage } from '../pages/settings/settings';
 import { HelpPage } from '../pages/help/help';
+import { JourneysPage } from '../pages/journeys/journeys';
+import { LoginPage } from '../pages/login/login';
+import { MapsPage } from '../pages/maps/maps';
+import { SettingsPage } from '../pages/settings/settings';
 
 @Component({
   selector: 'page-app',
@@ -22,22 +25,21 @@ export class MyApp {
   loading: Loading;
 
   public rootPage: any;
-  public pages: Array<{ title: string, component: any, icon: string }>;
+  public pages: Array<{ title: string, component: any, icon: string }> = [];
   
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, app: App, public events: Events, public loadingCtrl: LoadingController, public keyboard: Keyboard) {
+  constructor(platform: Platform, app: App, loadingCtrl: LoadingController, public events: Events, keyboard: Keyboard, splashScreen: SplashScreen, statusBar: StatusBar) {
 
     this.rootPage = LoginPage;
-    this.pages = [
+    this.pages.push(
       {title: 'Journeys', component: JourneysPage, icon: 'images'},
       {title: 'Maps', component: MapsPage, icon: 'map'},
       {title: 'About', component: AboutPage, icon: 'information-circle'},
-      {title: 'Help', component: HelpPage, icon: 'help-circle'}
-    ];
+      {title: 'Help', component: HelpPage, icon: 'help-circle'});
 
     platform.ready().then(() => {
 
       if((localStorage.getItem('user_logged') == 'true') || (localStorage.getItem('user_logged_fb') == 'true')) {
-        app.getActiveNav().setRoot(JourneysPage);
+        app.getActiveNav().setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
         splashScreen.hide();
       } else {
         splashScreen.hide();
@@ -49,11 +51,11 @@ export class MyApp {
   }
 
   goToPage(page) {
-    this.menu.setRoot(page);
+    this.menu.setRoot(page, {}, {animate: true, direction: 'back'});
   }
 
   goToSettings() {
-    this.menu.setRoot(SettingsPage);
+    this.menu.setRoot(SettingsPage, {}, {animate: true, direction: 'back'});
   }
 
   public logout() {

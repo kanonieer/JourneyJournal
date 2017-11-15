@@ -6,10 +6,12 @@
     </ion-header>
     <ion-content overflow-scroll="true" class="menu-content">  
         <ion-list>
-            <button class="menu-button" ion-item color="light" *ngFor="let page of pages" (click)="goToPage(page.component)" menuClose>
-                <ion-icon item-left name="{{ page.icon }}"></ion-icon>
-                {{ page.title }}
-            </button>
+            <ion-item *ngFor="let page of pages">
+                <button class="menu-button" ion-item color="light" (click)="goToPage(page.component)" menuClose>
+                    <ion-icon item-left name="{{ page.icon }}"></ion-icon>
+                    {{ page.title }}
+                </button>
+            </ion-item>
         </ion-list>
     </ion-content>
     <ion-footer no-border>
