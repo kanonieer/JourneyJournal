@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavController, ToastController, MenuController, ActionSheetController, AlertController, NavParams } from "ionic-angular";
+import { NavController, ToastController, MenuController, ActionSheetController, AlertController, Events, NavParams } from "ionic-angular";
 
 // Pages
 import { JourneysPage } from '../journeys/journeys';
@@ -42,11 +42,22 @@ export class DetailsJourneyPage {
   title_travel: string = "";
   id_travel;
 
+  PhotoOptions = {
+    quality: 100,
+    targetWidth: 2000,
+    targetHeight: 2000,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    sourceType: this.camera.PictureSourceType.CAMERA,
+    allowEdit: true,
+    encodingType: this.camera.EncodingType.JPEG,
+    saveToPhotoAlbum: false
+  };
+
   public images: Array<Image>;
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
-    public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer, private filePath: FilePath, private geolocation: Geolocation, private imageSvc: ImageService,
-    private journeySvc: JourneyService, private storageSvc: StorageService) {
+    public events: Events, public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer, private filePath: FilePath, private geolocation: Geolocation,
+    private imageSvc: ImageService, private journeySvc: JourneyService, private storageSvc: StorageService) {
 
       this.title_travel = navParams.get('title_travel');
       this.id_travel = navParams.get('id_travel');
@@ -71,18 +82,9 @@ export class DetailsJourneyPage {
 
     this.getGeo();
 
-    let PhotoOptions = {
-      quality: 100,
-      targetWidth: 2000,
-      targetHeight: 2000,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      allowEdit: true,
-      encodingType: this.camera.EncodingType.JPEG,
-      saveToPhotoAlbum: true
-    };
+    this.toBool('save_images');
 
-    this.camera.getPicture(PhotoOptions).then(imageData => {
+    this.camera.getPicture(this.PhotoOptions).then(imageData => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
       
@@ -292,7 +294,7 @@ export class DetailsJourneyPage {
   private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
-      duration: 2000,
+      duration: 1500,
       position: "bottom",
       cssClass: "success"
     });
@@ -302,7 +304,7 @@ export class DetailsJourneyPage {
   private presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,
-      duration: 2000,
+      duration: 1500,
       position: "bottom",
       cssClass: "error"
     });
@@ -327,5 +329,9 @@ export class DetailsJourneyPage {
     }).catch((err) => {
       console.log('err', err);
     });
+  }
+
+  toBool(storage) {
+    return this.PhotoOptions.saveToPhotoAlbum = this.storageSvc.get(storage) === 'true' ? true : false;
   }
 }

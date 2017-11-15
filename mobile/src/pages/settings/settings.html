@@ -7,12 +7,58 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content overflow-scroll="true" class="main-content" padding>
-  <div class="settings-box">
-    <ion-row>
-      <ion-col>
-        Coming soon
-      </ion-col>
-    </ion-row>
-  </div>
+<ion-content overflow-scroll="true" class="main-content">
+  <ion-card class="cards-list">
+
+    <ion-card-header color="secondary" class="cards-header">
+      Account
+    </ion-card-header>
+
+    <ion-list class="settings-list">
+
+      <ion-item>
+        <button ion-item class="settings-btn">
+          <ion-icon class="settings-icon" name='mail' item-left></ion-icon>
+          Change e-mail
+        </button>
+      </ion-item>
+
+      <ion-item>
+        <button ion-item class="settings-btn">
+          <ion-icon class="settings-icon" name='lock' item-left></ion-icon>
+          Change password
+        </button>
+      </ion-item>
+
+      <ion-item class="settings-btn last-item">
+        <ion-icon class="settings-icon" name='logo-facebook' item-left></ion-icon>
+        <ion-label>Facebook</ion-label>
+        <ion-toggle class="settings-toggle" color="success"></ion-toggle>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card class="cards-list">
+      
+    <ion-card-header color="secondary" class="cards-header">
+      Personal
+    </ion-card-header>
+
+    <ion-list class="settings-list">
+
+      <ion-item class="settings-btn">
+        <ion-icon class="settings-icon" name='images' item-left></ion-icon>
+        <ion-label>Save images (photo library)</ion-label>
+        <ion-toggle class="settings-toggle" checked={{isChecked}} color="success" (ionChange)="saveImages()"></ion-toggle>
+      </ion-item>
+
+      <ion-item class="settings-btn last-item">
+        <ion-icon class="settings-icon" name='locate' item-left></ion-icon>
+        <ion-label>GPS</ion-label>
+        <ion-toggle class="settings-toggle" color="success"></ion-toggle>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
 </ion-content>

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 
 export function handleError(error: Response) {
+    
     if (error.status === 401) {
         return Observable.throw('Unauthorized');
     }

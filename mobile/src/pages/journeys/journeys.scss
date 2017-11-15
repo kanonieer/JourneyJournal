@@ -1,7 +1,23 @@
 page-journeys {
 
+  .bar-buttons[end] {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .searchbar-search-icon {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  .searchbar-md .searchbar-input {
+    padding: 6px 10px;
+    padding-right: 35px;
+  }
+
   .search-btn {
-    margin-right: 10px;
+    margin-right: 5px;
   }
 
   .main-content {
@@ -55,17 +71,14 @@ page-journeys {
       .options-btn {
         margin: 0px;
         height: 98%;
+        min-height: 98%;
       }
     }
   }
 }
 
 .success {
-  background: linear-gradient(
-    rgba(0,0,0,0.5),
-    rgba(0,0,0,0.5));
-
-    .toast-wrapper {
-      background: #32db64;
-    }
+  .toast-wrapper {
+    background: #32db64;
+  }
 }

@@ -54,7 +54,7 @@ export class AddJourneyPage {
   private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
-      duration: 2000,
+      duration: 1500,
       position: "bottom",
       cssClass: "success"
     });
@@ -64,7 +64,7 @@ export class AddJourneyPage {
   private presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,
-      duration: 2000,
+      duration: 1500,
       position: "bottom",
       cssClass: "error"
     });

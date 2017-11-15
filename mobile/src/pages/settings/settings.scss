@@ -2,10 +2,55 @@ page-settings {
 
   .main-content {
     background: #ebebeb;
-    
-    .settings-box {
-      padding: 0px 20px 0px 20px;
-      margin-top: 15px;
+
+    .cards-list {
+
+      .cards-header {
+        font-size: 6vw;
+      }
+      
+      .settings-list {
+        margin-bottom: 10px;
+
+        ion-item {
+          border: 0;
+        }
+
+        .settings-btn {
+          padding-left: 16px;
+          border-top: 0;
+
+          .settings-icon {
+            color: #ff3860;
+            margin-left: 0;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            min-width: 24px;
+          }
+
+          .item-inner {
+            border-bottom: 1px solid #dedede;
+            margin-left: 15px;
+          }
+
+          .settings-toggle {
+            padding-right: 20px;
+          }
+        }
+
+        .last-item {
+          border: 0;
+
+          .item-inner {
+            border-bottom: 0;
+          }
+
+          .settings-toggle {
+            padding-right: 20px;
+          }
+        }
+      }
     }
   }
 }

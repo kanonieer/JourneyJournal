@@ -6,8 +6,11 @@
     <ion-title *ngIf="!showSearchbar">Journeys</ion-title>
     <ion-searchbar *ngIf="showSearchbar" (ionInput)="getItems($event)"></ion-searchbar>
     <ion-buttons end>
-      <button class="search-btn" ion-button icon-only (click)="toggleSearchbar()">
+      <button *ngIf="!showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbar()">
         <ion-icon name="search"></ion-icon>
+      </button>
+      <button *ngIf="showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbar()">
+        <ion-icon name="arrow-round-forward"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

@@ -113,7 +113,7 @@ export class JourneysPage implements OnInit {
   private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
-      duration: 2000,
+      duration: 1500,
       position: "bottom",
       cssClass: "success"
     });

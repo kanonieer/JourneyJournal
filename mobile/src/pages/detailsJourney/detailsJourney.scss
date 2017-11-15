@@ -23,21 +23,13 @@ page-detailsJourney {
 }
 
 .success {
-  background: linear-gradient(
-    rgba(0,0,0,0.5),
-    rgba(0,0,0,0.5));
-
-    .toast-wrapper {
-      background: #32db64;
-    }
+  .toast-wrapper {
+    background: #32db64;
+  }
 }
 
 .error {
-  background: linear-gradient(
-    rgba(0,0,0,0.5),
-    rgba(0,0,0,0.5));
-
-    .toast-wrapper {
-      background: #e71717;
-    }
+  .toast-wrapper {
+    background: #e71717;
+  }
 }

@@ -51,6 +51,10 @@ page-login {
           border: 1px solid #ffffff;
           border-bottom: 0px !important;
           box-shadow: none !important;
+
+          .text-input {
+            margin: 13px 8px 13px 8px;
+          }
   
           div.item-inner {
             border-bottom-color: #ffffff !important;

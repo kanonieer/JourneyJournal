@@ -63,6 +63,7 @@ export class LoginPage {
             this.storageSvc.set('token', success.data.access_token);
             this.storageSvc.set('email', this.userData.email);
             this.storageSvc.set('user_logged_fb', 'true');
+            this.storageSvc.set('save_images', 'false');
             this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
             this.loading.dismiss();
           },
@@ -82,6 +83,7 @@ export class LoginPage {
         this.storageSvc.set('user_id', data.user._id.toString());
         this.storageSvc.set('token', data.token);
         this.storageSvc.set('user_logged', 'true');
+        this.storageSvc.set('save_images', 'false');
         this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
         this.loading.dismiss();
       },
