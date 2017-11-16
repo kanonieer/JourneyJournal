@@ -17,14 +17,14 @@
     <ion-list class="settings-list">
 
       <ion-item>
-        <button ion-item class="settings-btn">
+        <button ion-item class="settings-btn" [disabled]="isEnabled" (click)="changeEmail()">
           <ion-icon class="settings-icon" name='mail' item-left></ion-icon>
           Change e-mail
         </button>
       </ion-item>
 
       <ion-item>
-        <button ion-item class="settings-btn">
+        <button ion-item class="settings-btn" [disabled]="isEnabled" (click)="changePassword()">
           <ion-icon class="settings-icon" name='lock' item-left></ion-icon>
           Change password
         </button>
@@ -33,7 +33,7 @@
       <ion-item class="settings-btn last-item">
         <ion-icon class="settings-icon" name='logo-facebook' item-left></ion-icon>
         <ion-label>Facebook</ion-label>
-        <ion-toggle class="settings-toggle" color="success"></ion-toggle>
+        <ion-toggle class="settings-toggle" checked={{isCheckedFb}} color="success"></ion-toggle>
       </ion-item>
 
     </ion-list>
@@ -50,7 +50,7 @@
       <ion-item class="settings-btn">
         <ion-icon class="settings-icon" name='images' item-left></ion-icon>
         <ion-label>Save images (photo library)</ion-label>
-        <ion-toggle class="settings-toggle" checked={{isChecked}} color="success" (ionChange)="saveImages()"></ion-toggle>
+        <ion-toggle class="settings-toggle" checked={{isCheckedImage}} color="success" (ionChange)="saveImages()"></ion-toggle>
       </ion-item>
 
       <ion-item class="settings-btn last-item">

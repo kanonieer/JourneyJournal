@@ -54,3 +54,15 @@ page-settings {
     }
   }
 }
+
+.success {
+  .toast-wrapper {
+    background: #32db64;
+  }
+}
+
+.error {
+  .toast-wrapper {
+    background: #e71717;
+  }
+}

@@ -26,11 +26,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 // Providers
+import { AccountService } from '../providers/account-service';
 import { AuthService } from '../providers/auth-service';
 import { ImageService } from '../providers/image-service';
 import { JourneyService } from '../providers/journey-service';
 import { StorageService } from '../providers/storage-service';
-import { UserService } from '../providers/user-service';
 
 @NgModule({
   declarations: [
@@ -73,11 +73,11 @@ import { UserService } from '../providers/user-service';
     Keyboard,
     SplashScreen,
     StatusBar,
+    AccountService,
     AuthService,
     ImageService,
     JourneyService,
     StorageService,
-    UserService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

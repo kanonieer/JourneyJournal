@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title *ngIf="!showSearchbar">Journeys</ion-title>
-    <ion-searchbar *ngIf="showSearchbar" (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-searchbar *ngIf="showSearchbar" [(ngModel)]="searchQuery" (ionInput)="getItems($event)"></ion-searchbar>
     <ion-buttons end>
       <button *ngIf="!showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbar()">
         <ion-icon name="search"></ion-icon>

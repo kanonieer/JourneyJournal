@@ -31,6 +31,7 @@ export class JourneysPage implements OnInit {
   public journeys: Array<Journey>;
   public loadedJourneys: Array<Journey>;
   public showSearchbar: boolean = false;
+  public searchQuery;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService) {
     this.getJourneys();
@@ -38,6 +39,8 @@ export class JourneysPage implements OnInit {
 
   toggleSearchbar() {
     this.showSearchbar = !this.showSearchbar;
+    this.searchQuery = '';
+    this.initializeItems();
   }
 
   ngOnInit() {
