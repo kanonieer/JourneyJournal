@@ -1,0 +1,58 @@
+page-account {
+    
+    .main-content {
+        background: #333F4B;
+
+        ion-col {
+            padding: 3px;
+        }
+
+        .change-box {
+            margin-top: 25px;
+
+            .change-list {
+                margin-top: 8px;
+                margin-bottom: 5px;
+                border-radius: 0px;
+            
+                .list-item {
+                    padding: 0;
+                    font-size: 1.0em;
+                    margin-bottom: 5px;
+                    border: 1px solid #ffffff;
+                    border-bottom: 0px !important;
+                    box-shadow: none !important;
+
+                    .text-input {
+                        margin: 13px 8px 13px 8px;
+                    }
+            
+                    div.item-inner {
+                        border-bottom-color: #ffffff !important;
+                        box-shadow: none !important;
+                        padding: 0px;
+                    }
+                }
+            }
+
+            .signin-col {
+                margin: 0px 20px 0px 20px;
+                padding-bottom: 4px;
+            }
+        }
+    }
+}
+
+.success {
+    .toast-wrapper {
+      background: #32db64;
+    }
+  }
+  
+  .error {
+    .toast-wrapper {
+      background: #e71717;
+    }
+  }
+  
+    

@@ -31,12 +31,20 @@ export class LoginPage {
     public toastCtrl: ToastController, public events: Events, private fb: Facebook, private authSvc: AuthService, private storageSvc: StorageService) {
      
      events.subscribe('user:logout', () => {
-        if (this.storageSvc.get('user_logged') === "true") {
+        if(this.storageSvc.get('user_logged') === "true") {
           this.logoutUser();
         }
-        if (this.storageSvc.get('user_logged_fb') === "true") {
+        if(this.storageSvc.get('user_logged_fb') === "true") {
           this.logoutFacebook();
         }
+     });
+
+     events.subscribe('user:fb', () => {
+       if(this.storageSvc.get('email')) {
+         this.logoutFacebook2();
+       } else {
+         this.loginFacebook();
+       }
      });
     }
 
@@ -51,7 +59,7 @@ export class LoginPage {
         this.userData = {email: profile['email']};
 
         let facebookCredentials = {
-          user_id: null,
+          user_id: this.storageSvc.get('user_id'),
           facebook_user_id: res.authResponse.userID,
           token: res.authResponse.accessToken
         };
@@ -124,6 +132,16 @@ export class LoginPage {
     this.fb.logout();
     this.storageSvc.clear();
     this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'forward'});
+    this.loading.dismiss();
+  }
+
+  public logoutFacebook2() {
+    this.showLoading();
+    this.fb.logout();
+    this.storageSvc.remove('facebook_user_id');
+    this.storageSvc.remove('email');
+    this.storageSvc.remove('user_logged_fb');
+    this.storageSvc.set('user_logged', 'true');
     this.loading.dismiss();
   }
 

@@ -15,7 +15,7 @@
         </ion-col>
       </ion-row>
     </div>
-    <form (ngSubmit)="loginUser()" #registerForm="ngForm">
+    <form (ngSubmit)="loginUser()" #loginForm="ngForm">
       <ion-row>
         <ion-col>
           <ion-list class="login-list" inset>
@@ -34,7 +34,7 @@
 
       <ion-row>
         <ion-col class="signin-col">
-          <button ion-button color="secondary" full type="submit" [disabled]="!registerForm.form.valid">Sign in</button>
+          <button ion-button color="secondary" full type="submit" [disabled]="!loginForm.form.valid">Sign in</button>
         </ion-col>
       </ion-row>
     </form>

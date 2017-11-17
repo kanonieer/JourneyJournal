@@ -17,14 +17,21 @@
     <ion-list class="settings-list">
 
       <ion-item>
-        <button ion-item class="settings-btn" [disabled]="isEnabled" (click)="changeEmail()">
+        <button ion-item class="settings-btn first-btn" [disabled]="!isEnabled" (click)="openModal({modalNum: 0})">
+          <ion-icon class="settings-icon" name='person-add' item-left></ion-icon>
+          Create an account
+        </button>
+      </ion-item>
+
+      <ion-item>
+        <button ion-item class="settings-btn" [disabled]="isEnabled" (click)="openModal({modalNum: 1})">
           <ion-icon class="settings-icon" name='mail' item-left></ion-icon>
           Change e-mail
         </button>
       </ion-item>
 
       <ion-item>
-        <button ion-item class="settings-btn" [disabled]="isEnabled" (click)="changePassword()">
+        <button ion-item class="settings-btn" [disabled]="isEnabled" (click)="openModal({modalNum: 2})">
           <ion-icon class="settings-icon" name='lock' item-left></ion-icon>
           Change password
         </button>
@@ -33,14 +40,14 @@
       <ion-item class="settings-btn last-item">
         <ion-icon class="settings-icon" name='logo-facebook' item-left></ion-icon>
         <ion-label>Facebook</ion-label>
-        <ion-toggle class="settings-toggle" checked={{isCheckedFb}} color="success"></ion-toggle>
+        <ion-toggle class="settings-toggle" checked={{isCheckedFb}} color="success" (ionChange)="addFb()"></ion-toggle>
       </ion-item>
 
     </ion-list>
   </ion-card>
 
   <ion-card class="cards-list">
-      
+
     <ion-card-header color="secondary" class="cards-header">
       Personal
     </ion-card-header>

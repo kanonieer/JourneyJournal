@@ -4,6 +4,7 @@ import { MyApp } from './app.component';
 
 // Pages
 import { AboutPage } from '../pages/about/about';
+import { AccountPage } from '../pages/account/account';
 import { AddJourneyPage } from '../pages/addJourney/addJourney';
 import { DetailsJourneyPage } from '../pages/detailsJourney/detailsJourney';
 import { HelpPage } from '../pages/help/help';
@@ -36,6 +37,7 @@ import { StorageService } from '../providers/storage-service';
   declarations: [
     MyApp,
     AboutPage,
+    AccountPage,
     AddJourneyPage,
     DetailsJourneyPage,
     HelpPage,
@@ -53,6 +55,7 @@ import { StorageService } from '../providers/storage-service';
   entryComponents: [
     MyApp,
     AboutPage,
+    AccountPage,
     AddJourneyPage,
     DetailsJourneyPage,
     HelpPage,
