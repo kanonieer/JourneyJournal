@@ -5,7 +5,6 @@ const jwt           = require('jsonwebtoken');
 
 function generateToken(user) {
     return jwt.sign(user,'server secret temp',{ expiresIn: 60000*12000 });
-
 }
 
 module.exports = {

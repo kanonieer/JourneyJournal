@@ -5,7 +5,7 @@ import 'rxjs/add/observable/throw';
 export function handleError(error: Response) {
     
     if (error.status === 401) {
-        return Observable.throw('Unauthorized');
+        return Observable.throw(error.body);
     }
     if (error.status === 500) {
         return Observable.throw('Server down');

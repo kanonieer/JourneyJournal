@@ -147,54 +147,5 @@ module.exports = {
                 }
             });
         });
-    },
-    addDropbox: (req, user_id, res) => {
-        node_dropbox.AccessToken(config.dropboxAuth.key, config.dropboxAuth.secret, req.query.code, config.dropboxAuth.callbackURL, (err, body) => {
-            if (err) throw err;
-            console.log(body);
-            if (!body.access_token) {
-                res.redirect(config.dropboxAuth.redirectURL+'?code='+401.1);
-                console.log('No access token provided!');
-            } else {
-                User.findOne({'dropbox.access_token' : body.access_token}, (err, anotherUser) => {
-                    if (err) throw err;
-
-                    if (anotherUser) {
-                        res.redirect(config.dropboxAuth.redirectURL+'?code='+401.3);
-                        console.log('Email already taken!');                    
-                    } else {
-                        console.log(user_id);
-                        if (!user_id) {
-                            res.redirect(config.dropboxAuth.redirectURL+'?code='+401);
-                            console.log('User not provided!');  
-                        } else {
-                            User.findOne({_id: user_id}, (err, user) => {
-                                if (err) throw err;
-
-                                if (!user) {
-                                res.redirect(config.dropboxAuth.redirectURL+'?code='+404);
-                                console.log('User not found!');   
-                                }
-                                if (user) {
-                                    if (user.dropbox.access_token) {
-                                        res.redirect(config.dropboxAuth.redirectURL+'?code='+401.2);
-                                        console.log('User already have a dropbox account');                                  
-                                    } else {
-                                        user.dropbox.access_token = body.access_token;
-
-                                        user.save((err) => {
-                                            if (err) throw err;
-
-                                            console.log('Dropbox account successfuly added');
-                                        });
-                                        res.redirect(config.dropboxAuth.redirectURL+'?code='+201);   
-                                    }
-                                }
-                            });                              
-                        }
-                    }
-                });
-            }   
-        })
     }
 }
