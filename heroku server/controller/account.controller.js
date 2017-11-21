@@ -5,7 +5,7 @@ const jwt           = require('jsonwebtoken');
 
 module.exports = {
     changeEmail: (req, res) => {
-        var oldEmail = req.body.form.oldEmail, newEmail = req.body.form.newEmail;
+        var oldEmail = req.body.form.oldEmail.toLowerCase(), newEmail = req.body.form.newEmail.toLowerCase();
 
         User.findOne({_id: req.user._doc._id}, (err, user) => {
             if (err) throw err;

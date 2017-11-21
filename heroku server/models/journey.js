@@ -7,7 +7,8 @@ const journey = new Schema({
         date_end     : Date,
         id_user      : String,
         title        : String,
-        id_disc      : String
+        id_disc      : String,
+        description  : String
 });
 
 

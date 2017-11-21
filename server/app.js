@@ -5,17 +5,22 @@ const database    = require('./config/database');
 const app         = express();
 const mongoose    = require('mongoose');
 const passport    = require('passport');
+const cors        = require('cors');
 
 let port = process.env.PORT || 8080;
 
+app.use(cors());
+app.options('*', cors());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
 //Body Parser
+
+app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 

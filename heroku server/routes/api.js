@@ -60,6 +60,8 @@ module.exports = function(app, passport) {
     app.get('/journeys', authenticate, (req, res) => journeyController.getJourneys(req, res));
     //app journey by id
     app.get('/journeys/:id', authenticate, (req, res) => journeyController.getJourneyById(req, res));
+    //edit journey
+    app.patch('/journeys/:id', authenticatem, (req, res) => journeyController.editJourney(req, res));
     //get images of journey
     app.get('/journeys/:id/images', authenticate, (req, res) => imageController.getImages(req, res));  
     //save image to database
