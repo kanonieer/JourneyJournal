@@ -34,17 +34,18 @@ export class AddJourneyPage {
     date_end     : '',
     title        : '',
     id_disc      : '',
+    description  : '',
     access_token : this.storageSvc.get('token')
   }
   
   AddJourney(){
     this.journeySvc.addJourney(this.journeyCredentials).subscribe(
-      data => {
-        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
+      (data) => {
+        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
         this.presentToastSuccess(this.journeyCredentials.title + " was added");
       },
-      err => {
-        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
+      (err) => {
+        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
         this.presentToastError(this.journeyCredentials.title + " wasn't added");
         console.log(err);
       }

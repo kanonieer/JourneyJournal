@@ -58,20 +58,20 @@ export class AccountPage {
     this.accountSvc.changeEmail(form.value).subscribe(
       (data) => {
         this.dismiss();
-        this.presentToastSuccess('E-mail changed');
+        this.presentToastSuccess(data.message);
       },
       (error) => {
         if (error.code === undefined) {
-          this.presentToastError('No permission');
+          this.presentToastError(error.message);
         }
         if (error.code === 401.1) {
-          this.presentToastError('You have not added an email login option');
+          this.presentToastError(error.message);
         }
         if (error.code === 401.2) {
-          this.presentToastError('Invalid old e-mail');
+          this.presentToastError(error.message);
         }
         if (error.code === 401.3) {
-          this.presentToastError('New e-mail already taken');
+          this.presentToastError(error.message);
         }
       }
     );
@@ -83,19 +83,21 @@ export class AccountPage {
         newPassword: form.value.newPassword
     };
 
-    if(form.value.newPassword === form.value.confirmPassword) {
+    if(form.value.oldPassword === form.value.newPassword) {
+      this.presentToastError('New password is the same as old one');
+    } else if(form.value.newPassword === form.value.confirmPassword) {
         this.accountSvc.changePassword(payload).subscribe(
             (data) => {
                 this.logout();
                 this.dismiss();
-                this.presentToastSuccess('Password changed');
+                this.presentToastSuccess(data.message);
             },
             (error) => {
                 if (error.code === undefined) {
-                    this.presentToastError('No permission');
+                    this.presentToastError(error.message);
                 }
                 if (error.code === 401.1) {
-                    this.presentToastError('Invalid password');
+                    this.presentToastError(error.message);
                 }
             }
         );

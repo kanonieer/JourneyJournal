@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 // Shared
 import { serverAdress } from './../shared/globalVariables';
-import { handleError } from './../shared/errorHandler';
+import { successHandle, errorHandle } from './../shared/Handler';
 
 export class User {
   email: string;
@@ -31,24 +31,24 @@ export class AuthService {
 
   signUpBasic(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/signup', JSON.stringify(payload), this.options)
-      .map((response: Response) => response.json())
-      .catch(handleError);
+      .map(successHandle)
+      .catch(errorHandle);
   }
   
   loginBasic(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/login', JSON.stringify(payload), this.options)
-      .map((response: Response) => response.json())
-      .catch(handleError);
+      .map(successHandle)
+      .catch(errorHandle);
   }
 
   signUpFacebook(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/facebookAuthorization', JSON.stringify(payload), this.options)
-      .map((response: Response) => response.json())
-      .catch(handleError);
+      .map(successHandle)
+      .catch(errorHandle);
   }
 
   public logout() {
-    return Observable.create(observer => {
+    return Observable.create((observer) => {
       this.currentUser = null;
       observer.next(true);
       observer.complete();

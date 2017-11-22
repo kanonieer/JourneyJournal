@@ -19,7 +19,7 @@
           <ion-list class="change-list" inset>
 
             <ion-item class="list-item">
-              <ion-input type="text" placeholder="E-mail" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
+              <ion-input type="text" autocapitalize="off" placeholder="E-mail" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
 
             <ion-item class="list-item">
@@ -43,11 +43,11 @@
           <ion-list class="change-list" inset>
 
             <ion-item class="list-item">
-              <ion-input type="text" placeholder="Old e-mail" name="oldEmail" clearInput [(ngModel)]="emailCredentials.oldEmail" required></ion-input>
+              <ion-input type="text" autocapitalize="off" placeholder="Old e-mail" name="oldEmail" clearInput [(ngModel)]="emailCredentials.oldEmail" required></ion-input>
             </ion-item>
 
             <ion-item class="list-item">
-              <ion-input type="text" placeholder="New e-mail" name="newEmail" clearInput [(ngModel)]="emailCredentials.newEmail" required></ion-input>
+              <ion-input type="text" autocapitalize="off" placeholder="New e-mail" name="newEmail" clearInput [(ngModel)]="emailCredentials.newEmail" required></ion-input>
             </ion-item>
 
           </ion-list>

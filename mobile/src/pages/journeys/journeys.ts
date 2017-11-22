@@ -47,12 +47,12 @@ export class JourneysPage implements OnInit {
   }
 
   public getJourneys() {
-    this.journeySvc.getJourneys().subscribe((
-      data: Array<Journey>) => {
+    this.journeySvc.getJourneys().subscribe(
+      (data: Array<Journey>) => {
         this.journeys = data;
         this.loadedJourneys = data;
       }, 
-      err => console.log(err)
+      (err) => console.log(err)
     );
   }
 
@@ -75,8 +75,8 @@ export class JourneysPage implements OnInit {
       if(this.journeys[i]._id == id) {
         this.journeys.splice(i, 1);
         this.journeySvc.deleteJourney(id).subscribe(
-          result => console.log(result),
-          err => console.log(err)
+          (result) => console.log(result),
+          (err) => console.log(err)
         );
         this.presentToastSuccess("Journey was deleted");
         this.getJourneys();

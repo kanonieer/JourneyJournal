@@ -65,17 +65,17 @@ export class LoginPage {
         };
 
         this.authSvc.signUpFacebook(facebookCredentials).subscribe(
-          success => {
+          (success) => {
             this.storageSvc.set('facebook_user_id', res.authResponse.userID);
             this.storageSvc.set('user_id', success.data.payload_user_id);
             this.storageSvc.set('token', success.data.access_token);
             this.storageSvc.set('email', this.userData.email);
             this.storageSvc.set('user_logged_fb', 'true');
             this.storageSvc.set('save_images', 'false');
-            this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
+            this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
             this.loading.dismiss();
           },
-          err => {
+          (err) => {
             alert(err);
             this.loading.dismiss();
           }
@@ -87,19 +87,17 @@ export class LoginPage {
   public loginUser() {
     this.showLoading();
     this.authSvc.loginBasic(this.registerCredentials).subscribe(
-      data => {
+      (data) => {
         this.storageSvc.set('user_id', data.user._id.toString());
         this.storageSvc.set('token', data.token);
         this.storageSvc.set('user_logged', 'true');
         this.storageSvc.set('save_images', 'false');
-        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
+        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
         this.loading.dismiss();
       },
-      err => {
-        if(err === 'Unauthorized') {
-          this.loading.dismiss();
-          this.presentToast("Invalid email or password");
-        }
+      (err) => {
+        this.loading.dismiss();
+        this.presentToast("Invalid email or password");
       }
     );
   }
@@ -131,7 +129,7 @@ export class LoginPage {
     this.showLoading();
     this.fb.logout();
     this.storageSvc.clear();
-    this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'forward'});
+    this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'back'});
     this.loading.dismiss();
   }
 
@@ -148,9 +146,9 @@ export class LoginPage {
   public logoutUser() {
     this.showLoading();
     this.authSvc.logout().subscribe(
-      data => {
+      (data) => {
         this.storageSvc.clear();
-        this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'forward'});
+        this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'back'});
         this.loading.dismiss();
       }
     );

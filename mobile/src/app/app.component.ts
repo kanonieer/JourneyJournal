@@ -39,7 +39,7 @@ export class MyApp {
     platform.ready().then(() => {
 
       if((localStorage.getItem('user_logged') == 'true') || (localStorage.getItem('user_logged_fb') == 'true')) {
-        app.getActiveNav().setRoot(JourneysPage, {}, {animate: true, direction: 'forward'});
+        app.getActiveNav().setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
         splashScreen.hide();
       } else {
         splashScreen.hide();

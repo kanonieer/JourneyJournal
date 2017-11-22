@@ -27,7 +27,7 @@ export class RegisterPage {
 
   public register() {
     this.authSvc.signUpBasic(this.registerCredentials).subscribe(
-      success => {
+      (success) => {
         if (success) {
           this.createSuccess = true;
           this.showPopup("Success", "Account created");
@@ -35,7 +35,7 @@ export class RegisterPage {
           this.showPopup("Error", "Problem creating account");
         }
       },
-      error => {
+      (error) => {
         this.showPopup("Error", error);
       });
   }
@@ -46,7 +46,7 @@ export class RegisterPage {
       subTitle: text,
       buttons: [{
         text: 'OK',
-        handler: data => {
+        handler: (data) => {
           if (this.createSuccess) {
             this.navCtrl.popToRoot();
           }

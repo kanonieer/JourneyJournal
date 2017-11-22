@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 // Shared
 import { serverAdress } from './../shared/globalVariables';
-import { handleError } from './../shared/errorHandler';
+import { successHandle, errorHandle } from './../shared/Handler';
 
 // Providers
 import { StorageService } from '../providers/storage-service';
@@ -27,23 +27,23 @@ export class JourneyService {
 
   addJourney(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/journeys', JSON.stringify(payload), this.options)
-      .map((response: Response) => response.json())
-      .catch(handleError);
+      .map(successHandle)
+      .catch(errorHandle);
   }
 
   getJourneys(): Observable<Array<Journey>> {
     const access_token = this.storageSvc.get('token');
 
     return this._http.get(serverAdress + '/journeys?access_token=' + access_token, this.options)
-      .map((response: Response) => response.json())
-      .catch(handleError);
+      .map(successHandle)
+      .catch(errorHandle);
   }
   
   deleteJourney(id: any): Observable<any> {
     const access_token = this.storageSvc.get('token');
     
     return this._http.delete(serverAdress + '/journeys/' + id + '?access_token=' + access_token, this.options)
-      .map((response: Response) => response.json())
-      .catch(handleError);
+      .map(successHandle)
+      .catch(errorHandle);
   }
 }

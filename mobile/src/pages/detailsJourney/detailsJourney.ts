@@ -99,12 +99,12 @@ export class DetailsJourneyPage {
       };
 
       this.imageSvc.saveImage(imageCredentials).subscribe(
-        data => {
+        (data) => {
           this.uploadToCloudinary(imageData, data._id);
           //alert("Picture was saved");
           this.presentToastSuccess("Picture was saved");
         },
-        err => {
+        (err) => {
           //alert("Picture wasn't saved");
           this.presentToastError("Picture wasn't saved");
         }
@@ -125,12 +125,12 @@ export class DetailsJourneyPage {
     };
 
     fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
-      data => {
+      (data) => {
         // success
         alert("success: " + imageName);
         //this.presentToast("Success: " + imageName);
       },
-      err => {
+      (err) => {
         // error
         alert("error" + JSON.stringify(err));
       }
@@ -284,10 +284,10 @@ export class DetailsJourneyPage {
   public deleteJourney(id) {
     
     this.journeySvc.deleteJourney(id).subscribe(
-      result => console.log(result),
-      err => console.log(err)
+      (result) => console.log(result),
+      (err) => console.log(err)
     );
-    this.navCtrl.setRoot(JourneysPage);
+    this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
     this.presentToastSuccess(this.title_travel + " was deleted");
   }
 
