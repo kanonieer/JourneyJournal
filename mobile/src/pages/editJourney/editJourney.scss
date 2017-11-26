@@ -1,0 +1,71 @@
+page-editJourney {
+  
+    .main-content {
+      background: #333F4B;
+  
+      ion-col {
+        padding: 3px;
+      }
+  
+      .editJourney-box {
+        margin-top: 25px;
+  
+        .editJourney-list {
+          margin-top: 8px;
+          margin-bottom: 15px;
+          border-radius: 0px;
+  
+          .list-item {
+            font-size: 1.0em;
+            margin-bottom: 5px;
+            border: 1px solid #ffffff;
+            border-bottom: 0px !important;
+            box-shadow: none !important;
+            padding: 0px;
+  
+            div.item-inner {
+              border-bottom-color: #ffffff !important;
+              box-shadow: none !important;
+              padding: 0px;
+            }
+  
+            .item-label {
+              margin: 0px;
+              padding-left: 8px;
+            }
+          }
+  
+          .date-col-left {
+            padding-left: 0px;
+            padding-bottom: 0px;
+            padding-top: 0px;          
+          }
+  
+          .date-col-right {
+            padding-right: 0px;
+            padding-bottom: 0px;
+            padding-top: 0px;          
+          }
+        }
+  
+        .editJourney-col {
+          margin: 0px 20px 0px 20px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+  
+  .success {
+    
+    .toast-wrapper {
+      background: #32db64;
+    }
+  }
+  
+  .error {
+  
+    .toast-wrapper {
+      background: #e71717;
+    }
+  }

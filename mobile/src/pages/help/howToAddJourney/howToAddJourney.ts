@@ -17,6 +17,5 @@ export class HowToAddJourneyPage {
   }
 
   constructor(public menuCtrl: MenuController) {
-
   }
 }

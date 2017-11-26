@@ -20,6 +20,11 @@ page-journeys {
     margin-right: 5px;
   }
 
+  .list-ios > .item-block:last-child,
+  .list-ios > .item-wrapper:last-child .item-block {
+    border-bottom: 0;
+  }
+
   .main-content {
     background: #ebebeb;
 

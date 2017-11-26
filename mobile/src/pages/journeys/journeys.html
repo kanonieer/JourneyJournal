@@ -23,14 +23,14 @@
   <ion-list class="journeys-list">
     <!-- The look of the journey -->
     <ion-item-sliding class="journeys-sliding" *ngFor="let journey of journeys" #slidingItems>
-      <ion-item class="journeys-item" (click)="detailsJourney(journey._id, journey.title)">
+      <ion-item class="journeys-item" (click)="detailsJourney(journey._id, journey.title, journey.date_start, journey.date_end)">
         <img src="assets/img/example.jpg">
         <div class="item-title">{{ journey.title }}</div>
         <div class="item-subtitle"><i>{{ journey.date_start | date:'dd.MM.yyyy'}} - {{ journey.date_end | date:'dd.MM.yyyy'}}</i></div>
       </ion-item>
       <!-- Slide options -->
       <ion-item-options class="item-options" (ionSwipe)="deleteConfirm(journey._id, slidingItems)">
-        <button class="options-btn" ion-button color="primary" (click)="editJourney(journey._id, slidingItems)">
+        <button class="options-btn" ion-button color="primary" (click)="editJourney(journey._id, journey.title, journey.date_start, journey.date_end, slidingItems)">
           <ion-icon name="clipboard"></ion-icon>
             <div>Edit</div>
         </button>

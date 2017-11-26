@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, AlertController, ToastController, MenuController, ItemSliding } from 'ionic-angular';
+import { NavController, AlertController, ToastController, MenuController, ModalController, ItemSliding } from 'ionic-angular';
 
 // Pages
-import { AboutPage } from '../about/about';
 import { AddJourneyPage } from '../addJourney/addJourney';
-import { DetailsJourneyPage} from '../detailsJourney/detailsJourney';
-import { MapsPage } from '../maps/maps';
+import { DetailsJourneyPage } from '../detailsJourney/detailsJourney';
+import { EditJourneyPage } from '../editJourney/editJourney';
 
 // Providers
 import { JourneyService } from '../../providers/journey-service';
@@ -25,15 +24,14 @@ export class JourneysPage implements OnInit {
   }
 
   addJourneyPage = AddJourneyPage;
-  aboutPage = AboutPage;
-  mapsPage = MapsPage;
 
   public journeys: Array<Journey>;
   public loadedJourneys: Array<Journey>;
   public showSearchbar: boolean = false;
   public searchQuery;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, public menuCtrl: MenuController, 
+    public modalCtrl: ModalController, private journeySvc: JourneyService) {
     this.getJourneys();
   }
 
@@ -61,15 +59,16 @@ export class JourneysPage implements OnInit {
     this.journeys = this.loadedJourneys;
   }
 
-  public detailsJourney(id, title: string) {
+  public detailsJourney(id: String, title: String, dateS: Date, dateE: Date) {
     this.navCtrl.push(DetailsJourneyPage, {
-      id_travel: id,
-      title_travel: title
+      id_journey: id,
+      title_journey: title,
+      date_start: dateS,
+      date_end: dateE
     });
   }
 
-  public deleteJourney(id) {
-
+  public deleteJourney(id: String) {
     // 'for' loop through the list, and delete selected item
     for(let i = 0; i < this.journeys.length; i++) {
       if(this.journeys[i]._id == id) {
@@ -85,14 +84,19 @@ export class JourneysPage implements OnInit {
     }
   }
 
-  public editJourney(id, item: ItemSliding) {
-
-    alert(id);
+  public editJourney(id: String, title: String, dateS: Date, dateE: Date, item: ItemSliding) {
     item.close();
+    let data = {
+      id_journey: id,
+      title_journey: title,
+      date_start: dateS,
+      date_end: dateE
+    };
+    let modal = this.modalCtrl.create(EditJourneyPage, data); 
+    modal.present();
   }
 
-  public deleteConfirm(id, item: ItemSliding) {
-
+  public deleteConfirm(id: String, item: ItemSliding) {
     item.close();
     const alert = this.alertCtrl.create({
       title: 'Confirm delete',
@@ -127,7 +131,7 @@ export class JourneysPage implements OnInit {
     this.initializeItems();
     let typedValue = searchbar.srcElement.value;
 
-    // trim => remove whitespace from both sides of a string
+    // trim => remove whitespace from both sides of a String
     if (typedValue && typedValue.trim() !== '') {
       this.journeys = this.journeys.filter((journey) => {
         if(journey.title && typedValue) {

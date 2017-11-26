@@ -1,31 +1,27 @@
 <ion-menu [content]="menu">
-    <ion-header>
-        <ion-toolbar class="top-toolbar">
-            <img src="assets/img/logo.png" alt="">
-        </ion-toolbar>
-    </ion-header>
-    <ion-content overflow-scroll="true" class="menu-content">  
-        <ion-list>
-            <ion-item *ngFor="let page of pages">
-                <button class="menu-button" ion-item color="light" (click)="goToPage(page.component)" menuClose>
-                    <ion-icon item-left name="{{ page.icon }}"></ion-icon>
-                    {{ page.title }}
-                </button>
-            </ion-item>
-        </ion-list>
-    </ion-content>
-    <ion-footer>
-        <ion-toolbar class="bottom-toolbar">
-            <button class="menu-button" ion-item color="light" (click)="logout()" menuClose>
-                <ion-icon item-left name="exit"></ion-icon>
-                Logout
-            </button>
-            <button ion-item color="light" (click)="goToSettings()" menuClose>
-                <ion-icon item-left name="settings"></ion-icon>
-                Settings
-            </button>
-        </ion-toolbar>
-    </ion-footer>
+  <ion-header>
+    <ion-toolbar class="top-toolbar">
+      <img src="assets/img/logo.png" alt="">
+    </ion-toolbar>
+  </ion-header>
+  <ion-content overflow-scroll="true" class="menu-content">
+    <ion-list>
+      <ion-item *ngFor="let page of pages">
+        <button class="menu-button" ion-item color="light" (click)="goToPage(page.component)" menuClose>
+          <ion-icon item-left name="{{ page.icon }}"></ion-icon>
+          {{ page.title }}
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <ion-footer>
+    <ion-toolbar class="bottom-toolbar">
+      <button ion-item color="light" (click)="logout()" menuClose>
+        <ion-icon item-left name="exit"></ion-icon>
+        Logout
+      </button>
+    </ion-toolbar>
+  </ion-footer>
 </ion-menu>
 
 <ion-nav #menu [root]="rootPage"></ion-nav>

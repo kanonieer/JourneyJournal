@@ -24,7 +24,6 @@ export class AddJourneyPage {
   }
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService, private storageSvc: StorageService) {
-
     this.journeyCredentials.date_start = new Date().toISOString();
     this.journeyCredentials.date_end = new Date().toISOString();
   }
@@ -38,7 +37,7 @@ export class AddJourneyPage {
     access_token : this.storageSvc.get('token')
   }
   
-  AddJourney(){
+  addJourney(){
     this.journeySvc.addJourney(this.journeyCredentials).subscribe(
       (data) => {
         this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});

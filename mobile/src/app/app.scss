@@ -28,6 +28,7 @@ page-app {
     }
 
     .bottom-toolbar {
+        min-height: 0;
         -webkit-box-shadow: 0px 0px 6px rgba(0,0,0,.7);
         -moz-box-shadow: 0px 0px 6px rgba(0,0,0,.7);
         box-shadow: 0px 0px 6px rgba(0,0,0,.7);

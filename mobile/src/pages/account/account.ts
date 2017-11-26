@@ -12,6 +12,7 @@ import { AuthService } from '../../providers/auth-service';
 })
 
 export class AccountPage {
+
   modal;
   createForm = false;
   emailForm = false;
@@ -34,8 +35,8 @@ export class AccountPage {
   };
 
   constructor(public params: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, public events: Events, private accountSvc: AccountService, private authSvc: AuthService) {
-    this.startModal();
     this.checkedModal();
+    this.startModal();
   }
 
   createAccount(form: NgForm) {
@@ -82,7 +83,7 @@ export class AccountPage {
         oldPassword: form.value.oldPassword,
         newPassword: form.value.newPassword
     };
-
+    
     if(form.value.oldPassword === form.value.newPassword) {
       this.presentToastError('New password is the same as old one');
     } else if(form.value.newPassword === form.value.confirmPassword) {

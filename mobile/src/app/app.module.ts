@@ -7,6 +7,7 @@ import { AboutPage } from '../pages/about/about';
 import { AccountPage } from '../pages/account/account';
 import { AddJourneyPage } from '../pages/addJourney/addJourney';
 import { DetailsJourneyPage } from '../pages/detailsJourney/detailsJourney';
+import { EditJourneyPage } from '../pages/editJourney/editJourney';
 import { HelpPage } from '../pages/help/help';
 import { HowToAddJourneyPage } from '../pages/help/howToAddJourney/howToAddJourney';
 import { JourneysPage } from '../pages/journeys/journeys';
@@ -40,6 +41,7 @@ import { StorageService } from '../providers/storage-service';
     AccountPage,
     AddJourneyPage,
     DetailsJourneyPage,
+    EditJourneyPage,
     HelpPage,
     HowToAddJourneyPage,
     JourneysPage,
@@ -58,6 +60,7 @@ import { StorageService } from '../providers/storage-service';
     AccountPage,
     AddJourneyPage,
     DetailsJourneyPage,
+    EditJourneyPage,
     HelpPage,
     HowToAddJourneyPage,
     JourneysPage,
