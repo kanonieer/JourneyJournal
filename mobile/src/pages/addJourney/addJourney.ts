@@ -24,13 +24,11 @@ export class AddJourneyPage {
   }
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService, private storageSvc: StorageService) {
-    this.journeyCredentials.date_start = new Date().toISOString();
-    this.journeyCredentials.date_end = new Date().toISOString();
   }
 
   journeyCredentials = {
-    date_start   : '',
-    date_end     : '',
+    date_start   : new Date().toISOString(),
+    date_end     : new Date().toISOString(),
     title        : '',
     id_disc      : '',
     description  : '',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NavParams, ViewController, ToastController, Events} from 'ionic-angular';
+import { NavParams, ViewController, ToastController, MenuController, Events} from 'ionic-angular';
 
 // Providers
 import { JourneyService } from '../../providers/journey-service';
@@ -21,24 +21,28 @@ export class EditJourneyPage {
     date_end: this.params.get('date_end')
   };
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService) { 
+  constructor(public params: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, private menuCtrl: MenuController, public events: Events, private journeySvc: JourneyService) { 
   }
 
   editJourney(form: NgForm) {
     this.journeySvc.editJourney(this.journey_id, form.value).subscribe(
       (data) => {
+        this.reload();
         this.dismiss();
-        // this.presentToastSuccess(data.message);
-        console.log(data);
+        this.presentToastSuccess(data.message);
       },
       (error) => {
-        console.log(error);
+        this.presentToastError(error.message);
       }
     );
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  reload() {
+    this.events.publish('journey:get');
   }
 
   private presentToastSuccess(text) {

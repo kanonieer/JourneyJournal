@@ -35,8 +35,8 @@ export class AccountPage {
   };
 
   constructor(public params: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, public events: Events, private accountSvc: AccountService, private authSvc: AuthService) {
-    this.checkedModal();
     this.startModal();
+    this.checkedModal();
   }
 
   createAccount(form: NgForm) {
