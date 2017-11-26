@@ -93,48 +93,54 @@ module.exports = {
         }).select('-id_disc');;
     },
 
-    deleteJourneyById: (req, res) => {
+    deleteJourneyById: (req, res) => {///dodac jeszcze warunki sprawdzajace istnienie image i podrozy
         Image.find({id_journey : req.params.id}, (err, images) => {
-            if(err) throw err;
+            if (err) throw err;
 
-            for (var i=0; i<images.length; i++){
-                Image.findOneAndRemove({_id : images[i]._id}, (err) => {
-                    if(err) throw err;
+            if (!images){
+                res.status(404).json({message: "There is no Images with this ID of Journey"});
+                console.log("Images not found");
+            } else {
+                for (var i=0; i<images.length; i++){
+                    Image.findOneAndRemove({_id : images[i]._id}, (err) => {
+                        if(err) throw err;
+                    });
+                    cloudinary.uploader.destroy(images[i]._id, function(result) { console.log(result) });
+                }
+                Journey.findOneAndRemove({_id : req.params.id}, function(err) {
+                    if (err) throw err;
+                        res.status(200).json("Journey with images successfully deleted");
                 });
-                cloudinary.uploader.destroy(images[i]._id, function(result) { console.log(result) });
             }
-            Journey.findOneAndRemove({_id : req.params.id}, function(err) {
-                if (err) throw err;
-                    res.status(200).json("Journey with images successfully deleted");
-            });
         });
     },
     editJourney: (req, res) => {
-        User.find({id_user : req.req.user._doc._id}, (err, user) => {
+        User.findOne({ _id : req.user._doc._id}, (err, user) => {
             if (err) throw err;
 
-            if(!user){
+            if (!user) {
                 res.status(404).json({message: "There is no user with this ID"});
                 console.log("User not found!");
             } else {
-                Journey.find({_id : req.body.journey_id}, (err, journey) => {
+                Journey.findOne({ _id : req.params.id}, (err, journey) => {
                     if (err) throw err;
-                    if(!journey){
+                    if (!journey){
                         res.status(404).json({message: "There is no journey with this ID"});
                         console.log("Journey not found!");
                     } else {
-                        if(req.body.date_start){
-                            journey.date_start = req.body.date_start
+                        if (req.body.form.date_start != undefined){
+                            journey.date_start = req.body.form.date_start
                         }
-                        if(req.body.date_end){
-                            journey.date_end = req.body.date_start
+                        if (req.body.form.date_end != undefined){
+                            journey.date_end = req.body.form.date_end
                         }
-                        if(req.body.title){
-                            journey.title = req.body.title
+                        if (req.body.form.title != undefined){
+                            journey.title = req.body.form.title
                         }
-                        if(req.body.description){
-                            journey.description = req.body.description
+                        if (req.body.form.description != undefined){
+                            journey.description = req.body.form.description
                         }
+                        console.log(journey);
                         journey.save((err) => {
                                     if (err) throw err;
                                     

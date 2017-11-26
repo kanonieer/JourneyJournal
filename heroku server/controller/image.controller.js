@@ -48,7 +48,6 @@ module.exports = {
     },
     saveImage: (req, res) => {
         const user_id = req.user._doc._id;
-
         User.findOne({_id : user_id }, (err, user) => {
             if (err) throw err;
 

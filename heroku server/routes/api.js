@@ -37,13 +37,13 @@ module.exports = function(app, passport) {
         }),(req, res) =>{
             res.status(201).json(req.user);
         });
-    // //auth by facebook
-    // app.get('/auth/facebook', passport.authenticate('facebook'));
-    // //facebook auth callback
-    // app.get('/auth/facebook/callback', passport.authenticate('facebook',{ session:false }),
-    //   generateToken, (req, res) => {
-    //     res.redirect('http://localhost:4200/login/facebook?token='+req.token);  
-    //   });
+    //auth by facebook
+    app.get('/auth/facebook', passport.authenticate('facebook'));
+    //facebook auth callback
+    app.get('/auth/facebook/callback', passport.authenticate('facebook',{ session:false }),
+      generateToken, (req, res) => {
+        res.redirect('http://localhost:4200/login/facebook?token='+req.token);  
+      });
     // auth wit facebook new
     app.post('/facebookAuthorization', (req, res) => { accountController.authWithFacebook(req, res)});
     //profile data
@@ -61,7 +61,7 @@ module.exports = function(app, passport) {
     //app journey by id
     app.get('/journeys/:id', authenticate, (req, res) => journeyController.getJourneyById(req, res));
     //edit journey
-    app.patch('/journeys/:id', authenticatem, (req, res) => journeyController.editJourney(req, res));
+    app.patch('/journeys/:id', authenticate, (req, res) => journeyController.editJourney(req, res));
     //get images of journey
     app.get('/journeys/:id/images', authenticate, (req, res) => imageController.getImages(req, res));  
     //save image to database
