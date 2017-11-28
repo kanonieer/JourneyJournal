@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, AlertController, ToastController, MenuController, ModalController, ItemSliding } from 'ionic-angular';
+import { NavController, AlertController, ToastController, MenuController, ModalController, Events, ItemSliding } from 'ionic-angular';
 
 // Pages
 import { AddJourneyPage } from '../addJourney/addJourney';
@@ -31,8 +31,12 @@ export class JourneysPage implements OnInit {
   public searchQuery;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, public menuCtrl: MenuController, 
-    public modalCtrl: ModalController, private journeySvc: JourneyService) {
+    public modalCtrl: ModalController, public events: Events, private journeySvc: JourneyService) {
     this.getJourneys();
+
+    events.subscribe('journey:get', () => {
+      this.getJourneys();
+    });
   }
 
   toggleSearchbar() {

@@ -30,23 +30,23 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public menuCtrl: MenuController,
     public toastCtrl: ToastController, public events: Events, private fb: Facebook, private authSvc: AuthService, private storageSvc: StorageService) {
      
-     events.subscribe('user:logout', () => {
-        if(this.storageSvc.get('user_logged') === "true") {
-          this.logoutUser();
-        }
-        if(this.storageSvc.get('user_logged_fb') === "true") {
-          this.logoutFacebook();
-        }
-     });
+    events.subscribe('user:logout', () => {
+      if(this.storageSvc.get('user_logged') === "true") {
+        this.logoutUser();
+      }
+      if(this.storageSvc.get('user_logged_fb') === "true") {
+        this.logoutFacebook();
+      }
+    });
 
-     events.subscribe('user:fb', () => {
-       if(this.storageSvc.get('email')) {
-         this.logoutFacebook2();
-       } else {
-         this.loginFacebook();
-       }
-     });
-    }
+    events.subscribe('user:fb', () => {
+      if(this.storageSvc.get('email')) {
+        this.logoutFacebook2();
+      } else {
+        this.loginFacebook();
+      }
+    });
+  }
 
   public loginFacebook() {
 

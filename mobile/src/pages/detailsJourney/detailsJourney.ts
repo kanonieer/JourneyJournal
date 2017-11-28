@@ -262,6 +262,7 @@ export class DetailsJourneyPage {
       date_end: dateE
     };
     let modal = this.modalCtrl.create(EditJourneyPage, data);
+    this.navCtrl.pop();
     modal.present();
   }
 
