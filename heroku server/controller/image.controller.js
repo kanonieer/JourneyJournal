@@ -3,7 +3,7 @@ const User          = require('./../models/user');
 const Image         = require('./../models/image');
 const node_dropbox  = require('node-dropbox');
 const DropboxClient = require('dropbox');
-var fs   = require('fs');
+var fs              = require('fs');
 const config        = require('./../config/auth');
 
  
@@ -11,15 +11,15 @@ const config        = require('./../config/auth');
 
 module.exports = {
     getImages: (req, res) => {
-        Image.find({id_journey: req.params.id}, (err, images) => {
+        Image.find({ id_journey: req.params.id }, (err, images) => {
             res.status(200).json(images);
         });
     },
     updateImage: (req, res) => {
-        User.findOne({ _id: user_id }, (err, user) => {
+        User.findOne({ _id: req.user._doc._id }, (err, user) => {
             if (err) throw err;
             
-            Image.findOne({_id : req.params.id}, (err, image) => {
+            Image.findOne({ _id : req.params.id }, (err, image) => {
                 if (err) throw err;
 
                 if(typeof(req.body.isFavourite) === "boolean"){
@@ -32,7 +32,7 @@ module.exports = {
                     if (err) throw err;
                     
                 });
-                res.status(200).json("Image updated");
+                res.status(200).json({message: "Success" , details: "Image successfully updated"});
             });
         });
 
@@ -53,7 +53,7 @@ module.exports = {
     },
     saveImage: (req, res) => {
         const user_id = req.user._doc._id;
-        User.findOne({_id : user_id }, (err, user) => {
+        User.findOne({ _id : user_id }, (err, user) => {
             if (err) throw err;
 
             if (!user) {
