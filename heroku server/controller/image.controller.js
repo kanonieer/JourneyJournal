@@ -16,21 +16,26 @@ module.exports = {
         });
     },
     updateImage: (req, res) => {
-        Image.findOne({_id : req.params.id}, (err, image) => {
+        User.findOne({ _id: user_id }, (err, user) => {
             if (err) throw err;
-
-            if(typeof(req.body.isFavourite) === "boolean"){
-                image.isFavourite = req.body.isFavourite;
-            }
-
-            image.title = req.body.title || image.title;
             
-            image.save((err) => {
+            Image.findOne({_id : req.params.id}, (err, image) => {
                 if (err) throw err;
+
+                if(typeof(req.body.isFavourite) === "boolean"){
+                    image.isFavourite = req.body.isFavourite;
+                }
+
+                image.title = req.body.title || image.title;
                 
+                image.save((err) => {
+                    if (err) throw err;
+                    
+                });
+                res.status(200).json("Image updated");
             });
-            res.status(200).json("Image updated");
         });
+
     },
     getImagesWithParam: (req, res) => {
         const user_id = req.user._doc._id;

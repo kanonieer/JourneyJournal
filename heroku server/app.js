@@ -32,6 +32,8 @@ require('./config/passport.js')(passport);
 
 //Api
 require('./routes/api.js')(app, passport);
+require('./routes/journeyRoute.js')(app, passport);
+require('./routes/imageRoute.js')(app, passport);
 
 mongoose.connect(database.database);
 
