@@ -72,6 +72,7 @@ $action-sheet-md-button-background-activated:color($colors, light-grey);
 // so that the above variables are used and Ionic's
 // default are overridden.
 $text-input-placeholder-color:color($colors, light-grey);
+$refresher-border-color:rgba(#ebebeb, 0);
 
 @import "ionic.theme.default";
 

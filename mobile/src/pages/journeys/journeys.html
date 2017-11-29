@@ -19,6 +19,10 @@
 <!-- Main content -->
 <ion-content overflow-scroll="true" class="main-content">
 
+  <ion-refresher pullMin="40" pullMax="80" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <!-- List of journeys -->
   <ion-list class="journeys-list">
     <!-- The look of the journey -->

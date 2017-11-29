@@ -39,8 +39,6 @@ export class AddJourneyPage {
   addJourney(){
     this.journeySvc.addJourney(this.journeyCredentials).subscribe(
       (data) => {
-        console.log(JSON.stringify(this.journeyCredentials, null, 4));
-        
         this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
         this.presentToastSuccess(this.journeyCredentials.title + " was added");
       },

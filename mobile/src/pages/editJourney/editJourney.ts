@@ -28,8 +28,6 @@ export class EditJourneyPage {
   editJourney(form: NgForm) {
     this.journeySvc.editJourney(this.journey_id, form.value).subscribe(
       (data) => {
-        console.log(JSON.stringify(form.value, null, 4));
-        
         this.reload();
         this.dismiss();
         this.presentToastSuccess(data.message);

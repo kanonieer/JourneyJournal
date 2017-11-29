@@ -144,4 +144,12 @@ export class JourneysPage implements OnInit {
       });
     }
   }
+
+  doRefresh(refresher) {
+    this.getJourneys();
+
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
+  }
 }
