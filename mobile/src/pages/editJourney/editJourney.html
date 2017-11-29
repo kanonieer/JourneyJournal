@@ -1,46 +1,52 @@
-<ion-header>
-  <ion-navbar color="light">
-    <ion-title>Edit journey</ion-title>
-    <ion-buttons start>
-      <button ion-button icon-only (click)="dismiss()">
-        <ion-icon name="close"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
+<ion-content overflow-scroll="true" class="main-content">
 
-<ion-content overflow-scroll="true" class="main-content" padding>
   <div class="editJourney-box">
+
     <form (ngSubmit)="editJourney(journeyForm)" #journeyForm="ngForm">
       <ion-row>
         <ion-col>
           <ion-list class="editJourney-list">
             <ion-item class="list-item">
-              <ion-input type="text" placeholder="Name" name="title" clearInput [(ngModel)]="journeyCredentials.title" required></ion-input>
+              <ion-label class="list-label" floating>Name</ion-label>
+              <ion-input type="text" name="title" clearInput [(ngModel)]="journeyCredentials.title" required></ion-input>
             </ion-item>
-            <ion-row>
-              <ion-col class="date-col-left">
-                <ion-item class="list-item">
-                  <ion-label class="item-label">Start</ion-label>
-                  <ion-datetime displayFormat="DD.MM.YYYY" min="2000" max="2100" name="date_start" [(ngModel)]="journeyCredentials.date_start" required></ion-datetime>
-                </ion-item>
-              </ion-col>
-              <ion-col class="date-col-right">
-                <ion-item class="list-item">
-                  <ion-label class="item-label">End</ion-label>
-                  <ion-datetime displayFormat="DD.MM.YYYY" min="2000" max="2100" name="date_end" [(ngModel)]="journeyCredentials.date_end" required></ion-datetime>
-                </ion-item>
-              </ion-col>
-            </ion-row>
+            <ion-grid class="list-grid">
+              <ion-row>
+                <ion-col col-5 class="list-col">
+                  <ion-item class="list-item">
+                    <ion-label class="list-label" floating>Start</ion-label>
+                    <ion-input type="date" name="start" [(ngModel)]="journeyCredentials.date_start" required></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col col-5 offset-2 class="list-col">
+                  <ion-item class="list-item">
+                    <ion-label class="list-label" floating>End</ion-label>
+                    <ion-input type="date" name="end" [(ngModel)]="journeyCredentials.date_end" required></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
           </ion-list>
         </ion-col>
       </ion-row>
-
       <ion-row>
         <ion-col class="editJourney-col">
           <button ion-button color="secondary" full type="submit" [disabled]="!journeyForm.form.valid">Change</button>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col class="or-col">
+          <h2><span>OR</span></h2>
+        </ion-col>
+      </ion-row>
     </form>
+
+    <ion-row>
+      <ion-col class="dismiss-col">
+        <button ion-button class="dismiss-btn" color="light" full (click)="dismiss()">Dismiss</button>
+      </ion-col>
+    </ion-row>
+
   </div>
+
 </ion-content>

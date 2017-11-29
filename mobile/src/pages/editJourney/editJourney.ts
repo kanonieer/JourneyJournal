@@ -7,7 +7,8 @@ import { JourneyService } from '../../providers/journey-service';
 
 @Component({
   selector: 'page-editJourney',
-  templateUrl: 'editJourney.html'
+  templateUrl: 'editJourney.html',
+  providers: [JourneyService]
 })
 
 export class EditJourneyPage {
@@ -17,16 +18,18 @@ export class EditJourneyPage {
 
   journeyCredentials = {
     title: this.params.get('title_journey'),
-    date_start: this.params.get('date_start'),
-    date_end: this.params.get('date_end')
+    date_start: '',
+    date_end: ''
   };
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService) { 
+  constructor(public params: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService) {
   }
 
   editJourney(form: NgForm) {
     this.journeySvc.editJourney(this.journey_id, form.value).subscribe(
       (data) => {
+        console.log(JSON.stringify(form.value, null, 4));
+        
         this.reload();
         this.dismiss();
         this.presentToastSuccess(data.message);

@@ -6,7 +6,8 @@ import { AuthService } from '../../providers/auth-service';
 
 @Component({
   selector: 'page-register',
-  templateUrl: 'register.html'
+  templateUrl: 'register.html',
+  providers: [AuthService]
 })
 
 export class RegisterPage {
@@ -37,6 +38,10 @@ export class RegisterPage {
       (error) => {
         this.showPopup("Error", error);
       });
+  }
+
+  signIn() {
+    this.navCtrl.pop();
   }
 
   showPopup(title, text) {

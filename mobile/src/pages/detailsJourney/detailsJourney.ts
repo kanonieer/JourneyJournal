@@ -24,7 +24,8 @@ declare var cordova: any;
 
 @Component({
   selector: "page-detailsJourney",
-  templateUrl: "detailsJourney.html"
+  templateUrl: "detailsJourney.html",
+  providers: [ImageService, JourneyService, StorageService]
 })
 
 export class DetailsJourneyPage {

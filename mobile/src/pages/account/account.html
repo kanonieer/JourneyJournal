@@ -1,9 +1,7 @@
 <ion-header>
   <ion-navbar color="light">
-    <ion-title>
-      {{modal.name}}
-    </ion-title>
-    <ion-buttons start>
+    <ion-title class="nav-title">{{modal.name}}</ion-title>
+    <ion-buttons end>
       <button ion-button icon-only (click)="dismiss()">
         <ion-icon name="close"></ion-icon>
       </button>
@@ -11,28 +9,28 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content overflow-scroll="true" class="main-content" padding>
+<ion-content overflow-scroll="true" class="main-content">
+
   <div class="change-box">
+
     <form *ngIf="createForm" (ngSubmit)="createAccount(createForm)" #createForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list class="change-list" inset>
-
+          <ion-list class="change-list">
             <ion-item class="list-item">
-              <ion-input type="text" autocapitalize="off" placeholder="E-mail" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
+              <ion-label class="list-label" floating>Email</ion-label>
+              <ion-input type="text" autocapitalize="off" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
-
             <ion-item class="list-item">
-              <ion-input type="password" placeholder="Password" clearOnEdit="false" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
+              <ion-label class="list-label" floating>Password</ion-label>
+              <ion-input type="password" clearOnEdit="false" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
             </ion-item>
-
           </ion-list>
         </ion-col>
       </ion-row>
-
       <ion-row>
-        <ion-col class="signin-col">
-          <button ion-button color="secondary" full type="submit" [disabled]="!createForm.form.valid">Create an account</button>
+        <ion-col class="change-col">
+          <button ion-button color="secondary" full type="submit" [disabled]="!createForm.form.valid">Create new account</button>
         </ion-col>
       </ion-row>
     </form>
@@ -40,22 +38,20 @@
     <form *ngIf="emailForm" (ngSubmit)="changeEmail(emailForm)" #emailForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list class="change-list" inset>
-
+          <ion-list class="change-list">
             <ion-item class="list-item">
-              <ion-input type="text" autocapitalize="off" placeholder="Old e-mail" name="oldEmail" clearInput [(ngModel)]="emailCredentials.oldEmail" required></ion-input>
+              <ion-label class="list-label" floating>Old email</ion-label>
+              <ion-input type="text" autocapitalize="off" name="oldEmail" clearInput [(ngModel)]="emailCredentials.oldEmail" required></ion-input>
             </ion-item>
-
             <ion-item class="list-item">
-              <ion-input type="text" autocapitalize="off" placeholder="New e-mail" name="newEmail" clearInput [(ngModel)]="emailCredentials.newEmail" required></ion-input>
+              <ion-label class="list-label" floating>New email</ion-label>
+              <ion-input type="text" autocapitalize="off" name="newEmail" clearInput [(ngModel)]="emailCredentials.newEmail" required></ion-input>
             </ion-item>
-
           </ion-list>
         </ion-col>
       </ion-row>
-
       <ion-row>
-        <ion-col class="signin-col">
+        <ion-col class="change-col">
           <button ion-button color="secondary" full type="submit" [disabled]="!emailForm.form.valid">Change email</button>
         </ion-col>
       </ion-row>
@@ -64,29 +60,29 @@
     <form *ngIf="passwordForm" (ngSubmit)="changePassword(passwordForm)" #passwordForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list class="change-list" inset>
-
+          <ion-list class="change-list">
             <ion-item class="list-item">
-              <ion-input type="password" placeholder="Old password" clearOnEdit="false" name="oldPassword" clearInput [(ngModel)]="passwordCredentials.oldPassword" required></ion-input>
+              <ion-label class="list-label" floating>Old password</ion-label>
+              <ion-input type="password" clearOnEdit="false" name="oldPassword" clearInput [(ngModel)]="passwordCredentials.oldPassword" required></ion-input>
             </ion-item>
-
             <ion-item class="list-item">
-              <ion-input type="password" placeholder="New password" clearOnEdit="false" name="newPassword" clearInput [(ngModel)]="passwordCredentials.newPassword" required></ion-input>
+              <ion-label class="list-label" floating>New password</ion-label>
+              <ion-input type="password" clearOnEdit="false" name="newPassword" clearInput [(ngModel)]="passwordCredentials.newPassword" required></ion-input>
             </ion-item>
-
             <ion-item class="list-item">
-              <ion-input type="password" placeholder="Confirm password" clearOnEdit="false" name="confirmPassword" clearInput [(ngModel)]="passwordCredentials.confirmPassword" required></ion-input>
+              <ion-label class="list-label" floating>Confirm password</ion-label>
+              <ion-input type="password" clearOnEdit="false" name="confirmPassword" clearInput [(ngModel)]="passwordCredentials.confirmPassword" required></ion-input>
             </ion-item>
-
           </ion-list>
         </ion-col>
       </ion-row>
-
       <ion-row>
-        <ion-col class="signin-col">
+        <ion-col class="change-col">
           <button ion-button color="secondary" full type="submit" [disabled]="!passwordForm.form.valid">Change password</button>
         </ion-col>
       </ion-row>
     </form>
+
   </div>
+
 </ion-content>

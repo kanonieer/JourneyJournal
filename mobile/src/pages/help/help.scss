@@ -1,12 +1,12 @@
 page-help {
 
   .main-content {
-    background: #ebebeb;
+    background: color($colors, light);
     
     .help-list {
       
       .help-item {
-        border-bottom: 1px solid white;
+        border-bottom: 1px solid color($colors, just-white);
         
         .help-btn {
           

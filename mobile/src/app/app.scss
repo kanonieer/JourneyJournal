@@ -17,7 +17,7 @@
 
 page-app {
     .menu-content {
-        background: #ebebeb;
+        background: color($colors, light);
     }
 
     .top-toolbar {
@@ -39,11 +39,11 @@ page-app {
     }
 
     .toolbar-background {
-        background: #333F4B;
+        background: color($colors, primary);
     }
 
     .menu-button {
-        border-bottom: 1px solid #dedede;
+        border-bottom: 1px solid color($colors, light-btn);
     }
 
     .list .item-block .item-inner {

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, App, Nav, Events } from 'ionic-angular';
+import { Platform, Nav, Events } from 'ionic-angular';
 
 // Pages
 import { AboutPage } from '../pages/about/about';
@@ -14,36 +14,42 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+// Providers
+import { StorageService } from '../providers/storage-service';
+
 @Component({
   selector: 'page-app',
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  providers: [StorageService]
 })
 
 export class MyApp {
   
   @ViewChild('menu') menu: Nav;
   
-  public rootPage: any;
+  public rootPage: any = LoginPage;
   public pages: Array<{ title: string, component: any, icon: string }> = [];
   
-  constructor(platform: Platform, app: App, public events: Events, keyboard: Keyboard, splashScreen: SplashScreen, statusBar: StatusBar) {
-    this.rootPage = LoginPage;
+  constructor(public platform: Platform, public events: Events, private keyboard: Keyboard, private splashScreen: SplashScreen, private statusBar: StatusBar, private storageSvc: StorageService) {
+    this.initializeApp();
     this.pages.push(
       {title: 'Journeys', component: JourneysPage, icon: 'images'},
       {title: 'Maps', component: MapsPage, icon: 'map'},
       {title: 'About', component: AboutPage, icon: 'information-circle'},
       {title: 'Help', component: HelpPage, icon: 'help-circle'},
       {title: 'Settings', component: SettingsPage, icon: 'settings'});
+  }
 
-    platform.ready().then(() => {
-      if((localStorage.getItem('user_logged') == 'true') || (localStorage.getItem('user_logged_fb') == 'true')) {
+  initializeApp() {
+    this.platform.ready().then(() => {
+      if((this.storageSvc.get('user_logged') == 'true') || (this.storageSvc.get('user_logged_fb') == 'true')) {
         this.menu.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
-        splashScreen.hide();
+        this.splashScreen.hide();
       } else {
-        splashScreen.hide();
+        this.splashScreen.hide();
       }
-      statusBar.styleDefault();
-      keyboard.disableScroll(true);
+      this.statusBar.styleDefault();
+      this.keyboard.disableScroll(true);
     });
   }
 

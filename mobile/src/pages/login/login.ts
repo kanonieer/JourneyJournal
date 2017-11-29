@@ -14,7 +14,8 @@ import { StorageService } from '../../providers/storage-service';
 
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html'
+  templateUrl: 'login.html',
+  providers: [AuthService, StorageService]
 })
 
 export class LoginPage {
@@ -109,7 +110,7 @@ export class LoginPage {
   showLoading() {
     this.loading = this.loadingCtrl.create({
       spinner: 'crescent',
-      content: 'Please wait...',
+      content: 'Please wait',
       duration: 2000
     });
     this.loading.present();

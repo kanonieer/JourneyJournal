@@ -14,7 +14,8 @@ import { Journey } from './../../models/Journey';
 
 @Component({
   selector: 'page-journeys',
-  templateUrl: 'journeys.html'
+  templateUrl: 'journeys.html',
+  providers: [JourneyService]
 })
 
 export class JourneysPage implements OnInit {
@@ -63,12 +64,10 @@ export class JourneysPage implements OnInit {
     this.journeys = this.loadedJourneys;
   }
 
-  public detailsJourney(id: String, title: String, dateS: Date, dateE: Date) {
+  public detailsJourney(id: String, title: String) {
     this.navCtrl.push(DetailsJourneyPage, {
       id_journey: id,
-      title_journey: title,
-      date_start: dateS,
-      date_end: dateE
+      title_journey: title
     });
   }
 
@@ -88,13 +87,11 @@ export class JourneysPage implements OnInit {
     }
   }
 
-  public editJourney(id: String, title: String, dateS: Date, dateE: Date, item: ItemSliding) {
+  public editJourney(id: String, title: String, item: ItemSliding) {
     item.close();
     let data = {
       id_journey: id,
-      title_journey: title,
-      date_start: dateS,
-      date_end: dateE
+      title_journey: title
     };
     let modal = this.modalCtrl.create(EditJourneyPage, data); 
     modal.present();

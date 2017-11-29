@@ -1,35 +1,42 @@
-<ion-header>
-  <ion-navbar color="light">
-    <ion-title class="nav-title">Register</ion-title>
-  </ion-navbar>
-</ion-header>
+<ion-content overflow-scroll="true" class="main-content">
 
-<ion-content overflow-scroll="true" class="main-content" padding>
+  <ion-row class="logo-row">
+    <ion-col class="logo-col">
+      <img src="assets/img/logo.png"/>
+    </ion-col>
+  </ion-row>
+
   <div class="register-box">
-
     <form (ngSubmit)="register()" #registerForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list inset>
-
-            <ion-item>
+          <ion-list class="register-list">
+            <ion-item class="list-item">
               <ion-input type="text" autocapitalize="off" placeholder="Email" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
-
-            <ion-item>
-                <ion-input type="password" placeholder="Password" clearOnEdit="false" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
+            <ion-item class="list-item">
+              <ion-input type="password" placeholder="Password" clearOnEdit="false" name="password" clearInput [(ngModel)]="registerCredentials.password" required></ion-input>
             </ion-item>
-
           </ion-list>
         </ion-col>
       </ion-row>
-
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button color="secondary" full type="submit" [disabled]="!registerForm.form.valid">Create an account</button>
+          <button ion-button color="secondary" full type="submit" [disabled]="!registerForm.form.valid">Create new account</button>
         </ion-col>
       </ion-row>
-
+      <ion-row>
+        <ion-col class="or-col">
+          <h2><span>OR</span></h2>
+        </ion-col>
+      </ion-row>
     </form>
+
+    <ion-row>
+      <ion-col class="signin-col">
+        <button ion-button class="register-btn" color="light" full (click)="signIn()">Sign in</button>
+      </ion-col>
+    </ion-row>
+
   </div>
 </ion-content>

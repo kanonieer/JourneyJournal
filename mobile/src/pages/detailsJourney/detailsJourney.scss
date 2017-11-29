@@ -5,7 +5,7 @@ page-detailsJourney {
   }
 
   .main-content {
-    background: #ebebeb;
+    background: color($colors, light);
 
     ion-row {
       align-items: center;
@@ -22,14 +22,49 @@ page-detailsJourney {
   }
 }
 
+.action-sheet-md {
+  .action-sheet-wrapper {
+    .action-sheet-container {
+      padding: 0;
+
+      .action-sheet-title {
+        color: color($colors, just-white);
+        background-color: color($colors, primary);
+        padding: 16px;
+      }
+
+      .action-sheet-button {
+        border-bottom: 1px solid color($colors, light-btn);
+      }
+    }
+  }
+}
+
+.action-sheet-ios {
+  .action-sheet-wrapper {
+    .action-sheet-container {
+
+      .action-sheet-title {
+        color: color($colors, just-white);
+        background-color: color($colors, primary);
+        padding: 16px;
+      }
+
+      .action-sheet-button {
+        border-bottom: 1px solid color($colors, light-btn);
+      }
+    }
+  }
+}
+
 .success {
   .toast-wrapper {
-    background: #32db64;
+    background: color($colors, success);
   }
 }
 
 .error {
   .toast-wrapper {
-    background: #e71717;
+    background: color($colors, error);
   }
 }

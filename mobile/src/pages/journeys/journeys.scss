@@ -20,22 +20,23 @@ page-journeys {
     margin-right: 5px;
   }
 
-  .list-ios > .item-block:last-child,
-  .list-ios > .item-wrapper:last-child .item-block {
+  .list .item-block:last-child,
+  .list .item-wrapper:last-child .item-block {
     border-bottom: 0;
   }
 
   .main-content {
-    background: #ebebeb;
+    background: color($colors, light);
 
     .journeys-list {
+      padding: 5px 10px 0px 10px;
 
       .journeys-sliding {
         margin-top: 15px;
 
         .journeys-item {
           padding: 0px !important;
-          background: #ebebeb;
+          background: color($colors, light);
   
           .item-title {
             font-size: 6vw;
@@ -45,8 +46,8 @@ page-journeys {
             left: 5%;
             width: 90%;
             font-weight: bold;
-            color: #fff;
-            border-top: 1px solid #ffffff;
+            color: color($colors, just-white);
+            border-top: 1px solid color($colors, just-white);
           }
           
           .item-subtitle {
@@ -55,7 +56,7 @@ page-journeys {
             bottom: 5%;
             left: 5%;
             width: 90%;
-            color: #fff;
+            color: color($colors, just-white);
           }
         }
       }
@@ -70,7 +71,7 @@ page-journeys {
       
       .item-options {
         border: 0px;
-        background: #ebebeb;
+        background: color($colors, light);
       }
 
       .options-btn {
@@ -84,6 +85,6 @@ page-journeys {
 
 .success {
   .toast-wrapper {
-    background: #32db64;
+    background: color($colors, success);
   }
 }

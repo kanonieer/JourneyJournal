@@ -4,13 +4,14 @@ import { NavController, ToastController, MenuController } from 'ionic-angular';
 // Pages
 import { JourneysPage } from '../journeys/journeys';
 
-// Plugins
+// Providers
 import { JourneyService } from '../../providers/journey-service';
 import { StorageService } from '../../providers/storage-service';
 
 @Component({
   selector: 'page-addJourney',
-  templateUrl: 'addJourney.html'
+  templateUrl: 'addJourney.html',
+  providers: [JourneyService, StorageService]
 })
 
 export class AddJourneyPage {
@@ -38,6 +39,8 @@ export class AddJourneyPage {
   addJourney(){
     this.journeySvc.addJourney(this.journeyCredentials).subscribe(
       (data) => {
+        console.log(JSON.stringify(this.journeyCredentials, null, 4));
+        
         this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
         this.presentToastSuccess(this.journeyCredentials.title + " was added");
       },

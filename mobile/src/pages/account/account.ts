@@ -8,7 +8,8 @@ import { AuthService } from '../../providers/auth-service';
 
 @Component({
   selector: 'page-account',
-  templateUrl: 'account.html'
+  templateUrl: 'account.html',
+  providers: [AccountService, AuthService]
 })
 
 export class AccountPage {
@@ -113,7 +114,7 @@ export class AccountPage {
 
   startModal() {
     var modals = [{
-        name: 'Create an account',
+        name: 'Create new account',
         form: 'Create'
       },
       {
