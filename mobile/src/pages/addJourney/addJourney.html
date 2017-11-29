@@ -6,7 +6,7 @@
 
 <ion-content overflow-scroll="true" class="main-content" padding>
   <div class="addJourney-box">
-    <form (ngSubmit)="addJourney()" #JourneyForm="ngForm">
+    <form (ngSubmit)="addJourney()" #journeyForm="ngForm">
       <ion-row>
         <ion-col>
           <ion-list class="addJourney-list">
@@ -16,14 +16,14 @@
             <ion-row>
               <ion-col class="date-col-left">
                 <ion-item class="list-item">
-                  <ion-label class="item-label">Start</ion-label>
-                  <ion-datetime displayFormat="DD.MM.YYYY" min="2000" max="2100" name="start" [(ngModel)]="journeyCredentials.date_start" required></ion-datetime>
+                  <ion-label>Start</ion-label>
+                  <ion-input class="date" type="date" name="start" [(ngModel)]="journeyCredentials.date_start" required></ion-input>
                 </ion-item>
               </ion-col>
               <ion-col class="date-col-right">
                 <ion-item class="list-item">
-                  <ion-label class="item-label">End</ion-label>
-                  <ion-datetime displayFormat="DD.MM.YYYY" min="2000" max="2100" name="end" [(ngModel)]="journeyCredentials.date_end" required></ion-datetime>
+                    <ion-label>End</ion-label>
+                  <ion-input class="date" type="date" name="end" [(ngModel)]="journeyCredentials.date_end" required></ion-input>
                 </ion-item>
               </ion-col>
             </ion-row>
@@ -33,7 +33,7 @@
 
       <ion-row>
         <ion-col class="addJourney-col">
-          <button ion-button color="secondary" full type="submit" [disabled]="!JourneyForm.form.valid">Add new Journey</button>
+          <button ion-button color="secondary" full type="submit" [disabled]="!journeyForm.form.valid">Add new Journey</button>
         </ion-col>
       </ion-row>
     </form>

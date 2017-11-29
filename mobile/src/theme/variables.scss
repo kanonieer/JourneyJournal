@@ -26,25 +26,28 @@ $font-path: "../assets/fonts";
 $colors: (
   primary:    #333F4B,
   secondary:  #ff3860,
-  danger:     #e71717,
+  just-white: #ffffff,
   light:      #ebebeb,
+  light-grey: #969DA5,
+  accent:     #474F5A,
   dark:       #222,
+  facebook:   #3b5998,
   success:    #32db64,
-  accent:     #474F5A
+  error:     #e71717
 );
 
 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
-
+$text-input-ios-input-clear-icon-color:(#ebebeb);
 
 
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
+$text-input-md-input-clear-icon-color:(#ebebeb);
 
 
 
@@ -61,6 +64,7 @@ $colors: (
 // then be future customized. This import comes last
 // so that the above variables are used and Ionic's
 // default are overridden.
+$text-input-placeholder-color:(#969DA5);
 
 @import "ionic.theme.default";
 

@@ -1,5 +1,11 @@
 page-register {
 
+  .nav-title {
+    .toolbar-title {
+      color: color($colors, secondary);
+    }
+  }
+
   .main-content {
     background: #333F4B;
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Loading, MenuController, ToastController, Events } from 'ionic-angular';
+import { NavController, LoadingController, Loading, MenuController, ToastController, Events } from 'ionic-angular';
 
 // Pages
 import { JourneysPage } from '../journeys/journeys';
@@ -27,8 +27,8 @@ export class LoginPage {
   registerCredentials = { email: '', password: '' };
   userData = null;
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public loadingCtrl: LoadingController, public menuCtrl: MenuController,
-    public toastCtrl: ToastController, public events: Events, private fb: Facebook, private authSvc: AuthService, private storageSvc: StorageService) {
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController, public toastCtrl: ToastController, 
+    public events: Events, private fb: Facebook, private authSvc: AuthService, private storageSvc: StorageService) {
      
     events.subscribe('user:logout', () => {
       if(this.storageSvc.get('user_logged') === "true") {

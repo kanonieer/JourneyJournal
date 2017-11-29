@@ -41,6 +41,7 @@ export class DetailsJourneyPage {
   lat: string = "";
   long: string = "";
   id_journey = this.navParams.get('id_journey');
+  
   journeyCredentials = {
     title: this.navParams.get('title_journey'),
     date_start: this.navParams.get('date_start'),

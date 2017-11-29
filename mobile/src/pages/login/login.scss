@@ -1,30 +1,33 @@
 page-login {
 
   .main-content {
-    background: #333F4B;
+    background: color($colors, primary);
 
     ion-col {
       padding: 3px;
     }
 
-    .logo {
-      padding-top: 15px;
+    .logo-row {
       align-items: center;
       text-align: center;
+
+      .logo-col {
+        padding: 0;
+      }
     }
 
     .login-box {
-      margin-top: 25px;
+      padding: 0px 10px 10px 10px;
 
       .facebook-box {
         padding: 0px 20px 0px 20px;
 
         .facebook-row {
-          border-bottom: 1px solid #ffffff;
+          border-bottom: 1px solid color($colors, light);
 
           .facebook-icon {
             font-size: 48px;
-            color: #ffffff;
+            color: color($colors, just-white);
           }
 
           .facebook-btn-col {
@@ -32,7 +35,7 @@ page-login {
             padding-bottom: 10px;
 
             .facebook-btn {
-              background: #3b5998;
+              background: color($colors, facebook);
               width: 100%;
               height: 100%;
             }
@@ -41,40 +44,77 @@ page-login {
       }
 
       .login-list {
-        margin-top: 8px;
-        margin-bottom: 5px;
-        border-radius: 0px;
+        margin: 5px 15px 10px 15px;
   
         .list-item {
-          font-size: 1.0em;
-          margin-bottom: 5px;
-          border: 1px solid #ffffff;
-          border-bottom: 0px !important;
-          box-shadow: none !important;
+          background: color($colors, primary);
+          color: color($colors, just-white);
 
           .text-input {
             margin: 13px 8px 13px 8px;
-          }
-  
-          div.item-inner {
-            border-bottom-color: #ffffff !important;
-            box-shadow: none !important;
-            padding: 0px;
           }
         }
       }
 
       .signin-col {
         margin: 0px 20px 0px 20px;
-        padding-bottom: 4px;
       }
-  
-      .register-btn {
-        color: #ffffff;
-        font-size: 0.9em;
-        margin-top: 0px;
+
+      .or-col {
+        margin: 0px 20px 0px 20px;
+
+        h2 {
+          width: 100%; 
+          text-align: center; 
+          border-bottom: 1px solid color($colors, light);
+          line-height: 0.3em;
+          margin: 0px 0px 10px; 
+        } 
+       
+        h2 span {
+          font-size: 14px;
+          color: color($colors, light);
+          background: color($colors, primary);
+          padding: 0 10px; 
+        }
+      }
+
+      .signup-col {
+        margin: 0px 20px 0px 20px;
+
+        .register-btn {
+          font-size: 0.9em;
+          margin-top: 0px;
+          color: color($colors, secondary);
+        }
       }
     }
+
+    // Android -> the last item from the list had border
+    .list .item-input:last-child {
+      border-bottom: 0;
+    }
+
+    // iOS -> the first item from the list had border
+    .list .item-block:first-child {
+      border-top: 0;
+    }
+  }
+
+  // Input highlight color
+  .item.item-input .item-inner {
+    border-bottom-color: color($colors, light-grey) !important;
+    box-shadow: inset 0 -1px 0 0 color($colors, light-grey) !important;
+  }
+
+  .item.item-input.input-has-focus .item-inner {
+    border-bottom-color: color($colors, secondary) !important;
+    box-shadow: inset 0 -1px 0 0 color($colors, secondary) !important;
+  }
+
+  .item.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+    border-bottom-color: color($colors, light-grey) !important;
+    box-shadow: inset 0 -1px 0 0 color($colors, light-grey) !important;
   }
 }
 
@@ -84,6 +124,6 @@ page-login {
     rgba(0,0,0,0.5));
 
     .toast-wrapper {
-      background: #e71717;
+      background: color($colors, error);
     }
 }

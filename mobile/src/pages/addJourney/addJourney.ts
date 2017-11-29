@@ -23,16 +23,16 @@ export class AddJourneyPage {
     this.menuCtrl.enable(true);
   }
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService, private storageSvc: StorageService) {
+  journeyCredentials = {
+    title        : '',
+    description  : '',
+    id_disc      : '',
+    date_start   : '',
+    date_end     : '',
+    access_token : this.storageSvc.get('token')
   }
 
-  journeyCredentials = {
-    date_start   : new Date().toISOString(),
-    date_end     : new Date().toISOString(),
-    title        : '',
-    id_disc      : '',
-    description  : '',
-    access_token : this.storageSvc.get('token')
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService, private storageSvc: StorageService) {
   }
   
   addJourney(){

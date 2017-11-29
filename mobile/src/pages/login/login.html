@@ -1,6 +1,6 @@
-<ion-content overflow-scroll="true" class="main-content" padding>
-  <ion-row class="logo">
-    <ion-col>
+<ion-content overflow-scroll="true" class="main-content">
+  <ion-row class="logo-row">
+    <ion-col class="logo-col">
       <img src="assets/img/logo.png"/>
     </ion-col>
   </ion-row>
@@ -18,10 +18,10 @@
     <form (ngSubmit)="loginUser()" #loginForm="ngForm">
       <ion-row>
         <ion-col>
-          <ion-list class="login-list" inset>
+          <ion-list class="login-list">
 
             <ion-item class="list-item">
-              <ion-input type="text" autocapitalize="off" placeholder="E-mail" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
+              <ion-input type="text" autocapitalize="off" placeholder="Email" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
 
             <ion-item class="list-item">
@@ -37,7 +37,16 @@
           <button ion-button color="secondary" full type="submit" [disabled]="!loginForm.form.valid">Sign in</button>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col class="or-col">
+          <h2><span>OR</span></h2>
+        </ion-col>
+      </ion-row>
     </form>
-    <button ion-button class="register-btn" block clear (click)="createAccount()">Create an account</button>
+    <ion-row>
+      <ion-col class="signup-col">
+        <button ion-button class="register-btn" color="light" full (click)="createAccount()">Create new account</button>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>

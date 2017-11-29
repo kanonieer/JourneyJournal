@@ -22,7 +22,6 @@ export class RegisterPage {
   };
 
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, private alertCtrl: AlertController, private authSvc: AuthService) {
-
   }
 
   public register() {

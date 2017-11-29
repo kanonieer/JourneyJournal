@@ -31,20 +31,20 @@ export class JourneyService {
       .catch(errorHandle);
   }
 
-  getJourneys(): Observable<Array<Journey>> {
-    const access_token = this.storageSvc.get('token');
-
-    return this._http.get(serverAdress + '/journeys?access_token=' + access_token, this.options)
-      .map(successHandle)
-      .catch(errorHandle);
-  }
-
   editJourney(id: any, form: any): Observable<any> {
     let payload = {
       form: form,
       access_token: this.storageSvc.get('token')
     };
     return this._http.patch(serverAdress + '/journeys/' + id, JSON.stringify(payload), this.options)
+      .map(successHandle)
+      .catch(errorHandle);
+  }
+
+  getJourneys(): Observable<Array<Journey>> {
+    const access_token = this.storageSvc.get('token');
+
+    return this._http.get(serverAdress + '/journeys?access_token=' + access_token, this.options)
       .map(successHandle)
       .catch(errorHandle);
   }

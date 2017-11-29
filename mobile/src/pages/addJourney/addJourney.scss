@@ -29,22 +29,41 @@ page-addJourney {
             padding: 0px;
           }
 
-          .item-label {
-            margin: 0px;
-            padding-left: 8px;
+          ion-label {
+            position: absolute;
+            left: 6%;
+          }
+
+          .date {
+            position: absolute;
+            bottom: 70%;
+
+            .text-input::-webkit-inner-spin-button,
+            .text-input::-webkit-calendar-picker-indicator,
+            .text-input::-webkit-clear-button {
+                display: none;
+                -webkit-appearance: none;
+            }
+
+            .text-input {
+              position: absolute;
+              margin: 0;
+              max-width: 70%;
+              left: 46%;
+            }
           }
         }
 
         .date-col-left {
           padding-left: 0px;
           padding-bottom: 0px;
-          padding-top: 0px;          
+          padding-top: 0px;       
         }
 
         .date-col-right {
           padding-right: 0px;
           padding-bottom: 0px;
-          padding-top: 0px;          
+          padding-top: 0px;         
         }
       }
 
