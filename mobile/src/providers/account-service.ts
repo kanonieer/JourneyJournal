@@ -46,4 +46,12 @@ export class AccountService {
       .map(successHandle)
       .catch(errorHandleAccount);
   }
+
+  deleteAccount(id: any): Observable<any> {
+    const access_token = this.storageSvc.get('token');
+
+    return this._http.delete(serverAdress + '/users/' + id + '?access_token=' + access_token, this.options)
+      .map(successHandle)
+      .catch(errorHandle);
+  }
 }

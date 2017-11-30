@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavController, ToastController, MenuController, ActionSheetController, AlertController, ModalController, NavParams } from "ionic-angular";
+import { NavController, ToastController, MenuController, ActionSheetController, AlertController, ModalController, LoadingController, Loading, NavParams } from "ionic-angular";
 
 // Pages
 import { EditJourneyPage } from '../editJourney/editJourney';
@@ -38,6 +38,7 @@ export class DetailsJourneyPage {
     this.menuCtrl.enable(true);
   }
 
+  loading: Loading;
   lastImage: string = null;
   lat: string = "";
   long: string = "";
@@ -63,8 +64,8 @@ export class DetailsJourneyPage {
   public images: Array<Image>;
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
-    public modalCtrl: ModalController, public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer, private filePath: FilePath, private geolocation: Geolocation,
-    private imageSvc: ImageService, private journeySvc: JourneyService, private storageSvc: StorageService) {
+    public modalCtrl: ModalController, public loadingCtrl: LoadingController, public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer, private filePath: FilePath, 
+    private geolocation: Geolocation, private imageSvc: ImageService, private journeySvc: JourneyService, private storageSvc: StorageService) {
       // this.getImages();
       
   }
@@ -102,12 +103,11 @@ export class DetailsJourneyPage {
 
       this.imageSvc.saveImage(imageCredentials).subscribe(
         (data) => {
+          this.showLoading();
           this.uploadToCloudinary(imageData, data._id);
-          //alert("Picture was saved");
           this.presentToastSuccess("Picture was saved");
         },
         (err) => {
-          //alert("Picture wasn't saved");
           this.presentToastError("Picture wasn't saved");
         }
       );
@@ -128,12 +128,11 @@ export class DetailsJourneyPage {
 
     fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
       (data) => {
-        // success
-        alert("success: " + imageName);
-        //this.presentToast("Success: " + imageName);
+        this.loading.dismiss();
+        alert("Success: " + imageName);
       },
       (err) => {
-        // error
+        this.loading.dismiss();
         alert("error" + JSON.stringify(err));
       }
     );
@@ -333,6 +332,15 @@ export class DetailsJourneyPage {
     }).catch((err) => {
       console.log('err', err);
     });
+  }
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      spinner: 'crescent',
+      content: 'Please wait',
+      duration: 2000
+    });
+    this.loading.present();
   }
 
   toBool(storage) {

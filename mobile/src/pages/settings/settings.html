@@ -19,7 +19,7 @@
       <ion-item>
         <button ion-item class="settings-btn first-btn" [disabled]="!isEnabled" (click)="openModal({modalNum: 0})">
           <ion-icon class="settings-icon" name='person-add' item-left></ion-icon>
-          Create an account
+          Create new account
         </button>
       </ion-item>
 
@@ -68,4 +68,10 @@
 
     </ion-list>
   </ion-card>
+
+  <ion-footer no-border>
+    <ion-navbar color="light">
+      <button ion-button clear full class="bottom-btn" (click)="deleteConfirm()">Delete my account</button>
+    </ion-navbar>
+  </ion-footer>
 </ion-content>
