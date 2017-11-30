@@ -6,11 +6,11 @@
     <ion-title *ngIf="!showSearchbar">Journeys</ion-title>
     <ion-searchbar *ngIf="showSearchbar" [(ngModel)]="searchQuery" (ionInput)="getItems($event)"></ion-searchbar>
     <ion-buttons end>
-      <button *ngIf="!showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbar()">
-        <ion-icon name="search"></ion-icon>
+      <button *ngIf="!showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbarOn()">
+        <ion-icon name="search" class="btn-icon"></ion-icon>
       </button>
-      <button *ngIf="showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbar()">
-        <ion-icon name="arrow-round-forward"></ion-icon>
+      <button *ngIf="showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbarOff()">
+        <ion-icon name="arrow-round-forward" class="btn-icon"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -19,8 +19,11 @@
 <!-- Main content -->
 <ion-content overflow-scroll="true" class="main-content">
 
-  <ion-refresher pullMin="40" pullMax="80" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
+  <ion-refresher pullMin="45" pullMax="90" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content 
+      refreshingSpinner="crescent"
+      pullingIcon="refresh">
+    </ion-refresher-content>
   </ion-refresher>
 
   <!-- List of journeys -->
@@ -48,7 +51,7 @@
 
   <!-- Add button (fab) -->
   <ion-fab bottom right>
-    <button ion-fab [navPush]="addJourneyPage">
+    <button ion-fab (click)="addJourney()">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>

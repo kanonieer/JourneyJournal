@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
-import { NavController, ToastController, MenuController, ActionSheetController, AlertController, ModalController, LoadingController, Loading, NavParams } from "ionic-angular";
+import { NavController, ToastController, MenuController, ActionSheetController, AlertController, ModalController,
+  ViewController, LoadingController, Loading, NavParams } from "ionic-angular";
 
 // Pages
 import { EditJourneyPage } from '../editJourney/editJourney';
@@ -32,12 +33,14 @@ export class DetailsJourneyPage {
 
   ionViewDidLoad() {
     this.menuCtrl.enable(false);
+    this.viewCtrl.showBackButton(false);
   }
 
   ionViewWillLeave() {
     this.menuCtrl.enable(true);
   }
 
+  public images: Array<Image>;
   loading: Loading;
   lastImage: string = null;
   lat: string = "";
@@ -45,11 +48,8 @@ export class DetailsJourneyPage {
   id_journey = this.navParams.get('id_journey');
   
   journeyCredentials = {
-    title: this.navParams.get('title_journey'),
-    date_start: this.navParams.get('date_start'),
-    date_end: this.navParams.get('date_end')
+    title: this.navParams.get('title_journey')
   };
-
   PhotoOptions = {
     quality: 100,
     targetWidth: 2000,
@@ -60,12 +60,16 @@ export class DetailsJourneyPage {
     encodingType: this.camera.EncodingType.JPEG,
     saveToPhotoAlbum: false
   };
-
-  public images: Array<Image>;
+  navOptions = {
+    animate: true,
+    animation: 'transition',
+    duration: 600,
+    direction: 'back'
+  };
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
-    public modalCtrl: ModalController, public loadingCtrl: LoadingController, public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer, private filePath: FilePath, 
-    private geolocation: Geolocation, private imageSvc: ImageService, private journeySvc: JourneyService, private storageSvc: StorageService) {
+    public modalCtrl: ModalController, public viewCtrl: ViewController, public loadingCtrl: LoadingController, public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer,
+    private filePath: FilePath, private geolocation: Geolocation, private imageSvc: ImageService, private journeySvc: JourneyService, private storageSvc: StorageService) {
       // this.getImages();
       
   }
@@ -83,7 +87,8 @@ export class DetailsJourneyPage {
   //   );
   // }
 
-  // TAKE PICTURE
+  // CAMERA //
+  // Take picture
   public takePicture() {
     this.getGeo();
     this.toBool('save_images');
@@ -103,17 +108,18 @@ export class DetailsJourneyPage {
 
       this.imageSvc.saveImage(imageCredentials).subscribe(
         (data) => {
-          this.showLoading();
           this.uploadToCloudinary(imageData, data._id);
           this.presentToastSuccess("Picture was saved");
+          this.showLoading();
         },
-        (err) => {
+        (error) => {
           this.presentToastError("Picture wasn't saved");
         }
       );
     });
   }
 
+  // Upload
   private uploadToCloudinary(file, imageName) {
     const fileTransfer: FileTransferObject = this.transfer.create();
     let UploadOptions: FileUploadOptions = {
@@ -131,9 +137,9 @@ export class DetailsJourneyPage {
         this.loading.dismiss();
         alert("Success: " + imageName);
       },
-      (err) => {
+      (error) => {
         this.loading.dismiss();
-        alert("error" + JSON.stringify(err));
+        alert("error" + JSON.stringify(error));
       }
     );
   }
@@ -234,39 +240,19 @@ export class DetailsJourneyPage {
   //   );
   // }
 
-  presentActionSheet() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: this.journeyCredentials.title,
-      buttons: [
-        {
-          text: 'Edit',
-          handler: () => {
-            this.editJourney(this.id_journey, this.journeyCredentials.title, this.journeyCredentials.date_start, this.journeyCredentials.date_end);
-          }
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            this.deleteConfirm(this.id_journey);
-          }
-        }
-      ]
-    });
-    actionSheet.present();
-  }
-
-  public editJourney(id: String, title: String, dateS: Date, dateE: Date) {
+  // JOURNEYS //
+  // Edit
+  public editJourney(id: String, title: String) {
     let data = {
       id_journey: id,
-      title_journey: title,
-      date_start: dateS,
-      date_end: dateE
+      title_journey: title
     };
     let modal = this.modalCtrl.create(EditJourneyPage, data);
     this.navCtrl.pop();
     modal.present();
   }
 
+  // Confirm
   public deleteConfirm(id) {
     const alert = this.alertCtrl.create({
       title: 'Confirm delete',
@@ -287,15 +273,55 @@ export class DetailsJourneyPage {
     alert.present();
   }
 
+  // Delete
   public deleteJourney(id) {
     this.journeySvc.deleteJourney(id).subscribe(
-      (result) => console.log(result),
-      (err) => console.log(err)
+      (result) => {
+        this.presentToastSuccess(result);
+      },
+      (error) => {
+        this.presentToastError(error);
+      }
     );
-    this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
-    this.presentToastSuccess(this.journeyCredentials.title + " was deleted");
+    this.navCtrl.setRoot(JourneysPage, {}, this.navOptions);
   }
 
+  // GEOLOCATION //
+  // Get
+  getGeo() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = "" + resp.coords.latitude,
+      this.long = "" + resp.coords.longitude
+    }).catch((err) => {
+      console.log('err', err);
+    });
+  }
+
+  // ACTION SHEET //
+  // Present
+  presentActionSheet() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: this.journeyCredentials.title,
+      buttons: [
+        {
+          text: 'Edit',
+          handler: () => {
+            this.editJourney(this.id_journey, this.journeyCredentials.title);
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.deleteConfirm(this.id_journey);
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
+  // TOASTS //
+  // Success
   private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
@@ -306,6 +332,7 @@ export class DetailsJourneyPage {
     toast.present();
   }
 
+  // Error
   private presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,
@@ -316,6 +343,7 @@ export class DetailsJourneyPage {
     toast.present();
   }
 
+  // PATH //
   // Always get the accurate path to your apps folder
   public pathForImage(img) {
     if (img === null) {
@@ -325,15 +353,14 @@ export class DetailsJourneyPage {
     }
   }
 
-  getGeo() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.lat = "" + resp.coords.latitude,
-      this.long = "" + resp.coords.longitude
-    }).catch((err) => {
-      console.log('err', err);
-    });
+  // NAV //
+  // Back
+  back() {
+    this.navCtrl.pop(this.navOptions);
   }
 
+  // LOADING //
+  // Show
   showLoading() {
     this.loading = this.loadingCtrl.create({
       spinner: 'crescent',
@@ -343,6 +370,8 @@ export class DetailsJourneyPage {
     this.loading.present();
   }
 
+  // SETTINGS //
+  // Change to bool
   toBool(storage) {
     return this.PhotoOptions.saveToPhotoAlbum = this.storageSvc.get(storage) === 'true' ? true : false;
   }

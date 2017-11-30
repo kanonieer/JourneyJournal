@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 
 // Shared
 import { serverAdress } from './../shared/globalVariables';
-import { successHandle, errorHandle, errorHandleAccount } from './../shared/Handler';
+import { successHandle, errorHandle, errorHandleBody } from './../shared/Handler';
 
 // Providers
 import { StorageService } from './storage-service';
@@ -34,7 +34,7 @@ export class AccountService {
     };
     return this._http.patch(serverAdress + '/email', JSON.stringify(payload), this.options)
       .map(successHandle)
-      .catch(errorHandleAccount);
+      .catch(errorHandleBody);
   }
 
   changePassword(form: any): Observable<any> {
@@ -44,7 +44,7 @@ export class AccountService {
     };
     return this._http.patch(serverAdress + '/password', JSON.stringify(payload), this.options)
       .map(successHandle)
-      .catch(errorHandleAccount);
+      .catch(errorHandleBody);
   }
 
   deleteAccount(id: any): Observable<any> {

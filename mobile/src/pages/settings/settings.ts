@@ -23,22 +23,22 @@ export class SettingsPage {
   isEnabled = null;
   user_id: String = this.storageSvc.get('user_id');
 
-  constructor(private modalCtrl: ModalController, private alertCtrl: AlertController, public events: Events, private accountSvc: AccountService, private storageSvc: StorageService) {
+  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private accountSvc: AccountService, private storageSvc: StorageService) {
+
     this.checkedImage();
     this.checkedFb();
     this.enableBtn();
   }
 
+  // MODALS //
+  // Open
   openModal(modalNum) {
-    
     let modal = this.modalCtrl.create(AccountPage, modalNum);
     modal.present();
   }
 
-  addFb() {
-    this.events.publish('user:fb')
-  }
-
+  // SETTINGS //
+  // Save image to photolibrary
   saveImages() {
     this.saveToggleImage = this.storageSvc.get('save_images');
 
@@ -49,20 +49,25 @@ export class SettingsPage {
     }
   }
 
+  // Check options for image
   checkedImage() {
     return this.isCheckedImage = this.saveToggleImage === 'true' ? true : false;
   }
 
+  // Check options for user fb
   checkedFb() {
     return this.isCheckedFb = this.saveToggleFb === 'true' ? true : false;
   }
 
+  // Button controls
   enableBtn() {
     if(this.storageSvc.get('email')) {
       this.isEnabled = true;
     }
   }
 
+  // ACCOUNT //
+  // Confirm
   public deleteConfirm() {
     const alert = this.alertCtrl.create({
       title: 'Confirm delete',
@@ -83,6 +88,7 @@ export class SettingsPage {
     alert.present();
   }
 
+  // Delete
   public deleteAccount() {
     this.accountSvc.deleteAccount(this.user_id).subscribe(
       (success) => {
@@ -95,7 +101,13 @@ export class SettingsPage {
     );
   }
 
+  // Logout
   public logout() {
     this.events.publish('user:logout');
+  }
+
+  // Add user fb
+  addFb() {
+    this.events.publish('user:fb')
   }
 }

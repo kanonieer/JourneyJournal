@@ -25,8 +25,24 @@ export class LoginPage {
   }
   
   loading: Loading;
-  registerCredentials = { email: '', password: '' };
   userData = null;
+
+  loginCredentials = {
+    email: '', 
+    password: '' 
+  };
+  navOptionsForward = {
+    animate: true,
+    animation: 'transition',
+    duration: 600,
+    direction: 'forward'
+  };
+  navOptionsBack = {
+    animate: true,
+    animation: 'transition',
+    duration: 600,
+    direction: 'back'
+  };
 
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController, public toastCtrl: ToastController, 
     public events: Events, private fb: Facebook, private authSvc: AuthService, private storageSvc: StorageService) {
@@ -49,6 +65,8 @@ export class LoginPage {
     });
   }
 
+  // ACCOUNT //
+  // Login FB
   public loginFacebook() {
 
     let permissions = new Array<string>();
@@ -73,7 +91,7 @@ export class LoginPage {
             this.storageSvc.set('email', this.userData.email);
             this.storageSvc.set('user_logged_fb', 'true');
             this.storageSvc.set('save_images', 'false');
-            this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
+            this.navCtrl.setRoot(JourneysPage, {}, this.navOptionsForward);
             this.loading.dismiss();
           },
           (err) => {
@@ -85,15 +103,16 @@ export class LoginPage {
     }).catch(error => console.log('Error logging into Facebook', error));
   }
   
+  // Login local
   public loginUser() {
     this.showLoading();
-    this.authSvc.loginBasic(this.registerCredentials).subscribe(
+    this.authSvc.loginBasic(this.loginCredentials).subscribe(
       (data) => {
         this.storageSvc.set('user_id', data.user._id.toString());
         this.storageSvc.set('token', data.token);
         this.storageSvc.set('user_logged', 'true');
         this.storageSvc.set('save_images', 'false');
-        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
+        this.navCtrl.setRoot(JourneysPage, {}, this.navOptionsForward);
         this.loading.dismiss();
       },
       (err) => {
@@ -103,37 +122,23 @@ export class LoginPage {
     );
   }
 
+  // Create
   createAccount() {
-    this.navCtrl.push(RegisterPage);
-  }
-  
-  showLoading() {
-    this.loading = this.loadingCtrl.create({
-      spinner: 'crescent',
-      content: 'Please wait',
-      duration: 2000
-    });
-    this.loading.present();
+    this.navCtrl.push(RegisterPage, {}, this.navOptionsForward);
+    this.loginCredentials.email = '';
+    this.loginCredentials.password = '';
   }
 
-  private presentToast(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 2000,
-      position: "bottom",
-      cssClass: "error"
-    });
-    toast.present();
-  }
-
+  // Logout FB
   public logoutFacebook() {
     this.showLoading();
     this.fb.logout();
     this.storageSvc.clear();
-    this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'back'});
+    this.navCtrl.setRoot(LoginPage, {}, this.navOptionsBack);
     this.loading.dismiss();
   }
 
+  // Logout FB test
   public logoutFacebook2() {
     this.showLoading();
     this.fb.logout();
@@ -144,14 +149,38 @@ export class LoginPage {
     this.loading.dismiss();
   }
 
+  // Logout local
   public logoutUser() {
     this.showLoading();
     this.authSvc.logout().subscribe(
       (data) => {
         this.storageSvc.clear();
-        this.navCtrl.setRoot(LoginPage, {}, {animate: true, direction: 'back'});
+        this.navCtrl.setRoot(LoginPage, {}, this.navOptionsBack);
         this.loading.dismiss();
       }
     );
+  }
+  
+  // LOADING //
+  // Show
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      spinner: 'crescent',
+      content: 'Please wait',
+      duration: 2000
+    });
+    this.loading.present();
+  }
+
+  // TOASTS//
+  // Present
+  private presentToast(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 2000,
+      position: "bottom",
+      cssClass: "error"
+    });
+    toast.present();
   }
 }

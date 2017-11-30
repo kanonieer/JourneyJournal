@@ -14,11 +14,14 @@ export class HelpPage {
   public subPages: Array<{ title: string, component: any }> = [];
 
   constructor(public navCtrl: NavController) {
+    
     this.subPages.push(
       {title: 'How to add new journey', component: HowToAddJourneyPage }
     );
   }
 
+  // MENU //
+  // Go to sub page
   goToPage(subPages) {
     this.navCtrl.push(subPages);
   }

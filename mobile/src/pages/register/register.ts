@@ -17,14 +17,23 @@ export class RegisterPage {
   }
 
   createSuccess = false;
+
   registerCredentials = {
     email: '',
     password: ''
+  };
+  navOptions = {
+    animate: true, 
+    animation: 'transition', 
+    duration: 600, 
+    direction: 'back'
   };
 
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, private alertCtrl: AlertController, private authSvc: AuthService) {
   }
 
+  // ACCOUNT //
+  // Register
   public register() {
     this.authSvc.signUpBasic(this.registerCredentials).subscribe(
       (success) => {
@@ -32,7 +41,7 @@ export class RegisterPage {
           this.createSuccess = true;
           this.showPopup("Success", "Account created");
         } else {
-          this.showPopup("Error", "Problem creating account");
+          this.showPopup("Error", "Problem creating an account");
         }
       },
       (error) => {
@@ -40,10 +49,16 @@ export class RegisterPage {
       });
   }
 
+  // NAV //
+  // Back to login
   signIn() {
-    this.navCtrl.pop();
+    this.navCtrl.pop(this.navOptions);
+    this.registerCredentials.email = '';
+    this.registerCredentials.password = '';
   }
 
+  // ALERT //
+  // Show
   showPopup(title, text) {
     let alert = this.alertCtrl.create({
       title: title,
@@ -52,7 +67,7 @@ export class RegisterPage {
         text: 'OK',
         handler: (data) => {
           if (this.createSuccess) {
-            this.navCtrl.popToRoot();
+            this.navCtrl.pop(this.navOptions);
           }
         }
       }]

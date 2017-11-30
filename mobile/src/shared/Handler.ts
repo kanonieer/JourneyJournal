@@ -19,7 +19,7 @@ export function errorHandle(error: Response) {
     }
 }
 
-export function errorHandleAccount(error: Response) {
+export function errorHandleBody(error: Response) {
 
     if (error.status === 401) {
         return Observable.throw(error.json());

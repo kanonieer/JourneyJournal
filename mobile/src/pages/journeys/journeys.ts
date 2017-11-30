@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, AlertController, ToastController, MenuController, ModalController, Events, ItemSliding } from 'ionic-angular';
 
 // Pages
@@ -18,75 +18,41 @@ import { Journey } from './../../models/Journey';
   providers: [JourneyService]
 })
 
-export class JourneysPage implements OnInit {
+export class JourneysPage {
 
   ionViewDidLoad() {
     this.menuCtrl.enable(true);
+    this.getJourneys();
   }
-
-  addJourneyPage = AddJourneyPage;
 
   public journeys: Array<Journey>;
   public loadedJourneys: Array<Journey>;
-  public showSearchbar: boolean = false;
-  public searchQuery;
+  private showSearchbar: boolean = false;
+  private searchQuery = '';
+
+  navOptions = {
+    animate: true,
+    animation: 'transition',
+    duration: 600,
+    direction: 'forward'
+  };
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, public menuCtrl: MenuController, 
     public modalCtrl: ModalController, public events: Events, private journeySvc: JourneyService) {
-    this.getJourneys();
 
     events.subscribe('journey:get', () => {
       this.getJourneys();
     });
   }
 
-  toggleSearchbar() {
-    this.showSearchbar = !this.showSearchbar;
-    this.searchQuery = '';
-    this.initializeItems();
+  // JOURNEYS //
+  // Add
+  addJourney() {
+    this.navCtrl.push(AddJourneyPage, {}, this.navOptions);
+    this.toggleSearchbarOff();
   }
 
-  ngOnInit() {
-  }
-
-  public getJourneys() {
-    this.journeySvc.getJourneys().subscribe(
-      (data: Array<Journey>) => {
-        this.journeys = data;
-        this.loadedJourneys = data;
-      }, 
-      (err) => console.log(err)
-    );
-  }
-
-  // Needed for search bar
-  initializeItems(): void {
-    this.journeys = this.loadedJourneys;
-  }
-
-  public detailsJourney(id: String, title: String) {
-    this.navCtrl.push(DetailsJourneyPage, {
-      id_journey: id,
-      title_journey: title
-    });
-  }
-
-  public deleteJourney(id: String) {
-    // 'for' loop through the list, and delete selected item
-    for(let i = 0; i < this.journeys.length; i++) {
-      if(this.journeys[i]._id == id) {
-        this.journeys.splice(i, 1);
-        this.journeySvc.deleteJourney(id).subscribe(
-          (result) => console.log(result),
-          (err) => console.log(err)
-        );
-        this.presentToastSuccess("Journey was deleted");
-        this.getJourneys();
-        this.showSearchbar = false;
-      }
-    }
-  }
-
+  // Edit
   public editJourney(id: String, title: String, item: ItemSliding) {
     item.close();
     let data = {
@@ -95,8 +61,32 @@ export class JourneysPage implements OnInit {
     };
     let modal = this.modalCtrl.create(EditJourneyPage, data); 
     modal.present();
+    this.toggleSearchbarOff();
   }
 
+  // Details
+  public detailsJourney(id: String, title: String) {
+    this.navCtrl.push(DetailsJourneyPage, {
+      id_journey: id,
+      title_journey: title
+    }, this.navOptions);
+    this.toggleSearchbarOff();
+  }
+
+  // Get all
+  public getJourneys() {
+    this.journeySvc.getJourneys().subscribe(
+      (data: Array<Journey>) => {
+        this.journeys = data;
+        this.loadedJourneys = data;
+      }, 
+      (error) => {
+        this.presentToastError(error);
+      }
+    );
+  }
+
+  // Confirm
   public deleteConfirm(id: String, item: ItemSliding) {
     item.close();
     const alert = this.alertCtrl.create({
@@ -118,6 +108,27 @@ export class JourneysPage implements OnInit {
     alert.present();
   }
 
+  // Delete
+  public deleteJourney(id: String) {
+    // 'for' loop through the list, and delete selected item
+    for(let i = 0; i < this.journeys.length; i++) {
+      if(this.journeys[i]._id === id) {
+        this.journeySvc.deleteJourney(id).subscribe(
+          (result) => {
+            this.journeys.splice(i, 1);
+            this.presentToastSuccess(result);
+          },
+          (error) => {
+            this.presentToastError(error);
+          }
+        );
+      }
+    }
+    this.toggleSearchbarOff();
+  }
+
+  // TOAST //
+  // Success
   private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
@@ -128,10 +139,39 @@ export class JourneysPage implements OnInit {
     toast.present();
   }
 
+  // Error
+  private presentToastError(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 1500,
+      position: "bottom",
+      cssClass: "error"
+    });
+    toast.present();
+  }
+
+  // SEARCHBAR //
+  // On
+  toggleSearchbarOn() {
+    this.showSearchbar = true;
+  }
+
+  // Off
+  toggleSearchbarOff() {
+    this.showSearchbar = false;
+    this.searchQuery = '';
+    this.initializeItems();
+  }
+
+  // Needed for search bar
+  initializeItems(): void {
+    this.journeys = this.loadedJourneys;
+  }
+
+  // Search
   getItems(searchbar) {
     this.initializeItems();
     let typedValue = searchbar.srcElement.value;
-
     // trim => remove whitespace from both sides of a String
     if (typedValue && typedValue.trim() !== '') {
       this.journeys = this.journeys.filter((journey) => {
@@ -145,11 +185,12 @@ export class JourneysPage implements OnInit {
     }
   }
 
+  // REFRESHER //
   doRefresh(refresher) {
     this.getJourneys();
 
     setTimeout(() => {
       refresher.complete();
-    }, 1000);
+    }, 500);
   }
 }

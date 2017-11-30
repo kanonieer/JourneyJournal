@@ -1,8 +1,21 @@
 page-journeys {
 
   .bar-buttons[end] {
-    padding-left: 6px;
-    padding-right: 6px;
+    margin: 0;
+
+    .search-btn {
+      margin: 0px 6px 0px 6px;
+      padding: 0px 5px 0px 5px;
+      display: inline-block;
+
+      .btn-icon {
+        margin: 0;
+        padding: 0px 6px;
+        font-size: 2.4rem;
+        font-weight: normal;
+        text-align: left;
+      }
+    }
   }
 
   .searchbar-search-icon {
@@ -11,13 +24,9 @@ page-journeys {
     height: 0;
   }
 
-  .searchbar-md .searchbar-input {
+  .searchbar .searchbar-input {
     padding: 6px 10px;
     padding-right: 35px;
-  }
-
-  .search-btn {
-    margin-right: 5px;
   }
 
   .list .item-block:last-child,
@@ -86,5 +95,11 @@ page-journeys {
 .success {
   .toast-wrapper {
     background: color($colors, success);
+  }
+}
+
+.error {
+  .toast-wrapper {
+    background: color($colors, error);
   }
 }

@@ -22,9 +22,11 @@ export class EditJourneyPage {
     date_end: ''
   };
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, private toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService) {
+  constructor(public params: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService) {
   }
 
+  // JOURNEYS //
+  // Edit
   editJourney(form: NgForm) {
     this.journeySvc.editJourney(this.journey_id, form.value).subscribe(
       (data) => {
@@ -38,14 +40,19 @@ export class EditJourneyPage {
     );
   }
 
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
-
+  // Reload
   reload() {
     this.events.publish('journey:get');
   }
 
+  // MODALS //
+  // Dismiss
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
+
+  // TOASTS //
+  // Success
   private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
@@ -56,6 +63,7 @@ export class EditJourneyPage {
     toast.present();
   }
 
+  // Error
   private presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,

@@ -29,9 +29,18 @@ export class MyApp {
   
   public rootPage: any = LoginPage;
   public pages: Array<{ title: string, component: any, icon: string }> = [];
+
+  navOptions = {
+    animate: true,
+    animation: 'transition',
+    duration: 600,
+    direction: 'forward'
+  };
   
   constructor(public platform: Platform, public events: Events, private keyboard: Keyboard, private splashScreen: SplashScreen, private statusBar: StatusBar, private storageSvc: StorageService) {
+
     this.initializeApp();
+    
     this.pages.push(
       {title: 'Journeys', component: JourneysPage, icon: 'images'},
       {title: 'Maps', component: MapsPage, icon: 'map'},
@@ -40,10 +49,12 @@ export class MyApp {
       {title: 'Settings', component: SettingsPage, icon: 'settings'});
   }
 
+  // APP //
+  // Starting
   initializeApp() {
     this.platform.ready().then(() => {
       if((this.storageSvc.get('user_logged') == 'true') || (this.storageSvc.get('user_logged_fb') == 'true')) {
-        this.menu.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
+        this.menu.setRoot(JourneysPage, {}, this.navOptions);
         this.splashScreen.hide();
       } else {
         this.splashScreen.hide();
@@ -53,10 +64,13 @@ export class MyApp {
     });
   }
 
+  // MENU //
+  // Change page
   goToPage(page) {
-    this.menu.setRoot(page, {}, {animate: true, direction: 'back'});
+    this.menu.setRoot(page, {}, this.navOptions);
   }
 
+  // Logout
   public logout() {
     this.events.publish('user:logout');
   }

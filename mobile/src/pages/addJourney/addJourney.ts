@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, MenuController } from 'ionic-angular';
+import { NavController, ToastController, MenuController, ViewController } from 'ionic-angular';
 
 // Pages
 import { JourneysPage } from '../journeys/journeys';
@@ -18,6 +18,7 @@ export class AddJourneyPage {
 
   ionViewDidLoad() {
     this.menuCtrl.enable(false);
+    this.viewCtrl.showBackButton(false);
   }
 
   ionViewWillLeave() {
@@ -32,24 +33,40 @@ export class AddJourneyPage {
     date_end     : '',
     access_token : this.storageSvc.get('token')
   }
+  navOptions = {
+    animate: true,
+    animation: 'transition',
+    duration: 600,
+    direction: 'back'
+  };
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, private journeySvc: JourneyService, private storageSvc: StorageService) {
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public viewCtrl: ViewController, private journeySvc: JourneyService,
+    private storageSvc: StorageService) {
   }
-  
+
+  // JOURNEYS //
+  // Add
   addJourney(){
     this.journeySvc.addJourney(this.journeyCredentials).subscribe(
       (data) => {
-        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
+        this.navCtrl.setRoot(JourneysPage, {}, this.navOptions);
         this.presentToastSuccess(this.journeyCredentials.title + " was added");
       },
       (err) => {
-        this.navCtrl.setRoot(JourneysPage, {}, {animate: true, direction: 'back'});
+        this.navCtrl.setRoot(JourneysPage, {}, this.navOptions);
         this.presentToastError(this.journeyCredentials.title + " wasn't added");
-        console.log(err);
       }
     );
   };
 
+  // NAV //
+  // Back
+  back() {
+    this.navCtrl.pop(this.navOptions);
+  }
+
+  // TOASTS //
+  // Success
   private presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
@@ -60,6 +77,7 @@ export class AddJourneyPage {
     toast.present();
   }
 
+  // Error
   private presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,

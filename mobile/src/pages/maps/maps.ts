@@ -13,6 +13,7 @@ declare var google;
 export class MapsPage {
 
   @ViewChild('map') mapElement: ElementRef;
+
   map: any;
 
   constructor(private geolocation: Geolocation) {
@@ -20,6 +21,8 @@ export class MapsPage {
     this.loadMap();
   }
 
+  // MAPS //
+  // Load
   loadMap(){
 
     this.geolocation.getCurrentPosition().then((position) => {
@@ -39,6 +42,7 @@ export class MapsPage {
     });
   }
 
+  // Marker
   addMarker() {
     
     let marker = new google.maps.Marker({
@@ -52,6 +56,7 @@ export class MapsPage {
     this.addInfoWindow(marker, content);
   }
 
+  // Info
   addInfoWindow(marker, content) {
     
     let infoWindow = new google.maps.InfoWindow({
@@ -63,6 +68,8 @@ export class MapsPage {
     });
   }
 
+  // GEOLOCATION //
+  // Get
   getGeo() {
 
     this.geolocation.getCurrentPosition().then((resp) => {

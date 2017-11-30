@@ -1,9 +1,14 @@
 <ion-header>
   <ion-navbar color="primary">
+    <ion-buttons left class="nav-btn">
+      <button ion-button icon-only class="btns-btn" (click)="back()">
+        <ion-icon name="arrow-round-back" class="btn-icon"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>{{journeyCredentials.title}}</ion-title>
-    <ion-buttons end>
-      <button class="menu-btn" ion-button icon-only (click)="presentActionSheet()">
-          <ion-icon name="menu"></ion-icon>
+    <ion-buttons end class="nav-btn">
+      <button ion-button icon-only class="btns-btn" (click)="presentActionSheet()">
+        <ion-icon name="menu" class="btn-icon"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
