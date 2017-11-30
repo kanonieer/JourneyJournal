@@ -1,7 +1,17 @@
-const User          = require('./../models/user'); 
+const User          = require('./../models/user');
+const Journey       = require('./../models/journey');
+const Image         = require('./../models/image');
 const node_dropbox  = require('node-dropbox');
 const config        = require('./../config/auth');
 const jwt           = require('jsonwebtoken');
+const cloudinary  = require('cloudinary');
+const CloudinaryConfig = require('./../config/cloudinary')
+
+cloudinary.config({ 
+  cloud_name: CloudinaryConfig.cloud_name, 
+  api_key: CloudinaryConfig.api_key, 
+  api_secret: CloudinaryConfig.api_secret
+});
 
 module.exports = {
     changeEmail: (req, res) => {
@@ -147,5 +157,52 @@ module.exports = {
                 }
             });
         });
+    },
+    deleteUser : (req, res) => {
+        if(req.params.id != req.user._doc._id) {
+            res.status(403).json("You have no access to delete user with this ID");
+        }
+        else {
+            User.findOne({_id : req.params.id}, (err, user) => {
+                if (err) throw err;
+
+                if (!user) {
+                    res.status(404).json("There is no user with this ID");
+                } else {
+                    Journey.find({ id_user : req.params.id }, (err, journeys) => {
+                        if (err) throw err;
+                        
+                        if (!journeys) {
+                            res.status(404).json("There are no journeys with this ID of user");
+                        } else {
+                            for (var i = 0; i < journeys.length; i++) {
+                                Image.find({ id_journey : journeys[i]._id }, (err, images) => {
+                                    if (err) throw err;
+                                    
+                                    if (!images) {
+                                        res.status(404).json("There is no images with this ID of journey")
+                                    } else {
+                                        for (var j = 0; j < images.length; j++) {
+                                            Image.findOneAndRemove({ _id : images[j]._id }, (err) => {
+                                                if (err) throw err;
+                                            });
+                                            cloudinary.uploader.destroy(images[j]._id, function(result) { console.log(result) });
+                                        }
+                                    }
+                                });
+                                Journey.findOneAndRemove({ _id : journeys[i]._id }, (err) => {
+                                    if (err) throw err;
+                                });
+                            }
+                        }
+                    });
+                    User.findOneAndRemove({ _id : req.params.id }, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                
+            });
+            res.status(200).json({message: "Success", details: "Successfully deleted user"});
+        }
     }
 }

@@ -51,13 +51,13 @@ module.exports = function(app, passport) {
     //face add email and password
     app.post('/email', Auth.authenticate);
 
-
+    //delete user
+    app.delete('/users/:id', Auth.authenticate, (req, res) => accountController.deleteUser(req, res));
 
     ///
     ///do testowania
     app.get('/users',(req,res)=>{
          User.find({}, (err, user) => {res.json(user)});
     });
-
 
 };
