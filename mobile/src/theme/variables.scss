@@ -34,7 +34,10 @@ $colors: (
   dark:       #222,
   facebook:   #3b5998,
   success:    #32db64,
-  error:      #e71717
+  error:      #e71717,
+  search-back:#434E59,
+  search-hold:#9DA2A8,
+  search-text:#F8F8F9
 );
 
 
@@ -57,6 +60,12 @@ $label-md-text-color-focused:color($colors, secondary);
 $action-sheet-md-button-text-color:color($colors, dark);
 $action-sheet-md-button-background:color($colors, light);
 $action-sheet-md-button-background-activated:color($colors, light-grey);
+$searchbar-md-background-color:rgba(0, 0, 0, 0);
+$searchbar-md-input-placeholder-color:color($colors, search-hold);
+$searchbar-md-input-text-color:color($colors, search-text);
+$searchbar-md-input-border-radius:(6px);
+$searchbar-md-input-background-color:color($colors, search-back);
+$searchbar-md-input-clear-icon-color:color($colors, search-hold);
 
 // App Windows Variables
 // --------------------------------------------------

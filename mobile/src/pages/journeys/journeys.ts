@@ -112,19 +112,21 @@ export class JourneysPage {
   public deleteJourney(id: String) {
     // 'for' loop through the list, and delete selected item
     for(let i = 0; i < this.journeys.length; i++) {
-      if(this.journeys[i]._id === id) {
-        this.journeySvc.deleteJourney(id).subscribe(
-          (result) => {
-            this.journeys.splice(i, 1);
-            this.presentToastSuccess(result);
-          },
-          (error) => {
-            this.presentToastError(error);
-          }
-        );
+      for(let j = 0; j < this.loadedJourneys.length; j++) {
+        if((this.journeys[i]._id === id) && (this.loadedJourneys[j]._id === id)) {
+          this.journeySvc.deleteJourney(id).subscribe(
+            (result) => {
+              this.journeys.splice(i, 1);
+              this.loadedJourneys.splice(j, 1);
+              this.presentToastSuccess(result);
+            },
+            (error) => {
+              this.presentToastError(error);
+            }
+          );
+        }
       }
     }
-    this.toggleSearchbarOff();
   }
 
   // TOAST //
@@ -187,6 +189,7 @@ export class JourneysPage {
 
   // REFRESHER //
   doRefresh(refresher) {
+    this.toggleSearchbarOff();
     this.getJourneys();
 
     setTimeout(() => {

@@ -25,8 +25,15 @@ page-journeys {
   }
 
   .searchbar .searchbar-input {
-    padding: 6px 10px;
-    padding-right: 35px;
+    padding: 6px 35px 6px 10px;
+  }
+
+  .searchbar-ios.searchbar-left-aligned .searchbar-input {
+    padding-left: 10px;
+  }
+
+  .searchbar .searchbar-clear-icon {
+    right: 10px;
   }
 
   .list .item-block:last-child,
