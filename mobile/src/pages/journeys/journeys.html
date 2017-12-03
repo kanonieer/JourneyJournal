@@ -4,7 +4,7 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title *ngIf="!showSearchbar">Journeys</ion-title>
-    <ion-searchbar *ngIf="showSearchbar" [(ngModel)]="searchQuery" (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-searchbar *ngIf="showSearchbar" [(ngModel)]="searchQuery" (ionInput)="getItems($event)" #search></ion-searchbar>
     <ion-buttons end>
       <button *ngIf="!showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbarOn()">
         <ion-icon name="search" class="btn-icon"></ion-icon>
@@ -36,12 +36,12 @@
         <div class="item-subtitle"><i>{{ journey.date_start | date:'dd.MM.yyyy'}} - {{ journey.date_end | date:'dd.MM.yyyy'}}</i></div>
       </ion-item>
       <!-- Slide options -->
-      <ion-item-options class="item-options" (ionSwipe)="deleteConfirm(journey._id, slidingItems)">
+      <ion-item-options class="item-options" (ionSwipe)="deleteConfirm(journey._id, journey.title, slidingItems)">
         <button class="options-btn" ion-button color="primary" (click)="editJourney(journey._id, journey.title, slidingItems)">
           <ion-icon name="clipboard"></ion-icon>
             <div>Edit</div>
         </button>
-        <button class="options-btn" ion-button color="error" expandable (click)="deleteConfirm(journey._id, slidingItems)">
+        <button class="options-btn" ion-button color="error" expandable (click)="deleteConfirm(journey._id, journey.title, slidingItems)">
           <ion-icon name="trash"></ion-icon>
             <div>Delete</div>
         </button>

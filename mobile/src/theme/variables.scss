@@ -35,9 +35,7 @@ $colors: (
   facebook:   #3b5998,
   success:    #32db64,
   error:      #e71717,
-  search-back:#434E59,
-  search-hold:#9DA2A8,
-  search-text:#F8F8F9
+  search-back:#434E59
 );
 
 
@@ -45,8 +43,6 @@ $colors: (
 // --------------------------------------------------
 // iOS only Sass variables can go here
 $text-input-ios-input-clear-icon-color:color($colors, light);
-$label-ios-text-color:color($colors, light-grey);
-$label-ios-text-color-focused:color($colors, secondary);
 $action-sheet-ios-button-text-color:color($colors, dark);
 $action-sheet-ios-button-background:color($colors, light);
 $action-sheet-ios-button-background-activated:color($colors, light-grey);
@@ -61,11 +57,11 @@ $action-sheet-md-button-text-color:color($colors, dark);
 $action-sheet-md-button-background:color($colors, light);
 $action-sheet-md-button-background-activated:color($colors, light-grey);
 $searchbar-md-background-color:rgba(0, 0, 0, 0);
-$searchbar-md-input-placeholder-color:color($colors, search-hold);
-$searchbar-md-input-text-color:color($colors, search-text);
+$searchbar-md-input-placeholder-color:color($colors, light-grey);
+$searchbar-md-input-text-color:color($colors, light);
 $searchbar-md-input-border-radius:(6px);
 $searchbar-md-input-background-color:color($colors, search-back);
-$searchbar-md-input-clear-icon-color:color($colors, search-hold);
+$searchbar-md-input-clear-icon-color:color($colors, light-grey);
 
 // App Windows Variables
 // --------------------------------------------------
