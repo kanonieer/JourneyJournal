@@ -128,17 +128,17 @@ module.exports = {
                         res.status(404).json({message: "There is no journey with this ID"});
                         console.log("Journey not found!");
                     } else {
-                        if (req.body.form.date_start != undefined){
-                            journey.date_start = req.body.form.date_start
+                        if (req.body.date_start !== undefined && req.body.date_start !== ''){
+                            journey.date_start = req.body.date_start;
                         }
-                        if (req.body.form.date_end != undefined){
-                            journey.date_end = req.body.form.date_end
+                        if (req.body.date_end !== undefined && req.body.date_end !== ''){
+                            journey.date_end = req.body.date_end;
                         }
-                        if (req.body.form.title != undefined){
-                            journey.title = req.body.form.title
+                        if (req.body.title !== undefined && req.body.title !== ''){
+                            journey.title = req.body.title;
                         }
-                        if (req.body.form.description != undefined){
-                            journey.description = req.body.form.description
+                        if (req.body.description !== undefined && req.body.description !== ''){
+                            journey.description = req.body.description;
                         }
                         console.log(journey);
                         journey.save((err) => {
@@ -146,7 +146,7 @@ module.exports = {
                                     
                                     console.log('Journey successfully updated!');
                                 });
-                        res.status(201).json({ message:'Journey updated', details: 'Journey successfully updated'})
+                        res.status(201).json({ message:'Journey updated', details: 'Journey successfully updated', journey })
                     }
                 });
             }
