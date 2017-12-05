@@ -151,5 +151,22 @@ module.exports = {
                 });
             }
         });
+    },
+    getJourneyImagesZipUrl: (req, res) => {
+        const id_journey = req.params.id;
+
+        Image.find({ id_journey }, (err, images) => {
+            if (err) throw err;
+
+            const public_ids = images.map(image => image._id);
+            const options = { public_ids, resource_type: 'image'};
+
+            cloudinary.v2.uploader.create_zip(options, (error, result) => {
+                if (error) throw error;
+
+                const url = result.url;
+                res.status(200).json({ message: 'Success', url });
+            });
+        });
     }
 }

@@ -24,7 +24,9 @@ module.exports = function(app, passport) {
     //get images of journey
     app.get('/journeys/:id/images', Auth.authenticate, (req, res) => imageController.getImages(req, res));
 
-    //deletet journey by id
+    //delete journey by id
     app.delete('/journeys/:id', Auth.authenticate, (req, res) => journeyController.deleteJourneyById(req, res));
     
+    //get gallery zip url
+    app.get('/jounreysZipUrl/:id', Auth.authenticate, (req, res) => journeyController.getJourneyImagesZipUrl(req, res));
 }  
