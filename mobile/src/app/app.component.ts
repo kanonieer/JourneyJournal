@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav, Events } from 'ionic-angular';
+import { Platform, Nav, Events, ToastController } from 'ionic-angular';
 
 // Pages
 import { AboutPage } from '../pages/about/about';
@@ -29,6 +29,8 @@ export class MyApp {
   
   public rootPage: any = LoginPage;
   public pages: Array<{ title: string, component: any, icon: string }> = [];
+  lastTimeBackPress = 0;
+  timePeriodToExit  = 2000;
 
   navOptions = {
     animate: true,
@@ -36,8 +38,14 @@ export class MyApp {
     duration: 600,
     direction: 'forward'
   };
+  navOptionsBack = {
+    animate: true,
+    animation: 'transition',
+    duration: 600,
+    direction: 'back'
+  };
   
-  constructor(public platform: Platform, public events: Events, private keyboard: Keyboard, private splashScreen: SplashScreen, private statusBar: StatusBar, private storageSvc: StorageService) {
+  constructor(public platform: Platform, public events: Events, public toastCtrl: ToastController, private keyboard: Keyboard, private splashScreen: SplashScreen, private statusBar: StatusBar, private storageSvc: StorageService) {
 
     this.initializeApp();
     
@@ -61,6 +69,21 @@ export class MyApp {
       }
       this.statusBar.styleDefault();
       this.keyboard.disableScroll(true);
+
+      this.platform.registerBackButtonAction(() => {
+        if (!this.menu.canGoBack()) {
+          //Double check to exit app
+          if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
+            this.platform.exitApp(); //Exit from app
+          } else {
+            this.presentToast('Press back again to exit');
+            this.lastTimeBackPress = new Date().getTime();
+            }
+        } else {
+          // go to previous page
+          this.menu.pop(this.navOptionsBack);
+        }
+      });
     });
   }
 
@@ -73,5 +96,16 @@ export class MyApp {
   // Logout
   public logout() {
     this.events.publish('user:logout');
+  }
+
+  // TOASTS//
+  // Present
+  private presentToast(text) {
+    let toast = this.toastCtrl.create({
+      message: text,
+      duration: 3000,
+      position: "bottom"
+    });
+    toast.present();
   }
 }

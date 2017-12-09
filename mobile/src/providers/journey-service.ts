@@ -31,11 +31,7 @@ export class JourneyService {
       .catch(errorHandle);
   }
 
-  editJourney(id: any, form: any): Observable<any> {
-    let payload = {
-      form: form,
-      access_token: this.storageSvc.get('token')
-    };
+  editJourney(id: any, payload: any): Observable<any> {
     return this._http.patch(serverAdress + '/journeys/' + id, JSON.stringify(payload), this.options)
       .map(successHandle)
       .catch(errorHandle);

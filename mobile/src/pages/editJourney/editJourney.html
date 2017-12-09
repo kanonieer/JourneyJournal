@@ -1,52 +1,53 @@
 <ion-content overflow-scroll="true" class="main-content">
-
-  <div class="editJourney-box">
-
-    <form (ngSubmit)="editJourney(journeyForm)" #journeyForm="ngForm">
+  
+    <div class="editJourney-box">
+  
+      <form (ngSubmit)="editJourney()" #journeyForm="ngForm">
+        <ion-row>
+          <ion-col>
+            <ion-list class="editJourney-list">
+              <ion-item class="list-item">
+                <ion-label class="list-label" floating>Name</ion-label>
+                <ion-input type="text" name="title" clearInput [(ngModel)]="journeyCredentials.title" required></ion-input>
+              </ion-item>
+              <ion-grid class="list-grid">
+                <ion-row>
+                  <ion-col col-5 class="list-col">
+                    <ion-item class="list-item">
+                      <ion-label class="list-label" floating>Start</ion-label>
+                      <ion-input type="date" name="date_start" [(ngModel)]="journeyCredentials.date_start" required></ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col col-5 offset-2 class="list-col">
+                    <ion-item class="list-item">
+                      <ion-label class="list-label" floating>End</ion-label>
+                      <ion-input type="date" name="date_end" [(ngModel)]="journeyCredentials.date_end" required></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="editJourney-col">
+            <button ion-button color="secondary" full type="submit" [disabled]="!journeyForm.form.valid">Change</button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="or-col">
+            <h2><span>OR</span></h2>
+          </ion-col>
+        </ion-row>
+      </form>
+  
       <ion-row>
-        <ion-col>
-          <ion-list class="editJourney-list">
-            <ion-item class="list-item">
-              <ion-label class="list-label" floating>Name</ion-label>
-              <ion-input type="text" name="title" clearInput [(ngModel)]="journeyCredentials.title" required></ion-input>
-            </ion-item>
-            <ion-grid class="list-grid">
-              <ion-row>
-                <ion-col col-5 class="list-col">
-                  <ion-item class="list-item">
-                    <ion-label class="list-label" floating>Start</ion-label>
-                    <ion-input type="date" name="date_start" [(ngModel)]="journeyCredentials.date_start" required></ion-input>
-                  </ion-item>
-                </ion-col>
-                <ion-col col-5 offset-2 class="list-col">
-                  <ion-item class="list-item">
-                    <ion-label class="list-label" floating>End</ion-label>
-                    <ion-input type="date" name="date_end" [(ngModel)]="journeyCredentials.date_end" required></ion-input>
-                  </ion-item>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-list>
+        <ion-col class="dismiss-col">
+          <button ion-button class="dismiss-btn" color="light" full (click)="dismiss()">Dismiss</button>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col class="editJourney-col">
-          <button ion-button color="secondary" full type="submit" [disabled]="!journeyForm.form.valid">Change</button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col class="or-col">
-          <h2><span>OR</span></h2>
-        </ion-col>
-      </ion-row>
-    </form>
-
-    <ion-row>
-      <ion-col class="dismiss-col">
-        <button ion-button class="dismiss-btn" color="light" full (click)="dismiss()">Dismiss</button>
-      </ion-col>
-    </ion-row>
-
-  </div>
-
-</ion-content>
+  
+    </div>
+  
+  </ion-content>
+  

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { NavParams, ViewController, ToastController, Events} from 'ionic-angular';
 
 // Providers
 import { JourneyService } from '../../providers/journey-service';
+import { StorageService } from '../../providers/storage-service';
 
 @Component({
   selector: 'page-editJourney',
@@ -19,16 +19,17 @@ export class EditJourneyPage {
   journeyCredentials = {
     title: this.params.get('title_journey'),
     date_start: '',
-    date_end: ''
+    date_end: '',
+    access_token : this.storageSvc.get('token')
   };
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService) {
+  constructor(public params: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService, private storageSvc: StorageService) {
   }
 
   // JOURNEYS //
   // Edit
-  editJourney(form: NgForm) {
-    this.journeySvc.editJourney(this.journey_id, form.value).subscribe(
+  editJourney() {
+    this.journeySvc.editJourney(this.journey_id, this.journeyCredentials).subscribe(
       (data) => {
         this.reload();
         this.dismiss();
