@@ -1,4 +1,5 @@
 export class Journey {
+    
     _id         : String;
     id_user     : String;
     title       : String;

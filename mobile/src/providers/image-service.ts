@@ -31,7 +31,7 @@ export class ImageService {
   getImagesByJourney(journey_id: string): Observable<any> {
     const access_token = this.storageSvc.get('token');
 
-    return this._http.get(serverAdress + '/journeys/' + journey_id + '?access_token=' + access_token, this.options)
+    return this._http.get(serverAdress + '/journeys/' + journey_id + '/images?access_token=' + access_token, this.options)
       .map(successHandle)
       .catch(errorHandle);
   }

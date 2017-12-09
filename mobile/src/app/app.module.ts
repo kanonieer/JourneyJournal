@@ -1,6 +1,8 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { Ng2CloudinaryModule } from 'ng2-cloudinary';
 
 // Pages
 import { AboutPage } from '../pages/about/about';
@@ -51,6 +53,8 @@ import { StorageService } from '../providers/storage-service';
     SettingsPage
   ],
   imports: [
+    BrowserModule,
+    Ng2CloudinaryModule,
     IonicModule.forRoot(MyApp, { scrollAssist: false, autoFocusAssist: false })
   ],
   bootstrap: [IonicApp],

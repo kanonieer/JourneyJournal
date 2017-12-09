@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NavController, ToastController, MenuController, ActionSheetController, AlertController, ModalController,
+import { Platform, NavController, ToastController, MenuController, ActionSheetController, AlertController, ModalController,
   ViewController, LoadingController, Loading, NavParams } from "ionic-angular";
 
 // Pages
@@ -34,6 +34,7 @@ export class DetailsJourneyPage {
   ionViewDidLoad() {
     this.menuCtrl.enable(false);
     this.viewCtrl.showBackButton(false);
+    this.getImages();
   }
 
   ionViewWillLeave() {
@@ -42,15 +43,17 @@ export class DetailsJourneyPage {
 
   public images: Array<Image>;
   loading: Loading;
-  lastImage: string = null;
-  lat: string = "";
-  long: string = "";
+  lastImage: String = null;
   id_journey = this.navParams.get('id_journey');
   
   journeyCredentials = {
     title: this.navParams.get('title_journey')
   };
-  PhotoOptions = {
+  geoCredentials = {
+    lat: "",
+    long: ""
+  };
+  PhotoOptionsTake = {
     quality: 100,
     targetWidth: 2000,
     targetHeight: 2000,
@@ -60,6 +63,15 @@ export class DetailsJourneyPage {
     encodingType: this.camera.EncodingType.JPEG,
     saveToPhotoAlbum: false
   };
+  PhotoOptionsLoad = {
+    quality: 100,
+    targetWidth: 2000,
+    targetHeight: 2000,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+    allowEdit: true,
+    encodingType: this.camera.EncodingType.JPEG
+  };
   navOptions = {
     animate: true,
     animation: 'transition',
@@ -67,39 +79,25 @@ export class DetailsJourneyPage {
     direction: 'back'
   };
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
+  constructor(public platform: Platform, public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
     public modalCtrl: ModalController, public viewCtrl: ViewController, public loadingCtrl: LoadingController, public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer,
     private filePath: FilePath, private geolocation: Geolocation, private imageSvc: ImageService, private journeySvc: JourneyService, private storageSvc: StorageService) {
-      // this.getImages();
       
   }
-
-  // public getImages() {
-  //   console.log(this.id_journey);
-  //   console.log(this.title_travel);
-  
-  //   this.imageSvc.getImagesByJourney(this.id_journey).subscribe(
-  //     data => {
-  //       this.images = data;
-  //       console.log(this.images);
-  //     }, 
-  //     err => console.log(err)
-  //   );
-  // }
 
   // CAMERA //
   // Take picture
   public takePicture() {
     this.getGeo();
     this.toBool('save_images');
-    this.camera.getPicture(this.PhotoOptions).then(imageData => {
+    this.camera.getPicture(this.PhotoOptionsTake).then(imageData => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64:
       
       let imageCredentials = {
         date: "",
-        longitude: "" + this.long,
-        latitude: "" + this.lat,
+        longitude: "" + this.geoCredentials.long,
+        latitude: "" + this.geoCredentials.lat,
         id_journey: this.navParams.get("id_journey"),
         tags: [],
         isFavourite: false,
@@ -134,111 +132,85 @@ export class DetailsJourneyPage {
 
     fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
       (data) => {
-        this.loading.dismiss();
         alert("Success: " + imageName);
+        this.loading.dismiss();
       },
       (error) => {
-        this.loading.dismiss();
         alert("error" + JSON.stringify(error));
+        this.loading.dismiss();
       }
     );
   }
 
-  // FROM LIBRARY
-  //   public loadPhoto() {
-  //     this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
-  //   }
-
-  //   public takePicture(sourceType) {
-  //   // Create options for the Camera Dialog
-  //   var options = {
-  //     quality: 100,
-  //     sourceType: sourceType,
-  //     saveToPhotoAlbum: false,
-  //     correctOrientation: true
-  //   };
-
-  //   // Get the data of an image
-  //   // currentName: Grab the current name of the image from the path
-  //   // correctPath: Get only the path to the image without the name
-  //   this.camera.getPicture(options).then((imagePath) => {
-  //     // Special handling for Android library
-  //     if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
-  //       this.filePath.resolveNativePath(imagePath)
-  //         .then(filePath => {
-  //           let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-  //           let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-  //           this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-
-  //           this.file.readAsDataURL(correctPath, currentName).then(
-  //           file64 => {
-  //             //alert('file in 64: ' + file64);
-  //               let fileWithoutExtension = ('' + file64 + '').replace(/^data:image\/(png|jpg);base64,/, '');
-  //               let imageCredentials={
-  //                 file           : fileWithoutExtension,
-  //                 date           : "",
-  //                 longitude      : "",
-  //                 latitude       : "",
-  //                 id_journey     : this.navParams.get("id_journey"),
-  //                 tags           : [],
-  //                 access_token : localStorage.getItem('token')
-  //               }
-  //               let options: FileUploadOptions = {
-  //               fileKey: 'file',
-  //               fileName: 'name.jpg',
-  //               headers: {}
-  //               }
-  //             const fileTransfer: FileTransferObject = this.transfer.create();
-  //             fileTransfer.upload(filePath, 'https://api.cloudinary.com/v1_1/z1ydzdqc/image/upload', options)
-  //             .then((data) => {
-  //               alert("udalo sie wyslac zdjecia");
-  //               console.log("udalo sie wyslac zdjecia");
-  //             }, (err) => {
-  //               alert("nie udalo sie wyslac zdjecia");
-  //               console.log("nie udalo sie wyslac zdjecia");
-  //             });
-  //               // this.auth.saveImage(imageCredentials).subscribe(
-  //               //   data=>{
-  //               //     alert("Udalo sie zapisac zdjecie");
-  //               //   },
-  //               //   err=>{
-  //               //     alert("Nie udalo sie zapisac zdjecia");
-  //               //   }
-  //               // );
-  //           }).catch(err => {
-  //           console.log('booooooo');
-  //         });
-  //         });
-  //     } else {
-  //       var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-  //       var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-  //       this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-  //     }
-  //   }, (err) => {
-  //     this.presentToast('Error while selecting image.');
-  //   });
-  // }
+  // From library
+  public loadPhoto() {
+    this.camera.getPicture(this.PhotoOptionsLoad).then(
+      (imagePath) => {
+        if((this.platform.is('android')) && (this.PhotoOptionsLoad.sourceType === this.camera.PictureSourceType.PHOTOLIBRARY)) {
+          this.filePath.resolveNativePath(imagePath).then(
+            (filePath) => {
+              let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+              let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+              this.file.readAsDataURL(correctPath, currentName).then(
+                (file64) => {
+                  let fileWithoutExtension = ('' + file64 + '').replace(/^data:image\/(png|jpg);base64,/, '');
+                  let imageCredentials = {
+                    file           : fileWithoutExtension,
+                    date           : "",
+                    longitude      : "",
+                    latitude       : "",
+                    id_journey     : this.navParams.get("id_journey"),
+                    tags           : [],
+                    isFavourite: false,
+                    access_token : localStorage.getItem('token')
+                  };
+                  this.imageSvc.saveImage(imageCredentials).subscribe(
+                    (data) => {
+                      this.uploadToCloudinary(imagePath, data._id);
+                      this.presentToastSuccess("Picture was saved");
+                      this.showLoading();
+                    },
+                    (error) => {
+                      this.presentToastError("Picture wasn't saved");
+                    }
+                  );
+                }
+              );
+            }
+          );
+        } else {
+          var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+          var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+        }
+      },
+      (error) => {
+        this.presentToastError('Error while selecting image.');
+      }
+    );
+  }
 
   // Create a new name for the image
-  // private createFileName() {
-  //   var d = new Date(),
-  //     n = d.getTime(),
-  //     newFileName = n + ".jpg";
-  //   return newFileName;
-  // }
+  private createFileName() {
+    let d = new Date(),
+      n = d.getTime(),
+      newFileName = n + ".jpg";
+    return newFileName;
+  }
 
   // Copy the image to a local folder
   // copyFileToLocalDir: Copy from the current path to our app and use new name from createFileName
-  // private copyFileToLocalDir(namePath, currentName, newFileName) {
-  //   this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(
-  //     success => {
-  //       this.lastImage = newFileName;
-  //     },
-  //     error => {
-  //       this.presentToast("Error while storing file");
-  //     }
-  //   );
-  // }
+  private copyFileToLocalDir(namePath, currentName, newFileName) {
+    this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(
+      success => {
+        this.lastImage = newFileName;
+      },
+      error => {
+        this.presentToastError("Error while storing file");
+      }
+    );
+  }
 
   // JOURNEYS //
   // Edit
@@ -286,12 +258,24 @@ export class DetailsJourneyPage {
     this.navCtrl.setRoot(JourneysPage, {}, this.navOptions);
   }
 
+  // Get images
+  public getImages() {
+    this.imageSvc.getImagesByJourney(this.id_journey).subscribe(
+      (data: Array<Image>) => {
+        this.images = data;
+      }, 
+      (error) => {
+        this.presentToastError(error);
+      }
+    );
+  }
+
   // GEOLOCATION //
   // Get
   getGeo() {
     this.geolocation.getCurrentPosition().then((resp) => {
-      this.lat = "" + resp.coords.latitude,
-      this.long = "" + resp.coords.longitude
+      this.geoCredentials.lat = "" + resp.coords.latitude,
+      this.geoCredentials.long = "" + resp.coords.longitude
     }).catch((err) => {
       console.log('err', err);
     });
@@ -373,6 +357,6 @@ export class DetailsJourneyPage {
   // SETTINGS //
   // Change to bool
   toBool(storage) {
-    return this.PhotoOptions.saveToPhotoAlbum = this.storageSvc.get(storage) === 'true' ? true : false;
+    return this.PhotoOptionsTake.saveToPhotoAlbum = this.storageSvc.get(storage) === 'true' ? true : false;
   }
 }

@@ -27,7 +27,24 @@ page-detailsJourney {
     }
 
     .detailsJourney-box {
-      margin-top: 10px;
+      margin-top: 5px;
+
+      .grid-box {
+        padding: 0;
+
+        .grid-row {
+          padding: 0px 2px;
+
+          .grid-col {
+            padding: 0;
+  
+            .grid-card {
+              margin: 2px;
+              width: auto;
+            }
+          }
+        }
+      }
 
       .detailsJourney-col {
         padding-top: 20px;

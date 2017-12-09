@@ -14,18 +14,35 @@
   </ion-navbar>
 </ion-header>
  
-<ion-content overflow-scroll="true" class="main-content" padding>
+<ion-content overflow-scroll="true" class="main-content">
 
-  <ion-fab right bottom>
-    <button ion-fab color="success" (click)="takePicture()">
-      <ion-icon name="camera"></ion-icon>
+  <ion-fab right bottom #fab>
+    <button ion-fab color="secondary">
+      <ion-icon name="arrow-dropleft"></ion-icon>
     </button>
+    <ion-fab-list side="left">
+      <button ion-fab color="primary" (click)="loadPhoto()"><ion-icon name="images"></ion-icon></button>
+      <button ion-fab color="primary" (click)="takePicture()"><ion-icon name="camera"></ion-icon></button>
+    </ion-fab-list>
   </ion-fab>
 
   <div class="detailsJourney-box">
-    <ion-row>
-      <!-- <ion-col *ngFor="let image of images">
-      </ion-col> -->
-    </ion-row>
+    <ion-grid class="grid-box">
+      <ion-row class="grid-row">
+        <ion-col class="grid-col" col-4 *ngFor="let image of images">
+          <ion-card class="grid-card">
+            <cl-image 
+              [public-id]=image._id
+              class="thumbnail inline"
+              height="200"
+              width="200"
+              quality="50"
+              format="jpg"
+              cloud-name="dzgtgeotp">
+            </cl-image>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 </ion-content>
