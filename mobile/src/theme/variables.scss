@@ -35,7 +35,7 @@ $colors: (
   facebook:   #3b5998,
   success:    #32db64,
   error:      #e71717,
-  search-back:#434E59
+  search-back:#D9D9D9
 );
 
 
@@ -58,7 +58,7 @@ $action-sheet-md-button-background:color($colors, light);
 $action-sheet-md-button-background-activated:color($colors, light-grey);
 $searchbar-md-background-color:rgba(0, 0, 0, 0);
 $searchbar-md-input-placeholder-color:color($colors, light-grey);
-$searchbar-md-input-text-color:color($colors, light);
+$searchbar-md-input-text-color:color($colors, accent);
 $searchbar-md-input-border-radius:(6px);
 $searchbar-md-input-background-color:color($colors, search-back);
 $searchbar-md-input-clear-icon-color:color($colors, light-grey);
@@ -77,6 +77,7 @@ $searchbar-md-input-clear-icon-color:color($colors, light-grey);
 // so that the above variables are used and Ionic's
 // default are overridden.
 $text-input-placeholder-color:color($colors, light-grey);
+$refresher-icon-color:color($colors, light);
 $refresher-border-color:rgba(#ebebeb, 0);
 
 @import "ionic.theme.default";

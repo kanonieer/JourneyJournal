@@ -12,6 +12,7 @@ import { File } from "@ionic-native/file";
 import { FileTransfer, FileUploadOptions, FileTransferObject } from "@ionic-native/file-transfer";
 import { FilePath } from "@ionic-native/file-path";
 import { Geolocation } from '@ionic-native/geolocation';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 // Providers
 import { ImageService } from "../../providers/image-service";
@@ -64,13 +65,11 @@ export class DetailsJourneyPage {
     saveToPhotoAlbum: false
   };
   PhotoOptionsLoad = {
+    maximumImagesCount: 100,
+    width: 2000,
+    height: 2000,
     quality: 100,
-    targetWidth: 2000,
-    targetHeight: 2000,
-    destinationType: this.camera.DestinationType.FILE_URI,
-    sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-    allowEdit: true,
-    encodingType: this.camera.EncodingType.JPEG
+    outputType: 0 //0 - FILE_URI, 1 - BASE64_STRING
   };
   navOptions = {
     animate: true,
@@ -79,9 +78,10 @@ export class DetailsJourneyPage {
     direction: 'back'
   };
 
-  constructor(public platform: Platform, public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
-    public modalCtrl: ModalController, public viewCtrl: ViewController, public loadingCtrl: LoadingController, public navParams: NavParams, private camera: Camera, private file: File, private transfer: FileTransfer,
-    private filePath: FilePath, private geolocation: Geolocation, private imageSvc: ImageService, private journeySvc: JourneyService, private storageSvc: StorageService) {
+  constructor(public platform: Platform, public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController,
+    public alertCtrl: AlertController, public modalCtrl: ModalController, public viewCtrl: ViewController, public loadingCtrl: LoadingController, public navParams: NavParams,
+    private camera: Camera, private file: File, private transfer: FileTransfer, private filePath: FilePath, private geolocation: Geolocation, private imagePicker: ImagePicker,
+    private imageSvc: ImageService, private journeySvc: JourneyService, private storageSvc: StorageService) {
       
   }
 
@@ -90,31 +90,31 @@ export class DetailsJourneyPage {
   public takePicture() {
     this.getGeo();
     this.toBool('save_images');
-    this.camera.getPicture(this.PhotoOptionsTake).then(imageData => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64:
-      
-      let imageCredentials = {
-        date: "",
-        longitude: "" + this.geoCredentials.long,
-        latitude: "" + this.geoCredentials.lat,
-        id_journey: this.navParams.get("id_journey"),
-        tags: [],
-        isFavourite: false,
-        access_token: this.storageSvc.get('token')
-      };
+    this.camera.getPicture(this.PhotoOptionsTake).then(
+      (imageData) => {
+        
+        let imageCredentials = {
+          date: "",
+          longitude: "" + this.geoCredentials.long,
+          latitude: "" + this.geoCredentials.lat,
+          id_journey: this.navParams.get("id_journey"),
+          tags: [],
+          isFavourite: false,
+          access_token: this.storageSvc.get('token')
+        };
 
-      this.imageSvc.saveImage(imageCredentials).subscribe(
-        (data) => {
-          this.uploadToCloudinary(imageData, data._id);
-          this.presentToastSuccess("Picture was saved");
-          this.showLoading();
-        },
-        (error) => {
-          this.presentToastError("Picture wasn't saved");
-        }
-      );
-    });
+        this.imageSvc.saveImage(imageCredentials).subscribe(
+          (data) => {
+            this.uploadToCloudinary(imageData, data._id);
+            this.presentToastSuccess("Picture was saved");
+            this.showLoading();
+          },
+          (error) => {
+            this.presentToastError("Picture wasn't saved");
+          }
+        );
+      }
+    );
   }
 
   // Upload
@@ -134,6 +134,7 @@ export class DetailsJourneyPage {
       (data) => {
         alert("Success: " + imageName);
         this.loading.dismiss();
+        this.getImages();
       },
       (error) => {
         alert("error" + JSON.stringify(error));
@@ -144,70 +145,32 @@ export class DetailsJourneyPage {
 
   // From library
   public loadPhoto() {
-    this.camera.getPicture(this.PhotoOptionsLoad).then(
-      (imagePath) => {
-        if((this.platform.is('android')) && (this.PhotoOptionsLoad.sourceType === this.camera.PictureSourceType.PHOTOLIBRARY)) {
-          this.filePath.resolveNativePath(imagePath).then(
-            (filePath) => {
-              let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-              let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-              this.file.readAsDataURL(correctPath, currentName).then(
-                (file64) => {
-                  let fileWithoutExtension = ('' + file64 + '').replace(/^data:image\/(png|jpg);base64,/, '');
-                  let imageCredentials = {
-                    file           : fileWithoutExtension,
-                    date           : "",
-                    longitude      : "",
-                    latitude       : "",
-                    id_journey     : this.navParams.get("id_journey"),
-                    tags           : [],
-                    isFavourite: false,
-                    access_token : localStorage.getItem('token')
-                  };
-                  this.imageSvc.saveImage(imageCredentials).subscribe(
-                    (data) => {
-                      this.uploadToCloudinary(imagePath, data._id);
-                      this.presentToastSuccess("Picture was saved");
-                      this.showLoading();
-                    },
-                    (error) => {
-                      this.presentToastError("Picture wasn't saved");
-                    }
-                  );
-                }
-              );
+    this.imagePicker.getPictures(this.PhotoOptionsLoad).then(
+      (imageData) => {
+        for(let i = 0; i < imageData.length; i++) {
+          let imageCredentials = {
+            date           : "",
+            longitude      : "",
+            latitude       : "",
+            id_journey     : this.navParams.get("id_journey"),
+            tags           : [],
+            isFavourite: false,
+            access_token : localStorage.getItem('token')
+          };
+          this.imageSvc.saveImage(imageCredentials).subscribe(
+            (data) => {
+              this.uploadToCloudinary(imageData[i], data._id);
+              this.presentToastSuccess("Picture was saved");
+              this.showLoading();
+            },
+            (error) => {
+              this.presentToastError("Picture wasn't saved");
             }
           );
-        } else {
-          var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
-          var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-          this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
         }
       },
       (error) => {
         this.presentToastError('Error while selecting image.');
-      }
-    );
-  }
-
-  // Create a new name for the image
-  private createFileName() {
-    let d = new Date(),
-      n = d.getTime(),
-      newFileName = n + ".jpg";
-    return newFileName;
-  }
-
-  // Copy the image to a local folder
-  // copyFileToLocalDir: Copy from the current path to our app and use new name from createFileName
-  private copyFileToLocalDir(namePath, currentName, newFileName) {
-    this.file.copyFile(namePath, currentName, cordova.file.dataDirectory, newFileName).then(
-      success => {
-        this.lastImage = newFileName;
-      },
-      error => {
-        this.presentToastError("Error while storing file");
       }
     );
   }
@@ -285,7 +248,7 @@ export class DetailsJourneyPage {
   // Present
   presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
-      title: this.journeyCredentials.title,
+      title: 'Options',
       buttons: [
         {
           text: 'Edit',

@@ -14,7 +14,6 @@ import { HelpPage } from '../pages/help/help';
 import { HowToAddJourneyPage } from '../pages/help/howToAddJourney/howToAddJourney';
 import { JourneysPage } from '../pages/journeys/journeys';
 import { LoginPage } from '../pages/login/login';
-import { MapsPage } from '../pages/maps/maps';
 import { RegisterPage } from '../pages/register/register';
 import { SettingsPage } from '../pages/settings/settings';
 
@@ -25,6 +24,7 @@ import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
 import { FilePath } from '@ionic-native/file-path';
 import { Geolocation } from '@ionic-native/geolocation';
+import { ImagePicker } from '@ionic-native/image-picker';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -48,7 +48,6 @@ import { StorageService } from '../providers/storage-service';
     HowToAddJourneyPage,
     JourneysPage,
     LoginPage,
-    MapsPage,
     RegisterPage,
     SettingsPage
   ],
@@ -69,7 +68,6 @@ import { StorageService } from '../providers/storage-service';
     HowToAddJourneyPage,
     JourneysPage,
     LoginPage,
-    MapsPage,
     RegisterPage,
     SettingsPage
   ],
@@ -80,6 +78,7 @@ import { StorageService } from '../providers/storage-service';
     FileTransfer,
     FilePath,
     Geolocation,
+    ImagePicker,
     Keyboard,
     SplashScreen,
     StatusBar,

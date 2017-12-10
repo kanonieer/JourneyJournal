@@ -41,38 +41,46 @@ page-journeys {
     border-bottom: 0;
   }
 
+  .nav-title {
+    .toolbar-title {
+      color: color($colors, secondary);
+    }
+  }
+
   .main-content {
-    background: color($colors, light);
+    background: color($colors, primary);
 
     .journeys-list {
-      padding: 5px 10px 0px 10px;
+      padding: 5px 20px 0px 20px;
 
       .journeys-sliding {
         margin-top: 15px;
+        height: 57.5vw;
+        background: color($colors, primary);
 
         .journeys-item {
           padding: 0px !important;
-          background: color($colors, light);
-  
-          .item-title {
-            font-size: 6vw;
-            white-space: normal;
-            position: absolute;
-            bottom: 15%;
-            left: 5%;
-            width: 90%;
-            font-weight: bold;
-            color: color($colors, just-white);
-            border-top: 1px solid color($colors, just-white);
-          }
-          
-          .item-subtitle {
-            font-size: 3.5vw;
-            position: absolute;
-            bottom: 5%;
-            left: 5%;
-            width: 90%;
-            color: color($colors, just-white);
+          background: color($colors, just-white);
+          height: 57.5vw;
+
+          .journeys-card {
+            background: linear-gradient(color($colors, primary), color($colors, secondary));
+            height: 52vw;
+
+            .item-title {
+              font-size: 10vw;
+              white-space: normal;
+              font-weight: bold;
+              color: color($colors, just-white);
+              text-align: center;
+              padding-top: 15vw;
+            }
+            
+            .item-subtitle {
+              font-size: 3.5vw;
+              color: color($colors, just-white);
+              text-align: center;
+            }
           }
         }
       }
@@ -87,13 +95,12 @@ page-journeys {
       
       .item-options {
         border: 0px;
-        background: color($colors, light);
+        background: color($colors, primary);
       }
 
       .options-btn {
         margin: 0px;
-        height: 98%;
-        min-height: 98%;
+        height: 100%;
       }
     }
   }

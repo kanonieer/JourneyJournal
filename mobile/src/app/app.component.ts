@@ -6,7 +6,6 @@ import { AboutPage } from '../pages/about/about';
 import { HelpPage } from '../pages/help/help';
 import { JourneysPage } from '../pages/journeys/journeys';
 import { LoginPage } from '../pages/login/login';
-import { MapsPage } from '../pages/maps/maps';
 import { SettingsPage } from '../pages/settings/settings';
 
 // Plugins
@@ -51,7 +50,6 @@ export class MyApp {
     
     this.pages.push(
       {title: 'Journeys', component: JourneysPage, icon: 'images'},
-      {title: 'Maps', component: MapsPage, icon: 'map'},
       {title: 'About', component: AboutPage, icon: 'information-circle'},
       {title: 'Help', component: HelpPage, icon: 'help-circle'},
       {title: 'Settings', component: SettingsPage, icon: 'settings'});

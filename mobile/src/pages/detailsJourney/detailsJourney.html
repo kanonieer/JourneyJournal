@@ -1,14 +1,14 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar color="light">
     <ion-buttons left class="nav-btn">
       <button ion-button icon-only class="btns-btn" (click)="back()">
         <ion-icon name="arrow-round-back" class="btn-icon"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>{{journeyCredentials.title}}</ion-title>
+    <ion-title class="nav-title">{{journeyCredentials.title}}</ion-title>
     <ion-buttons end class="nav-btn">
       <button ion-button icon-only class="btns-btn" (click)="presentActionSheet()">
-        <ion-icon name="menu" class="btn-icon"></ion-icon>
+        <ion-icon name="settings" class="btn-icon"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -21,8 +21,8 @@
       <ion-icon name="arrow-dropleft"></ion-icon>
     </button>
     <ion-fab-list side="left">
-      <button ion-fab color="primary" (click)="loadPhoto()"><ion-icon name="images"></ion-icon></button>
-      <button ion-fab color="primary" (click)="takePicture()"><ion-icon name="camera"></ion-icon></button>
+      <button ion-fab color="light-btn" (click)="loadPhoto()"><ion-icon name="images"></ion-icon></button>
+      <button ion-fab color="light-btn" (click)="takePicture()"><ion-icon name="camera"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
 
@@ -37,6 +37,8 @@
               height="200"
               width="200"
               quality="50"
+              crop="fill"
+              gravity="center"
               format="jpg"
               cloud-name="dzgtgeotp">
             </cl-image>

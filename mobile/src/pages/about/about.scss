@@ -1,11 +1,18 @@
 page-about {
 
+  .nav-title {
+    .toolbar-title {
+      color: color($colors, secondary);
+    }
+  }
+
   .about-content {
-    background: color($colors, light);
+    background: color($colors, primary);
     
     .about-box {
       padding: 0px 20px 0px 20px;
       margin-top: 15px;
+      color: color($colors, light);
     }
   }
 }

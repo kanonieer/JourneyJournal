@@ -1,14 +1,21 @@
 page-help {
 
+  .nav-title {
+    .toolbar-title {
+      color: color($colors, secondary);
+    }
+  }
+
   .main-content {
-    background: color($colors, light);
+    background: color($colors, primary);
     
     .help-list {
       
       .help-item {
-        border-bottom: 1px solid color($colors, just-white);
+        border-bottom: 1px solid color($colors, primary);
         
         .help-btn {
+          color: color($colors, dark);
           
           div.item-inner {
             margin-left: 5px;

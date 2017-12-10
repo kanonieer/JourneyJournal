@@ -18,8 +18,14 @@ page-detailsJourney {
     }
   }
 
+  .nav-title {
+    .toolbar-title {
+      color: color($colors, secondary);
+    }
+  }
+
   .main-content {
-    background: color($colors, light);
+    background: color($colors, primary);
 
     ion-row {
       align-items: center;
@@ -60,7 +66,7 @@ page-detailsJourney {
 
       .action-sheet-title {
         color: color($colors, just-white);
-        background-color: color($colors, primary);
+        background-color: color($colors, accent);
         padding: 16px;
       }
 
@@ -72,12 +78,15 @@ page-detailsJourney {
 }
 
 .action-sheet-ios {
+  .action-sheet-group {
+    background-color: color($colors, accent);
+  }
   .action-sheet-wrapper {
     .action-sheet-container {
 
       .action-sheet-title {
         color: color($colors, just-white);
-        background-color: color($colors, primary);
+        background-color: color($colors, accent);
         padding: 16px;
       }
 
