@@ -60,10 +60,11 @@
         <ion-toggle class="settings-toggle" checked={{isCheckedImage}} color="success" (ionChange)="saveImages()"></ion-toggle>
       </ion-item>
 
-      <ion-item class="settings-btn last-item">
-        <ion-icon class="settings-icon" name='locate' item-left></ion-icon>
-        <ion-label>GPS</ion-label>
-        <ion-toggle class="settings-toggle" color="success"></ion-toggle>
+      <ion-item class="last-item">
+        <button ion-item class="settings-btn" (click)="changeGPS()">
+          <ion-icon class="settings-icon" name='locate' item-left></ion-icon>
+          GPS
+        </button>
       </ion-item>
 
     </ion-list>

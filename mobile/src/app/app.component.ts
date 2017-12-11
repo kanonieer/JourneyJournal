@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import { SettingsPage } from '../pages/settings/settings';
 
 // Plugins
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -44,10 +45,10 @@ export class MyApp {
     direction: 'back'
   };
   
-  constructor(public platform: Platform, public events: Events, public toastCtrl: ToastController, private keyboard: Keyboard, private splashScreen: SplashScreen, private statusBar: StatusBar, private storageSvc: StorageService) {
+  constructor(public platform: Platform, public events: Events, public toastCtrl: ToastController, private locationAccuracy: LocationAccuracy, private keyboard: Keyboard, private splashScreen: SplashScreen, private statusBar: StatusBar, private storageSvc: StorageService) {
 
     this.initializeApp();
-    
+    this.checkGPS();
     this.pages.push(
       {title: 'Journeys', component: JourneysPage, icon: 'images'},
       {title: 'About', component: AboutPage, icon: 'information-circle'},
@@ -105,5 +106,25 @@ export class MyApp {
       position: "bottom"
     });
     toast.present();
+  }
+
+  // GPS //
+  // Check
+  public checkGPS() {
+    this.locationAccuracy.canRequest().then(
+      (canRequest: boolean) => {
+        if(canRequest) {
+          this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+            (success) => {
+              console.log('Request successful');
+            }
+          ).catch(
+            (error) => {
+              alert('To use the full capabilities of our application, we recommend to enable gps');
+            }
+          );
+        }
+      }
+    );
   }
 }

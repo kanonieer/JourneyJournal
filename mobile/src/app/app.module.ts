@@ -19,6 +19,7 @@ import { SettingsPage } from '../pages/settings/settings';
 
 // Plugins
 import { Camera } from '@ionic-native/camera';
+import { Diagnostic } from '@ionic-native/diagnostic';
 import { Facebook } from '@ionic-native/facebook';
 import { File } from '@ionic-native/file';
 import { FileTransfer } from '@ionic-native/file-transfer';
@@ -26,6 +27,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { Geolocation } from '@ionic-native/geolocation';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Keyboard } from '@ionic-native/keyboard';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
@@ -73,6 +75,7 @@ import { StorageService } from '../providers/storage-service';
   ],
   providers: [
     Camera,
+    Diagnostic,
     Facebook,
     File,
     FileTransfer,
@@ -80,6 +83,7 @@ import { StorageService } from '../providers/storage-service';
     Geolocation,
     ImagePicker,
     Keyboard,
+    LocationAccuracy,
     SplashScreen,
     StatusBar,
     AccountService,

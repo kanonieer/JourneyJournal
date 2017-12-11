@@ -4,6 +4,10 @@ import { ModalController, AlertController, Events } from 'ionic-angular';
 // Pages
 import { AccountPage } from '../account/account';
 
+// Plugins
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { LocationAccuracy } from '@ionic-native/location-accuracy';
+
 // Providers
 import { AccountService } from '../../providers/account-service';
 import { StorageService } from '../../providers/storage-service';
@@ -23,7 +27,8 @@ export class SettingsPage {
   isEnabled = null;
   user_id: String = this.storageSvc.get('user_id');
 
-  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private accountSvc: AccountService, private storageSvc: StorageService) {
+  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy,
+    private accountSvc: AccountService, private storageSvc: StorageService) {
 
     this.checkedImage();
     this.checkedFb();
@@ -109,5 +114,42 @@ export class SettingsPage {
   // Add user fb
   addFb() {
     this.events.publish('user:fb')
+  }
+
+  // GPS //
+  // Check
+  public checkGPS() {
+    this.locationAccuracy.canRequest().then(
+      (canRequest: boolean) => {
+        if(canRequest) {
+          this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+            (success) => {
+              console.log('Request successful');
+            }
+          ).catch(
+            (error) => {
+              alert('To use the full capabilities of our application, we recommend to enable gps');
+            }
+          );
+        }
+      }
+    );
+  }
+
+  // Change
+  public changeGPS() {
+    this.diagnostic.getLocationMode().then(
+      (isEnabled) => {
+        if(isEnabled === this.diagnostic.locationMode.LOCATION_OFF) {
+          this.checkGPS();
+        } else {
+          this.diagnostic.switchToLocationSettings();
+        }
+      }
+    ).catch(
+      (error) => {
+        alert(error);
+      }
+    );
   }
 }
