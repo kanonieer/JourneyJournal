@@ -20,12 +20,12 @@ import { StorageService } from '../../providers/storage-service';
 
 export class SettingsPage {
 
-  isCheckedImage: boolean = false;
-  isCheckedFb: boolean = false;
-  saveToggleImage: string = this.storageSvc.get('save_images');
-  saveToggleFb: string = this.storageSvc.get('user_logged_fb');
-  isEnabled = null;
-  user_id: String = this.storageSvc.get('user_id');
+  public isCheckedImage: boolean = false;
+  public isCheckedFb: boolean = false;
+  public saveToggleImage: string = this.storageSvc.get('save_images');
+  public saveToggleFb: string = this.storageSvc.get('user_logged_fb');
+  public isEnabled = null;
+  public user_id: String = this.storageSvc.get('user_id');
 
   constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy,
     private accountSvc: AccountService, private storageSvc: StorageService) {
@@ -37,14 +37,14 @@ export class SettingsPage {
 
   // MODALS //
   // Open
-  openModal(modalNum) {
+  public openModal(modalNum) {
     let modal = this.modalCtrl.create(AccountPage, modalNum);
     modal.present();
   }
 
   // SETTINGS //
   // Save image to photolibrary
-  saveImages() {
+  public saveImages() {
     this.saveToggleImage = this.storageSvc.get('save_images');
 
     if(this.saveToggleImage === 'true') {
@@ -55,17 +55,17 @@ export class SettingsPage {
   }
 
   // Check options for image
-  checkedImage() {
+  public checkedImage() {
     return this.isCheckedImage = this.saveToggleImage === 'true' ? true : false;
   }
 
   // Check options for user fb
-  checkedFb() {
+  public checkedFb() {
     return this.isCheckedFb = this.saveToggleFb === 'true' ? true : false;
   }
 
   // Button controls
-  enableBtn() {
+  public enableBtn() {
     if(this.storageSvc.get('email')) {
       this.isEnabled = true;
     }
@@ -112,7 +112,7 @@ export class SettingsPage {
   }
 
   // Add user fb
-  addFb() {
+  public addFb() {
     this.events.publish('user:fb')
   }
 

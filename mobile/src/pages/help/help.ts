@@ -22,7 +22,7 @@ export class HelpPage {
 
   // MENU //
   // Go to sub page
-  goToPage(subPages) {
+  public goToPage(subPages) {
     this.navCtrl.push(subPages);
   }
 }

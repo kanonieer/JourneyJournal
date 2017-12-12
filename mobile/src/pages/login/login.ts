@@ -24,20 +24,20 @@ export class LoginPage {
     this.menuCtrl.enable(false);
   }
   
-  loading: Loading;
-  userData = null;
+  public loading: Loading;
+  public userData = null;
 
-  loginCredentials = {
+  public loginCredentials = {
     email: '', 
     password: '' 
   };
-  navOptionsForward = {
+  public navOptionsForward = {
     animate: true,
     animation: 'transition',
     duration: 600,
     direction: 'forward'
   };
-  navOptionsBack = {
+  public navOptionsBack = {
     animate: true,
     animation: 'transition',
     duration: 600,
@@ -123,7 +123,7 @@ export class LoginPage {
   }
 
   // Create
-  createAccount() {
+  public createAccount() {
     this.navCtrl.push(RegisterPage, {}, this.navOptionsForward);
     this.loginCredentials.email = '';
     this.loginCredentials.password = '';
@@ -163,7 +163,7 @@ export class LoginPage {
   
   // LOADING //
   // Show
-  showLoading() {
+  public showLoading() {
     this.loading = this.loadingCtrl.create({
       spinner: 'crescent',
       content: 'Please wait',
@@ -174,7 +174,7 @@ export class LoginPage {
 
   // TOASTS//
   // Present
-  private presentToast(text) {
+  public presentToast(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 2000,

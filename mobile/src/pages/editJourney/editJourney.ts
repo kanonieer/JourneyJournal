@@ -13,22 +13,23 @@ import { StorageService } from '../../providers/storage-service';
 
 export class EditJourneyPage {
 
-  modal;
-  journey_id = this.params.get('id_journey');
+  public modal;
+  public journey_id = this.params.get('id_journey');
 
-  journeyCredentials = {
+  public journeyCredentials = {
     title: this.params.get('title_journey'),
     date_start: '',
     date_end: '',
     access_token : this.storageSvc.get('token')
   };
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService, private storageSvc: StorageService) {
+  constructor(public params: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService,
+    private storageSvc: StorageService) {
   }
 
   // JOURNEYS //
   // Edit
-  editJourney() {
+  public editJourney() {
     this.journeySvc.editJourney(this.journey_id, this.journeyCredentials).subscribe(
       (data) => {
         this.reload();
@@ -42,19 +43,19 @@ export class EditJourneyPage {
   }
 
   // Reload
-  reload() {
+  public reload() {
     this.events.publish('journey:get');
   }
 
   // MODALS //
   // Dismiss
-  dismiss() {
+  public dismiss() {
     this.viewCtrl.dismiss();
   }
 
   // TOASTS //
   // Success
-  private presentToastSuccess(text) {
+  public presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,
@@ -65,7 +66,7 @@ export class EditJourneyPage {
   }
 
   // Error
-  private presentToastError(text) {
+  public presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,

@@ -32,10 +32,10 @@ export class JourneysPage {
 
   public journeys: Array<Journey>;
   public loadedJourneys: Array<Journey>;
-  private showSearchbar: boolean = false;
-  private searchQuery = '';
+  public showSearchbar: boolean = false;
+  public searchQuery = '';
 
-  navOptions = {
+  public navOptions = {
     animate: true,
     animation: 'transition',
     duration: 600,
@@ -52,7 +52,7 @@ export class JourneysPage {
 
   // JOURNEYS //
   // Add
-  addJourney() {
+  public addJourney() {
     this.navCtrl.push(AddJourneyPage, {}, this.navOptions);
     this.toggleSearchbarOff();
   }
@@ -134,7 +134,7 @@ export class JourneysPage {
 
   // TOAST //
   // Success
-  private presentToastSuccess(text) {
+  public presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,
@@ -145,7 +145,7 @@ export class JourneysPage {
   }
 
   // Error
-  private presentToastError(text) {
+  public presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,
@@ -157,7 +157,7 @@ export class JourneysPage {
 
   // SEARCHBAR //
   // On
-  toggleSearchbarOn() {
+  public toggleSearchbarOn() {
     this.showSearchbar = true;
     setTimeout(() => {
       this.searchInput.setFocus();
@@ -169,19 +169,19 @@ export class JourneysPage {
   }
 
   // Off
-  toggleSearchbarOff() {
+  public toggleSearchbarOff() {
     this.showSearchbar = false;
     this.searchQuery = '';
     this.initializeItems();
   }
 
   // Needed for search bar
-  initializeItems(): void {
+  public initializeItems(): void {
     this.journeys = this.loadedJourneys;
   }
 
   // Search
-  getItems(searchbar) {
+  public getItems(searchbar) {
     this.initializeItems();
     let typedValue = searchbar.target.value;
     // trim => remove whitespace from both sides of a String
@@ -193,7 +193,7 @@ export class JourneysPage {
   }
 
   // REFRESHER //
-  doRefresh(refresher) {
+  public doRefresh(refresher) {
     this.toggleSearchbarOff();
     this.getJourneys();
 

@@ -22,22 +22,22 @@ export class JourneyService {
 
   }
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private options = new RequestOptions({headers: this.headers});
+  public headers = new Headers({'Content-Type': 'application/json'});
+  public options = new RequestOptions({headers: this.headers});
 
-  addJourney(payload: any): Observable<any> {
+  public addJourney(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/journeys', JSON.stringify(payload), this.options)
       .map(successHandle)
       .catch(errorHandle);
   }
 
-  editJourney(id: any, payload: any): Observable<any> {
+  public editJourney(id: any, payload: any): Observable<any> {
     return this._http.patch(serverAdress + '/journeys/' + id, JSON.stringify(payload), this.options)
       .map(successHandle)
       .catch(errorHandle);
   }
 
-  getJourneys(): Observable<Array<Journey>> {
+  public getJourneys(): Observable<Array<Journey>> {
     const access_token = this.storageSvc.get('token');
 
     return this._http.get(serverAdress + '/journeys?access_token=' + access_token, this.options)
@@ -45,7 +45,7 @@ export class JourneyService {
       .catch(errorHandle);
   }
   
-  deleteJourney(id: any): Observable<any> {
+  public deleteJourney(id: any): Observable<any> {
     const access_token = this.storageSvc.get('token');
     
     return this._http.delete(serverAdress + '/journeys/' + id + '?access_token=' + access_token, this.options)

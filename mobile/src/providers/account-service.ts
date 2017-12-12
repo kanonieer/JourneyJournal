@@ -18,16 +18,16 @@ export class AccountService {
     
   }
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private options = new RequestOptions({headers: this.headers});
+  public headers = new Headers({'Content-Type': 'application/json'});
+  public options = new RequestOptions({headers: this.headers});
 
-  getMe(payload: any): Observable<any> {
+  public getMe(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/profile', JSON.stringify(payload), this.options)
       .map(successHandle)
       .catch(errorHandle);
   }
 
-  changeEmail(form: any): Observable<any> {
+  public changeEmail(form: any): Observable<any> {
     let payload = {
       form: form,
       access_token: this.storageSvc.get('token')
@@ -37,7 +37,7 @@ export class AccountService {
       .catch(errorHandleBody);
   }
 
-  changePassword(form: any): Observable<any> {
+  public changePassword(form: any): Observable<any> {
     let payload = {
       form: form,
       access_token: this.storageSvc.get('token')
@@ -47,7 +47,7 @@ export class AccountService {
       .catch(errorHandleBody);
   }
 
-  deleteAccount(id: any): Observable<any> {
+  public deleteAccount(id: any): Observable<any> {
     const access_token = this.storageSvc.get('token');
 
     return this._http.delete(serverAdress + '/users/' + id + '?access_token=' + access_token, this.options)

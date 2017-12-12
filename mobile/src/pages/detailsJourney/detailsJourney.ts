@@ -43,18 +43,18 @@ export class DetailsJourneyPage {
   }
 
   public images: Array<Image>;
-  loading: Loading;
-  lastImage: String = null;
-  id_journey = this.navParams.get('id_journey');
+  public loading: Loading;
+  public lastImage: String = null;
+  public id_journey = this.navParams.get('id_journey');
   
-  journeyCredentials = {
+  public journeyCredentials = {
     title: this.navParams.get('title_journey')
   };
-  geoCredentials = {
+  public geoCredentials = {
     lat: "",
     long: ""
   };
-  PhotoOptionsTake = {
+  public PhotoOptionsTake = {
     quality: 100,
     targetWidth: 2000,
     targetHeight: 2000,
@@ -64,14 +64,14 @@ export class DetailsJourneyPage {
     encodingType: this.camera.EncodingType.JPEG,
     saveToPhotoAlbum: false
   };
-  PhotoOptionsLoad = {
+  public PhotoOptionsLoad = {
     maximumImagesCount: 100,
     width: 2000,
     height: 2000,
     quality: 100,
     outputType: 0 //0 - FILE_URI, 1 - BASE64_STRING
   };
-  navOptions = {
+  public navOptions = {
     animate: true,
     animation: 'transition',
     duration: 600,
@@ -118,7 +118,7 @@ export class DetailsJourneyPage {
   }
 
   // Upload
-  private uploadToCloudinary(file, imageName) {
+  public uploadToCloudinary(file, imageName) {
     const fileTransfer: FileTransferObject = this.transfer.create();
     let UploadOptions: FileUploadOptions = {
       fileKey: "file",
@@ -235,7 +235,7 @@ export class DetailsJourneyPage {
 
   // GEOLOCATION //
   // Get
-  getGeo() {
+  public getGeo() {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.geoCredentials.lat = "" + resp.coords.latitude,
       this.geoCredentials.long = "" + resp.coords.longitude
@@ -246,7 +246,7 @@ export class DetailsJourneyPage {
 
   // ACTION SHEET //
   // Present
-  presentActionSheet() {
+  public presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Options',
       buttons: [
@@ -269,7 +269,7 @@ export class DetailsJourneyPage {
 
   // TOASTS //
   // Success
-  private presentToastSuccess(text) {
+  public presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,
@@ -280,7 +280,7 @@ export class DetailsJourneyPage {
   }
 
   // Error
-  private presentToastError(text) {
+  public presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,
@@ -302,13 +302,13 @@ export class DetailsJourneyPage {
 
   // NAV //
   // Back
-  back() {
+  public back() {
     this.navCtrl.pop(this.navOptions);
   }
 
   // LOADING //
   // Show
-  showLoading() {
+  public showLoading() {
     this.loading = this.loadingCtrl.create({
       spinner: 'crescent',
       content: 'Please wait',
@@ -319,7 +319,7 @@ export class DetailsJourneyPage {
 
   // SETTINGS //
   // Change to bool
-  toBool(storage) {
+  public toBool(storage) {
     return this.PhotoOptionsTake.saveToPhotoAlbum = this.storageSvc.get(storage) === 'true' ? true : false;
   }
 }

@@ -29,23 +29,24 @@ export class MyApp {
   
   public rootPage: any = LoginPage;
   public pages: Array<{ title: string, component: any, icon: string }> = [];
-  lastTimeBackPress = 0;
-  timePeriodToExit  = 2000;
+  public lastTimeBackPress = 0;
+  public timePeriodToExit  = 2000;
 
-  navOptions = {
+  public navOptions = {
     animate: true,
     animation: 'transition',
     duration: 600,
     direction: 'forward'
   };
-  navOptionsBack = {
+  public navOptionsBack = {
     animate: true,
     animation: 'transition',
     duration: 600,
     direction: 'back'
   };
   
-  constructor(public platform: Platform, public events: Events, public toastCtrl: ToastController, private locationAccuracy: LocationAccuracy, private keyboard: Keyboard, private splashScreen: SplashScreen, private statusBar: StatusBar, private storageSvc: StorageService) {
+  constructor(public platform: Platform, public events: Events, public toastCtrl: ToastController, private locationAccuracy: LocationAccuracy,
+    private keyboard: Keyboard, private splashScreen: SplashScreen, private statusBar: StatusBar, private storageSvc: StorageService) {
 
     this.initializeApp();
     this.checkGPS();
@@ -58,7 +59,7 @@ export class MyApp {
 
   // APP //
   // Starting
-  initializeApp() {
+  public initializeApp() {
     this.platform.ready().then(() => {
       if((this.storageSvc.get('user_logged') == 'true') || (this.storageSvc.get('user_logged_fb') == 'true')) {
         this.menu.setRoot(JourneysPage, {}, this.navOptions);
@@ -88,7 +89,7 @@ export class MyApp {
 
   // MENU //
   // Change page
-  goToPage(page) {
+  public goToPage(page) {
     this.menu.setRoot(page, {}, this.navOptions);
   }
 
@@ -99,7 +100,7 @@ export class MyApp {
 
   // TOASTS//
   // Present
-  private presentToast(text) {
+  public presentToast(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 3000,

@@ -19,16 +19,16 @@ export class ImageService {
 
   }
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private options = new RequestOptions({headers: this.headers});
+  public headers = new Headers({'Content-Type': 'application/json'});
+  public options = new RequestOptions({headers: this.headers});
 
-  saveImage(payload: any): Observable<any> {
+  public saveImage(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/images', JSON.stringify(payload), this.options)
       .map(successHandle)
       .catch(errorHandle);
   }
 
-  getImagesByJourney(journey_id: string): Observable<any> {
+  public getImagesByJourney(journey_id: string): Observable<any> {
     const access_token = this.storageSvc.get('token');
 
     return this._http.get(serverAdress + '/journeys/' + journey_id + '/images?access_token=' + access_token, this.options)

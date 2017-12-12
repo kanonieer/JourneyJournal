@@ -25,7 +25,7 @@ export class AddJourneyPage {
     this.menuCtrl.enable(true);
   }
 
-  journeyCredentials = {
+  public journeyCredentials = {
     title        : '',
     description  : '',
     id_disc      : '',
@@ -33,7 +33,7 @@ export class AddJourneyPage {
     date_end     : '',
     access_token : this.storageSvc.get('token')
   }
-  navOptions = {
+  public navOptions = {
     animate: true,
     animation: 'transition',
     duration: 600,
@@ -46,7 +46,7 @@ export class AddJourneyPage {
 
   // JOURNEYS //
   // Add
-  addJourney(){
+  public addJourney(){
     this.journeySvc.addJourney(this.journeyCredentials).subscribe(
       (data) => {
         this.navCtrl.setRoot(JourneysPage, {}, this.navOptions);
@@ -61,13 +61,13 @@ export class AddJourneyPage {
 
   // NAV //
   // Back
-  back() {
+  public back() {
     this.navCtrl.pop(this.navOptions);
   }
 
   // TOASTS //
   // Success
-  private presentToastSuccess(text) {
+  public presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,
@@ -78,7 +78,7 @@ export class AddJourneyPage {
   }
 
   // Error
-  private presentToastError(text) {
+  public presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,

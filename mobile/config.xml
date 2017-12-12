@@ -91,7 +91,7 @@
     <plugin name="cordova-plugin-compat" spec="^1.1.0" />
     <plugin name="cordova-plugin-console" spec="^1.1.0" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
-    <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
+    <plugin name="cordova-plugin-facebook4" spec="^1.7.4">
         <variable name="APP_ID" value="865241546949819" />
         <variable name="APP_NAME" value="Journey Journal" />
     </plugin>

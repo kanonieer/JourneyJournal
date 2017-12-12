@@ -26,22 +26,22 @@ export class AuthService {
 
   }
 
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private options = new RequestOptions({headers: this.headers});
+  public headers = new Headers({'Content-Type': 'application/json'});
+  public options = new RequestOptions({headers: this.headers});
 
-  signUpBasic(payload: any): Observable<any> {
+  public signUpBasic(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/signup', JSON.stringify(payload), this.options)
       .map(successHandle)
       .catch(errorHandle);
   }
   
-  loginBasic(payload: any): Observable<any> {
+  public loginBasic(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/login', JSON.stringify(payload), this.options)
       .map(successHandle)
       .catch(errorHandle);
   }
 
-  signUpFacebook(payload: any): Observable<any> {
+  public signUpFacebook(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/facebookAuthorization', JSON.stringify(payload), this.options)
       .map(successHandle)
       .catch(errorHandle);

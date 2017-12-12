@@ -14,26 +14,27 @@ import { AuthService } from '../../providers/auth-service';
 
 export class AccountPage {
 
-  modal;
-  createForm = false;
-  emailForm = false;
-  passwordForm = false;
+  public modal;
+  public createForm = false;
+  public emailForm = false;
+  public passwordForm = false;
 
-  registerCredentials = {
+  public registerCredentials = {
     email: '',
     password: ''
   };
-  emailCredentials = {
+  public emailCredentials = {
     oldEmail: '',
     newEmail: ''
   };
-  passwordCredentials = {
+  public passwordCredentials = {
     oldPassword: '',
     newPassword: '',
     confirmPassword: ''
   };
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public events: Events, private accountSvc: AccountService, private authSvc: AuthService) {
+  constructor(public params: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public events: Events, private accountSvc: AccountService,
+    private authSvc: AuthService) {
 
     this.startModal();
     this.checkModal();
@@ -41,7 +42,7 @@ export class AccountPage {
 
   // ACCOUNT //
   // Create
-  createAccount(form: NgForm) {
+  public createAccount(form: NgForm) {
     this.authSvc.signUpBasic(form).subscribe(
       (success) => {
         if (success) {
@@ -58,7 +59,7 @@ export class AccountPage {
   }
 
   // Email
-  changeEmail(form: NgForm) {
+  public changeEmail(form: NgForm) {
     this.accountSvc.changeEmail(form.value).subscribe(
       (data) => {
         this.dismiss();
@@ -82,7 +83,7 @@ export class AccountPage {
   }
 
   // Password
-  changePassword(form: NgForm) {
+  public changePassword(form: NgForm) {
     var payload = {
         oldPassword: form.value.oldPassword,
         newPassword: form.value.newPassword
@@ -118,7 +119,7 @@ export class AccountPage {
 
   // MODALS //
   // Start
-  startModal() {
+  public startModal() {
     var modals = [{
         name: 'Create new account',
         form: 'Create'
@@ -136,7 +137,7 @@ export class AccountPage {
   }
 
   // Check
-  checkModal() {
+  public checkModal() {
     if (this.modal.form === 'Create') {
       this.createForm = true;
     } else if (this.modal.form === 'Email') {
@@ -147,13 +148,13 @@ export class AccountPage {
   }
 
   // Dissmiss
-  dismiss() {
+  public dismiss() {
     this.viewCtrl.dismiss();
   }
 
   // TOASTS //
   // Success
-  private presentToastSuccess(text) {
+  public presentToastSuccess(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,
@@ -164,7 +165,7 @@ export class AccountPage {
   }
 
   // Error
-  private presentToastError(text) {
+  public presentToastError(text) {
     let toast = this.toastCtrl.create({
       message: text,
       duration: 1500,

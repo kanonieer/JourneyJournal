@@ -16,13 +16,13 @@ export class RegisterPage {
     this.menuCtrl.enable(false);
   }
 
-  createSuccess = false;
+  public createSuccess = false;
 
-  registerCredentials = {
+  public registerCredentials = {
     email: '',
     password: ''
   };
-  navOptions = {
+  public navOptions = {
     animate: true, 
     animation: 'transition', 
     duration: 600, 
@@ -51,7 +51,7 @@ export class RegisterPage {
 
   // NAV //
   // Back to login
-  signIn() {
+  public signIn() {
     this.navCtrl.pop(this.navOptions);
     this.registerCredentials.email = '';
     this.registerCredentials.password = '';
@@ -59,7 +59,7 @@ export class RegisterPage {
 
   // ALERT //
   // Show
-  showPopup(title, text) {
+  public showPopup(title, text) {
     let alert = this.alertCtrl.create({
       title: title,
       subTitle: text,
