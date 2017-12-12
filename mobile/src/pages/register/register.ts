@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 import { NavController, AlertController, MenuController } from 'ionic-angular';
 
 // Providers
 import { AuthService } from '../../providers/auth-service';
 
+// Shared
+import { navOptionsBack } from '../../shared/GlobalVariables';
+
+@IonicPage()
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
@@ -21,12 +26,6 @@ export class RegisterPage {
   public registerCredentials = {
     email: '',
     password: ''
-  };
-  public navOptions = {
-    animate: true, 
-    animation: 'transition', 
-    duration: 600, 
-    direction: 'back'
   };
 
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, private alertCtrl: AlertController, private authSvc: AuthService) {
@@ -52,7 +51,7 @@ export class RegisterPage {
   // NAV //
   // Back to login
   public signIn() {
-    this.navCtrl.pop(this.navOptions);
+    this.navCtrl.pop(navOptionsBack);
     this.registerCredentials.email = '';
     this.registerCredentials.password = '';
   }
@@ -67,7 +66,7 @@ export class RegisterPage {
         text: 'OK',
         handler: (data) => {
           if (this.createSuccess) {
-            this.navCtrl.pop(this.navOptions);
+            this.navCtrl.pop(navOptionsBack);
           }
         }
       }]

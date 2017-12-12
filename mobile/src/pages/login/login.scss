@@ -118,6 +118,12 @@ page-login {
   }
 }
 
+.success {
+  .toast-wrapper {
+    background: color($colors, success);
+  }
+}
+
 .error {
   .toast-wrapper {
     background: color($colors, error);

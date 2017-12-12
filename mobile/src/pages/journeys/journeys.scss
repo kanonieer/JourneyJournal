@@ -105,15 +105,3 @@ page-journeys {
     }
   }
 }
-
-.success {
-  .toast-wrapper {
-    background: color($colors, success);
-  }
-}
-
-.error {
-  .toast-wrapper {
-    background: color($colors, error);
-  }
-}

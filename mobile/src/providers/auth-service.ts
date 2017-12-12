@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { map } from 'rxjs/operators/map';
+import { catchError } from 'rxjs/operators/catchError';
 
 // Shared
 import { serverAdress } from './../shared/GlobalVariables';
@@ -17,7 +17,6 @@ export class User {
 }
 
 @Injectable()
-
 export class AuthService {
 
   currentUser: User;
@@ -30,21 +29,24 @@ export class AuthService {
   public options = new RequestOptions({headers: this.headers});
 
   public signUpBasic(payload: any): Observable<any> {
-    return this._http.post(serverAdress + '/signup', JSON.stringify(payload), this.options)
-      .map(successHandle)
-      .catch(errorHandle);
+    return this._http.post(serverAdress + '/signup', JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
   }
   
   public loginBasic(payload: any): Observable<any> {
-    return this._http.post(serverAdress + '/login', JSON.stringify(payload), this.options)
-      .map(successHandle)
-      .catch(errorHandle);
+    return this._http.post(serverAdress + '/login', JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
   }
 
   public signUpFacebook(payload: any): Observable<any> {
-    return this._http.post(serverAdress + '/facebookAuthorization', JSON.stringify(payload), this.options)
-      .map(successHandle)
-      .catch(errorHandle);
+    return this._http.post(serverAdress + '/facebookAuthorization', JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
   }
 
   public logout() {

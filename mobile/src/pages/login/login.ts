@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, Loading, MenuController, ToastController, Events } from 'ionic-angular';
-
-// Pages
-import { JourneysPage } from '../journeys/journeys';
-import { RegisterPage } from '../register/register';
+import { IonicPage } from 'ionic-angular';
+import { NavController, MenuController, Events } from 'ionic-angular';
 
 // Plugins
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
@@ -11,11 +8,16 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 // Providers
 import { AuthService } from '../../providers/auth-service';
 import { StorageService } from '../../providers/storage-service';
+import { uiComp } from '../../providers/ui-components';
 
+// Shared
+import { navOptionsForward, navOptionsBack } from '../../shared/GlobalVariables';
+
+@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [AuthService, StorageService]
+  providers: [AuthService, StorageService, uiComp]
 })
 
 export class LoginPage {
@@ -24,28 +26,15 @@ export class LoginPage {
     this.menuCtrl.enable(false);
   }
   
-  public loading: Loading;
   public userData = null;
 
   public loginCredentials = {
     email: '', 
     password: '' 
   };
-  public navOptionsForward = {
-    animate: true,
-    animation: 'transition',
-    duration: 600,
-    direction: 'forward'
-  };
-  public navOptionsBack = {
-    animate: true,
-    animation: 'transition',
-    duration: 600,
-    direction: 'back'
-  };
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public menuCtrl: MenuController, public toastCtrl: ToastController, 
-    public events: Events, private fb: Facebook, private authSvc: AuthService, private storageSvc: StorageService) {
+  constructor(public navCtrl: NavController, public menuCtrl: MenuController, public events: Events, private fb: Facebook, private authSvc: AuthService,
+    private storageSvc: StorageService, private uiCmp: uiComp) {
      
     events.subscribe('user:logout', () => {
       if(this.storageSvc.get('user_logged') === "true") {
@@ -72,7 +61,7 @@ export class LoginPage {
     let permissions = new Array<string>();
     permissions = ['public_profile', 'email'];
     
-    this.showLoading();
+    this.uiCmp.showLoading();
     this.fb.login(permissions).then((res: FacebookLoginResponse) => {
       this.fb.api('me?fields=id,email', []).then(profile => {
         this.userData = {email: profile['email']};
@@ -91,12 +80,12 @@ export class LoginPage {
             this.storageSvc.set('email', this.userData.email);
             this.storageSvc.set('user_logged_fb', 'true');
             this.storageSvc.set('save_images', 'false');
-            this.navCtrl.setRoot(JourneysPage, {}, this.navOptionsForward);
-            this.loading.dismiss();
+            this.navCtrl.setRoot('JourneysPage', {}, navOptionsForward);
+            this.uiCmp.loading.dismiss();
           },
           (err) => {
             alert(err);
-            this.loading.dismiss();
+            this.uiCmp.loading.dismiss();
           }
         )
       });
@@ -105,82 +94,59 @@ export class LoginPage {
   
   // Login local
   public loginUser() {
-    this.showLoading();
+    this.uiCmp.showLoading();
     this.authSvc.loginBasic(this.loginCredentials).subscribe(
       (data) => {
         this.storageSvc.set('user_id', data.user._id.toString());
         this.storageSvc.set('token', data.token);
         this.storageSvc.set('user_logged', 'true');
         this.storageSvc.set('save_images', 'false');
-        this.navCtrl.setRoot(JourneysPage, {}, this.navOptionsForward);
-        this.loading.dismiss();
+        this.navCtrl.setRoot('JourneysPage', {}, navOptionsForward);
+        this.uiCmp.loading.dismiss();
       },
       (err) => {
-        this.loading.dismiss();
-        this.presentToast("Invalid email or password");
+        this.uiCmp.loading.dismiss();
+        this.uiCmp.presentToastError("Invalid email or password");
       }
     );
   }
 
   // Create
   public createAccount() {
-    this.navCtrl.push(RegisterPage, {}, this.navOptionsForward);
+    this.navCtrl.push('RegisterPage', {}, navOptionsForward);
     this.loginCredentials.email = '';
     this.loginCredentials.password = '';
   }
 
   // Logout FB
   public logoutFacebook() {
-    this.showLoading();
+    this.uiCmp.showLoading();
     this.fb.logout();
     this.storageSvc.clear();
-    this.navCtrl.setRoot(LoginPage, {}, this.navOptionsBack);
-    this.loading.dismiss();
+    this.navCtrl.setRoot(LoginPage, {}, navOptionsBack);
+    this.uiCmp.loading.dismiss();
   }
 
   // Logout FB test
   public logoutFacebook2() {
-    this.showLoading();
+    this.uiCmp.showLoading();
     this.fb.logout();
     this.storageSvc.remove('facebook_user_id');
     this.storageSvc.remove('email');
     this.storageSvc.remove('user_logged_fb');
     this.storageSvc.set('user_logged', 'true');
-    this.loading.dismiss();
+    this.uiCmp.loading.dismiss();
   }
 
   // Logout local
   public logoutUser() {
-    this.showLoading();
+    this.uiCmp.showLoading();
     this.authSvc.logout().subscribe(
       (data) => {
         this.storageSvc.clear();
-        this.navCtrl.setRoot(LoginPage, {}, this.navOptionsBack);
-        this.loading.dismiss();
+        this.navCtrl.setRoot(LoginPage, {}, navOptionsBack);
+        this.uiCmp.loading.dismiss();
       }
     );
-  }
-  
-  // LOADING //
-  // Show
-  public showLoading() {
-    this.loading = this.loadingCtrl.create({
-      spinner: 'crescent',
-      content: 'Please wait',
-      duration: 2000
-    });
-    this.loading.present();
-  }
-
-  // TOASTS//
-  // Present
-  public presentToast(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 2000,
-      position: "bottom",
-      cssClass: "error"
-    });
-    toast.present();
   }
 }

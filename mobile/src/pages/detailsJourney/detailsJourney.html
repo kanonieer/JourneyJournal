@@ -33,14 +33,15 @@
           <ion-card class="grid-card">
             <cl-image 
               [public-id]=image._id
-              class="thumbnail inline"
-              height="200"
-              width="200"
-              quality="50"
-              crop="fill"
-              gravity="center"
-              format="jpg"
-              cloud-name="dzgtgeotp">
+              class="thumbnail inline" 
+              format="jpg">
+              <cl-transformation 
+                width="200"
+                height="200"
+                quality="50"
+                gravity="center"
+                crop="fill">
+              </cl-transformation>
             </cl-image>
           </ion-card>
         </ion-col>

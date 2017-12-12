@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { map } from 'rxjs/operators/map';
+import { catchError } from 'rxjs/operators/catchError';
 
 // Shared
 import { serverAdress } from './../shared/GlobalVariables';
@@ -15,7 +15,6 @@ import { StorageService } from '../providers/storage-service';
 import { Journey } from './../models/Journey';
 
 @Injectable()
-
 export class JourneyService {
 
   constructor(private _http: Http, private storageSvc: StorageService) {
@@ -24,32 +23,37 @@ export class JourneyService {
 
   public headers = new Headers({'Content-Type': 'application/json'});
   public options = new RequestOptions({headers: this.headers});
+  public user_id = this.storageSvc.get('user_id');
 
   public addJourney(payload: any): Observable<any> {
-    return this._http.post(serverAdress + '/journeys', JSON.stringify(payload), this.options)
-      .map(successHandle)
-      .catch(errorHandle);
+    return this._http.post(serverAdress + '/journeys', JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
   }
 
   public editJourney(id: any, payload: any): Observable<any> {
-    return this._http.patch(serverAdress + '/journeys/' + id, JSON.stringify(payload), this.options)
-      .map(successHandle)
-      .catch(errorHandle);
+    return this._http.patch(serverAdress + '/journeys/' + id, JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
   }
 
   public getJourneys(): Observable<Array<Journey>> {
     const access_token = this.storageSvc.get('token');
 
-    return this._http.get(serverAdress + '/journeys?access_token=' + access_token, this.options)
-      .map(successHandle)
-      .catch(errorHandle);
+    return this._http.get(serverAdress + '/users/' + this.user_id + '/journeys?access_token=' + access_token, this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
   }
   
   public deleteJourney(id: any): Observable<any> {
     const access_token = this.storageSvc.get('token');
     
-    return this._http.delete(serverAdress + '/journeys/' + id + '?access_token=' + access_token, this.options)
-      .map(successHandle)
-      .catch(errorHandle);
+    return this._http.delete(serverAdress + '/journeys/' + id + '?access_token=' + access_token, this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
   }
 }

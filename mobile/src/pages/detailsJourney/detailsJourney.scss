@@ -60,6 +60,10 @@ page-detailsJourney {
 }
 
 .action-sheet-md {
+  .action-sheet-group:last-child {
+    padding: 0;
+  }
+
   .action-sheet-wrapper {
     .action-sheet-container {
       padding: 0;
@@ -81,6 +85,7 @@ page-detailsJourney {
   .action-sheet-group {
     background-color: color($colors, accent);
   }
+
   .action-sheet-wrapper {
     .action-sheet-container {
 
@@ -94,17 +99,5 @@ page-detailsJourney {
         border-bottom: 1px solid color($colors, light-btn);
       }
     }
-  }
-}
-
-.success {
-  .toast-wrapper {
-    background: color($colors, success);
-  }
-}
-
-.error {
-  .toast-wrapper {
-    background: color($colors, error);
   }
 }

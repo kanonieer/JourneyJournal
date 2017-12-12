@@ -1,24 +1,25 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, AlertController, ToastController, MenuController, ModalController, Events, ItemSliding, Searchbar } from 'ionic-angular';
-
-// Pages
-import { AddJourneyPage } from '../addJourney/addJourney';
-import { DetailsJourneyPage } from '../detailsJourney/detailsJourney';
-import { EditJourneyPage } from '../editJourney/editJourney';
+import { IonicPage } from 'ionic-angular';
+import { NavController, AlertController, MenuController, ModalController, Events, ItemSliding, Searchbar } from 'ionic-angular';
 
 // Plugins
 import { Keyboard } from '@ionic-native/keyboard';
 
 // Providers
 import { JourneyService } from '../../providers/journey-service';
+import { uiComp } from '../../providers/ui-components';
+
+// Shared
+import { navOptionsForward } from '../../shared/GlobalVariables';
 
 // Models
 import { Journey } from './../../models/Journey';
 
+@IonicPage()
 @Component({
   selector: 'page-journeys',
   templateUrl: 'journeys.html',
-  providers: [JourneyService]
+  providers: [JourneyService, uiComp]
 })
 
 export class JourneysPage {
@@ -35,15 +36,8 @@ export class JourneysPage {
   public showSearchbar: boolean = false;
   public searchQuery = '';
 
-  public navOptions = {
-    animate: true,
-    animation: 'transition',
-    duration: 600,
-    direction: 'forward'
-  };
-
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public toastCtrl: ToastController, public menuCtrl: MenuController, 
-    public modalCtrl: ModalController, public events: Events, public keyboard: Keyboard, private journeySvc: JourneyService) {
+  constructor(public navCtrl: NavController, public alertCtrl: AlertController, public menuCtrl: MenuController, public modalCtrl: ModalController,
+    public events: Events, public keyboard: Keyboard, private journeySvc: JourneyService, private uiCmp: uiComp) {
 
     events.subscribe('journey:get', () => {
       this.getJourneys();
@@ -53,7 +47,7 @@ export class JourneysPage {
   // JOURNEYS //
   // Add
   public addJourney() {
-    this.navCtrl.push(AddJourneyPage, {}, this.navOptions);
+    this.navCtrl.push('AddJourneyPage', {}, navOptionsForward);
     this.toggleSearchbarOff();
   }
 
@@ -64,17 +58,17 @@ export class JourneysPage {
       id_journey: id,
       title_journey: title
     };
-    let modal = this.modalCtrl.create(EditJourneyPage, data); 
+    let modal = this.modalCtrl.create('EditJourneyPage', data); 
     modal.present();
     this.toggleSearchbarOff();
   }
 
   // Details
   public detailsJourney(id: String, title: String) {
-    this.navCtrl.push(DetailsJourneyPage, {
+    this.navCtrl.push('DetailsJourneyPage', {
       id_journey: id,
       title_journey: title
-    }, this.navOptions);
+    }, navOptionsForward);
     this.toggleSearchbarOff();
   }
 
@@ -86,7 +80,7 @@ export class JourneysPage {
         this.loadedJourneys = data;
       }, 
       (error) => {
-        this.presentToastError(error);
+        this.uiCmp.presentToastError(error);
       }
     );
   }
@@ -122,37 +116,14 @@ export class JourneysPage {
           (result) => {
             this.loadedJourneys.splice(i, 1);
             this.toggleSearchbarOff();
-            this.presentToastSuccess(result);
+            this.uiCmp.presentToastSuccess(result);
           },
           (error) => {
-            this.presentToastError(error);
+            this.uiCmp.presentToastError(error);
           }
         );
       }
     }
-  }
-
-  // TOAST //
-  // Success
-  public presentToastSuccess(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 1500,
-      position: "bottom",
-      cssClass: "success"
-    });
-    toast.present();
-  }
-
-  // Error
-  public presentToastError(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 1500,
-      position: "bottom",
-      cssClass: "error"
-    });
-    toast.present();
   }
 
   // SEARCHBAR //
@@ -193,6 +164,7 @@ export class JourneysPage {
   }
 
   // REFRESHER //
+  // Do function
   public doRefresh(refresher) {
     this.toggleSearchbarOff();
     this.getJourneys();

@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
 
-// Pages
-import { HowToAddJourneyPage } from '../help/howToAddJourney/howToAddJourney';
-
+@IonicPage()
 @Component({
   selector: 'page-help',
   templateUrl: 'help.html'
@@ -16,7 +15,7 @@ export class HelpPage {
   constructor(public navCtrl: NavController) {
     
     this.subPages.push(
-      {title: 'How to add new journey', component: HowToAddJourneyPage }
+      {title: 'How to add new journey', component: 'HowToAddJourneyPage' }
     );
   }
 

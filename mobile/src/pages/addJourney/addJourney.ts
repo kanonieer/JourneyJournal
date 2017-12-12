@@ -1,17 +1,20 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, MenuController, ViewController } from 'ionic-angular';
-
-// Pages
-import { JourneysPage } from '../journeys/journeys';
+import { IonicPage } from 'ionic-angular';
+import { NavController, MenuController, ViewController } from 'ionic-angular';
 
 // Providers
 import { JourneyService } from '../../providers/journey-service';
 import { StorageService } from '../../providers/storage-service';
+import { uiComp } from '../../providers/ui-components';
 
+// Shared
+import { navOptionsBack } from '../../shared/GlobalVariables';
+
+@IonicPage()
 @Component({
   selector: 'page-addJourney',
   templateUrl: 'addJourney.html',
-  providers: [JourneyService, StorageService]
+  providers: [JourneyService, StorageService, uiComp]
 })
 
 export class AddJourneyPage {
@@ -33,15 +36,9 @@ export class AddJourneyPage {
     date_end     : '',
     access_token : this.storageSvc.get('token')
   }
-  public navOptions = {
-    animate: true,
-    animation: 'transition',
-    duration: 600,
-    direction: 'back'
-  };
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public menuCtrl: MenuController, public viewCtrl: ViewController, private journeySvc: JourneyService,
-    private storageSvc: StorageService) {
+  constructor(public navCtrl: NavController, public menuCtrl: MenuController, public viewCtrl: ViewController, private journeySvc: JourneyService, private storageSvc: StorageService,
+    private uiCmp: uiComp) {
   }
 
   // JOURNEYS //
@@ -49,12 +46,12 @@ export class AddJourneyPage {
   public addJourney(){
     this.journeySvc.addJourney(this.journeyCredentials).subscribe(
       (data) => {
-        this.navCtrl.setRoot(JourneysPage, {}, this.navOptions);
-        this.presentToastSuccess(this.journeyCredentials.title + " was added");
+        this.navCtrl.setRoot('JourneysPage', {}, navOptionsBack);
+        this.uiCmp.presentToastSuccess(this.journeyCredentials.title + " was added");
       },
       (err) => {
-        this.navCtrl.setRoot(JourneysPage, {}, this.navOptions);
-        this.presentToastError(this.journeyCredentials.title + " wasn't added");
+        this.navCtrl.setRoot('JourneysPage', {}, navOptionsBack);
+        this.uiCmp.presentToastError(this.journeyCredentials.title + " wasn't added");
       }
     );
   };
@@ -62,29 +59,6 @@ export class AddJourneyPage {
   // NAV //
   // Back
   public back() {
-    this.navCtrl.pop(this.navOptions);
-  }
-
-  // TOASTS //
-  // Success
-  public presentToastSuccess(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 1500,
-      position: "bottom",
-      cssClass: "success"
-    });
-    toast.present();
-  }
-
-  // Error
-  public presentToastError(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 1500,
-      position: "bottom",
-      cssClass: "error"
-    });
-    toast.present();
+    this.navCtrl.pop(navOptionsBack);
   }
 }

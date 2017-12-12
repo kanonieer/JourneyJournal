@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController, ToastController, Events} from 'ionic-angular';
+import { IonicPage } from 'ionic-angular';
+import { NavParams, ViewController, Events } from 'ionic-angular';
 
 // Providers
 import { JourneyService } from '../../providers/journey-service';
 import { StorageService } from '../../providers/storage-service';
+import { uiComp } from '../../providers/ui-components';
 
+@IonicPage()
 @Component({
   selector: 'page-editJourney',
   templateUrl: 'editJourney.html',
-  providers: [JourneyService]
+  providers: [JourneyService, uiComp]
 })
 
 export class EditJourneyPage {
@@ -23,8 +26,8 @@ export class EditJourneyPage {
     access_token : this.storageSvc.get('token')
   };
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public toastCtrl: ToastController, public events: Events, private journeySvc: JourneyService,
-    private storageSvc: StorageService) {
+  constructor(public params: NavParams, public viewCtrl: ViewController, public events: Events, private journeySvc: JourneyService, private storageSvc: StorageService,
+    private uiCmp: uiComp) {
   }
 
   // JOURNEYS //
@@ -34,10 +37,10 @@ export class EditJourneyPage {
       (data) => {
         this.reload();
         this.dismiss();
-        this.presentToastSuccess(data.message);
+        this.uiCmp.presentToastSuccess(data.message);
       },
       (error) => {
-        this.presentToastError(error.message);
+        this.uiCmp.presentToastError(error.message);
       }
     );
   }
@@ -51,28 +54,5 @@ export class EditJourneyPage {
   // Dismiss
   public dismiss() {
     this.viewCtrl.dismiss();
-  }
-
-  // TOASTS //
-  // Success
-  public presentToastSuccess(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 1500,
-      position: "bottom",
-      cssClass: "success"
-    });
-    toast.present();
-  }
-
-  // Error
-  public presentToastError(text) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 1500,
-      position: "bottom",
-      cssClass: "error"
-    });
-    toast.present();
   }
 }

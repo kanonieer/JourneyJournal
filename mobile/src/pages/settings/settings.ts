@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 import { ModalController, AlertController, Events } from 'ionic-angular';
-
-// Pages
-import { AccountPage } from '../account/account';
 
 // Plugins
 import { Diagnostic } from '@ionic-native/diagnostic';
@@ -12,6 +10,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { AccountService } from '../../providers/account-service';
 import { StorageService } from '../../providers/storage-service';
 
+@IonicPage()
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html',
@@ -38,7 +37,7 @@ export class SettingsPage {
   // MODALS //
   // Open
   public openModal(modalNum) {
-    let modal = this.modalCtrl.create(AccountPage, modalNum);
+    let modal = this.modalCtrl.create('AccountPage', modalNum);
     modal.present();
   }
 
