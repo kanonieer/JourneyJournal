@@ -145,6 +145,9 @@ module.exports = {
                         if (req.body.description !== undefined && req.body.description !== ''){
                             journey.description = req.body.description;
                         }
+                        if (req.body.background_image_id !== undefined && req.body.background_image_id !== ''){
+                            journey.background_image_id = req.body.background_image_id;
+                        }
                         journey.save((err) => {
                                     if (err) throw err;
                                     
