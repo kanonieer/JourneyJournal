@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 // Shared
-import { serverAdress } from './../shared/globalVariables';
+import { serverAdress } from './../shared/GlobalVariables';
 import { successHandle, errorHandle, errorHandleBody } from './../shared/Handler';
 
 // Providers
