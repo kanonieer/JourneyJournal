@@ -40,12 +40,13 @@ module.exports = {
                                     req.status(401).json({message: "Description is not set"})
                                 } else {
                                 var journey = new Journey({
-                                    date_start: req.body.date_start,
-                                    date_end:   req.body.date_end,
-                                    id_user:    user._id,
-                                    title:      req.body.title,
-                                    id_disc:    req.body.id_disc,
-                                    description:req.body.description
+                                    date_start:         req.body.date_start,
+                                    date_end:           req.body.date_end,
+                                    id_user:            user._id,
+                                    title:              req.body.title,
+                                    id_disc:            req.body.id_disc,
+                                    description:        req.body.description,
+                                    background_image_id:""
                                 });
                                 journey.save((err) => {
                                     if (err) throw err;
@@ -63,21 +64,25 @@ module.exports = {
         })
     },
     getJourneys: (req, res) => {
-        console.log(req.user);
-        User.findOne({ _id : req.user._doc._id}, (err, user) => {
-            if (err) throw err;
+        if (req.params.id != req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to journeys of this user" });
+        }
+        else {
+            User.findOne({ _id : req.params.id}, (err, user) => {
+                if (err) throw err;
 
-            if (!user) {
-                res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
-                console.log('User not found!');                 
-            } else {
-                Journey.find({ id_user : user._id }, (err, journeys) => {
-                    if (err) throw err;
+                if (!user) {
+                    res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
+                    console.log('User not found!');                 
+                } else {
+                    Journey.find({ id_user : user._id }, (err, journeys) => {
+                        if (err) throw err;
 
-                    res.status(200).json(journeys);
-                }).select('-id_disc');
-            }
-        });
+                        res.status(200).json(journeys);
+                    }).select('-id_disc');
+                }
+            });
+        }
     },
 
     getJourneyById: (req, res) => {
@@ -140,7 +145,6 @@ module.exports = {
                         if (req.body.description !== undefined && req.body.description !== ''){
                             journey.description = req.body.description;
                         }
-                        console.log(journey);
                         journey.save((err) => {
                                     if (err) throw err;
                                     
@@ -168,5 +172,25 @@ module.exports = {
                 res.status(200).json({ message: 'Success', url });
             });
         });
-    }
+    },
+    /*SetBackgroundImage: (req, res) => {
+        Journey.find({ _id: req.params.id}, (err, journey) => {
+            if (err) throw err;
+            
+            if(!journey){
+                res.status(404).json({message: "There is no journey with this ID"});
+                console.log("Journey not found!");
+            } else {
+                if (req.body.background_image_id !== undefined && req.body.background_image_id !== ''){
+                    journey.background_image_id = req.body.background_image_id;
+                }
+                journey.save((err) => {
+                    if (err) throw err;
+                    
+                    console.log('background image successfully updated!');
+                });
+                res.status(201).json({ message:'Journey updated', details: 'Background image successfully updated' })
+            }
+        })
+    }*/
 }

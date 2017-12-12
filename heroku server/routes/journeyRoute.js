@@ -10,12 +10,13 @@ const Auth          = require('./../config/authenticate');
 
 module.exports = function(app, passport) {
 
+    //create journey
     app.post('/journeys', Auth.authenticate, (req, res) => journeyController.createJourney(req, res));
 
     //get user journeys
-    app.get('/journeys', Auth.authenticate, (req, res) => journeyController.getJourneys(req, res));
+    app.get('/users/:id/journeys', Auth.authenticate, (req, res) => journeyController.getJourneys(req, res));
 
-    //add journey by id
+    //get journey by id
     app.get('/journeys/:id', Auth.authenticate, (req, res) => journeyController.getJourneyById(req, res));
 
     //edit journey
@@ -28,5 +29,8 @@ module.exports = function(app, passport) {
     app.delete('/journeys/:id', Auth.authenticate, (req, res) => journeyController.deleteJourneyById(req, res));
     
     //get gallery zip url
-    app.get('/jounreysZipUrl/:id', Auth.authenticate, (req, res) => journeyController.getJourneyImagesZipUrl(req, res));
+    app.get('/journeys/:id/download', Auth.authenticate, (req, res) => journeyController.getJourneyImagesZipUrl(req, res));
+
+    //set background image
+    //app.get('/journeys/:id/backgroundImage', Auth.authenticate, (req, res) => journeyController.SetBackgroundImage(req, res));
 }  

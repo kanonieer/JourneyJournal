@@ -27,26 +27,17 @@ module.exports = function(app, passport) {
             res.status(201).json(req.user);
         });
 
-    //auth by facebook
-    app.get('/auth/facebook', passport.authenticate('facebook'));
-
-    //facebook auth callback
-    app.get('/auth/facebook/callback', passport.authenticate('facebook',{ session:false }),
-      Auth.generateToken, (req, res) => {
-        res.redirect('http://localhost:4200/login/facebook?token='+req.token);  
-      });
-
     // auth wit facebook new
     app.post('/facebookAuthorization', (req, res) => { accountController.authWithFacebook(req, res)});
 
     //profile data
     app.post('/profile', Auth.authenticate, (req, res) => res.status(200).json(req.user._doc));
 
-    //update email 
-    app.patch('/email', Auth.authenticate, (req, res) => accountController.changeEmail(req, res));
+    //change email 
+    app.patch('/users/:id/email', Auth.authenticate, (req, res) => accountController.changeEmail(req, res));
 
     //change password
-    app.patch('/password', Auth.authenticate, (req, res) => accountController.changePassword(req, res));
+    app.patch('/users/:id/password', Auth.authenticate, (req, res) => accountController.changePassword(req, res));
 
     //face add email and password
     app.post('/email', Auth.authenticate);
@@ -56,8 +47,8 @@ module.exports = function(app, passport) {
 
     ///
     ///do testowania
-    app.get('/users',(req,res)=>{
-         User.find({}, (err, user) => {res.json(user)});
-    });
+    //app.get('/users',(req,res)=>{
+    //     User.find({}, (err, user) => {res.json(user)});
+    //});
 
 };

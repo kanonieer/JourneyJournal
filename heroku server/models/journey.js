@@ -8,7 +8,8 @@ const journey = new Schema({
         id_user      : String,
         title        : String,
         id_disc      : String,
-        description  : String
+        description  : String,
+        background_image_id : String
 });
 
 

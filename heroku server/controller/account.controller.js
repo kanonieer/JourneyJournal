@@ -15,70 +15,80 @@ cloudinary.config({
 
 module.exports = {
     changeEmail: (req, res) => {
-        var oldEmail = req.body.form.oldEmail.toLowerCase(), newEmail = req.body.form.newEmail.toLowerCase();
+        if (req.params.id != req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to change mail for user with this ID" });
+        }
+        else {
+            var oldEmail = req.body.form.oldEmail.toLowerCase(), newEmail = req.body.form.newEmail.toLowerCase();
 
-        User.findOne({_id: req.user._doc._id}, (err, user) => {
-            if (err) throw err;
-            
-            if (!user) {
-            res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
-            console.log('User not found!');   
-            }
-            if (user) {
-                if (user.local.email == undefined){
-                    res.status(401).json({ code: 401.1, message:'No Email Yet', details: 'This user did not set an email' });         
-                        console.log('User email not set yet!');              
-                } else{
-                    if (user.local.email != oldEmail ) {
-                        res.status(401).json({ code: 401.2, message:'Invalid Email', details: 'Old email does not match' });    
-                            console.log('User email invalid!');                   
-                    } else{
-                        User.findOne({'local.email': newEmail}, (err, anotherUser) => {
-                            if (err) throw err;
+            User.findOne({_id: req.params.id}, (err, user) => {
+                if (err) throw err;
+                
+                if (!user) {
+                res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
+                console.log('User not found!');   
+                }
+                if (user) {
+                    if (user.local.email == undefined){
+                        res.status(401).json({ code: 401.1, message:'No Email Yet', details: 'This user did not set an email' });         
+                            console.log('User email not set yet!');              
+                    } else {
+                        if (user.local.email != oldEmail ) {
+                            res.status(401).json({ code: 401.2, message:'Invalid Email', details: 'Old email does not match' });    
+                                console.log('User email invalid!');                   
+                        } else{
+                            User.findOne({'local.email': newEmail}, (err, anotherUser) => {
+                                if (err) throw err;
 
-                            if (anotherUser) {
-                                res.status(401).json({ code:401.3, message:'Email unavaliable', details: 'Another user already use this email'});  
-                                console.log('Email already taken!');
-                            } else{
-                                user.local.email = newEmail;
-                                user.save((err) => {
-                                    if (err) throw err;
+                                if (anotherUser) {
+                                    res.status(401).json({ code:401.3, message:'Email unavaliable', details: 'Another user already use this email'});  
+                                    console.log('Email already taken!');
+                                } else{
+                                    user.local.email = newEmail;
+                                    user.save((err) => {
+                                        if (err) throw err;
 
-                                    console.log('User email successfully updated!');
-                                }); 
-                                res.status(201).json({ message:'Email changed', details: 'User email successfully changed'});                                 
-                            }
-                        });
+                                        console.log('User email successfully updated!');
+                                    }); 
+                                    res.status(201).json({ message:'Email changed', details: 'User email successfully changed'});                                 
+                                }
+                            });
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     },
     changePassword: (req, res) => {
-        var oldPassword = req.body.form.oldPassword, newPassword = req.body.form.newPassword;
+        if (req.params.id != req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to change password for user with this ID" });
+        }
+        else {
+            var oldPassword = req.body.form.oldPassword, newPassword = req.body.form.newPassword;
 
-        User.findOne({_id: req.user._doc._id}, (err, user) => {
-            if (err) throw err;
-            
-            if (!user) {
-            res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
-            console.log('User not found!');   
-            }
-            if (user) {
-                if (!user.validPassword(oldPassword)) {
-                    res.status(401).json({ code:401.1, message:'Wrong password', details: 'The old passwords do not match each other' });         
-                        console.log('Wrong password!');              
-                } else{
-                    user.local.password = user.generateHash(newPassword);
-                    user.save((err) => {
-                        if (err) throw err;
-
-                        console.log('User password successfully updated!');
-                    }); 
-                    res.status(201).json({ message:'Password changed', details: 'User password successfully changed'});                            
+            User.findOne({_id: req.params.id}, (err, user) => {
+                if (err) throw err;
+                
+                if (!user) {
+                res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
+                console.log('User not found!');   
                 }
-            }
-        });
+                if (user) {
+                    if (!user.validPassword(oldPassword)) {
+                        res.status(401).json({ code:401.1, message:'Wrong password', details: 'The old passwords do not match each other' });         
+                            console.log('Wrong password!');              
+                    } else{
+                        user.local.password = user.generateHash(newPassword);
+                        user.save((err) => {
+                            if (err) throw err;
+
+                            console.log('User password successfully updated!');
+                        }); 
+                        res.status(201).json({ message:'Password changed', details: 'User password successfully changed'});                            
+                    }
+                }
+            });
+        }
     },
     
     authWithFacebook: (req, res) => {
@@ -160,27 +170,27 @@ module.exports = {
     },
     deleteUser : (req, res) => {
         if(req.params.id != req.user._doc._id) {
-            res.status(403).json("You have no access to delete user with this ID");
+            res.status(403).json({ message: "You have no access to delete user with this ID" });
         }
         else {
             User.findOne({_id : req.params.id}, (err, user) => {
                 if (err) throw err;
 
                 if (!user) {
-                    res.status(404).json("There is no user with this ID");
+                    res.status(404).json({ message: "There is no user with this ID" });
                 } else {
                     Journey.find({ id_user : req.params.id }, (err, journeys) => {
                         if (err) throw err;
                         
                         if (!journeys) {
-                            res.status(404).json("There are no journeys with this ID of user");
+                            res.status(404).json({ message: "There are no journeys with this ID of user" });
                         } else {
                             for (var i = 0; i < journeys.length; i++) {
                                 Image.find({ id_journey : journeys[i]._id }, (err, images) => {
                                     if (err) throw err;
                                     
                                     if (!images) {
-                                        res.status(404).json("There is no images with this ID of journey")
+                                        res.status(404).json({ message: "There is no images with this ID of journey" })
                                     } else {
                                         for (var j = 0; j < images.length; j++) {
                                             Image.findOneAndRemove({ _id : images[j]._id }, (err) => {
@@ -202,7 +212,7 @@ module.exports = {
                 }
                 
             });
-            res.status(200).json({message: "Success", details: "Successfully deleted user"});
+            res.status(200).json({ message: "Success", details: "Successfully deleted user" });
         }
     }
 }
