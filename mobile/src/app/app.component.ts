@@ -56,8 +56,7 @@ export class MyApp {
       this.keyboard.disableScroll(true);
 
       this.platform.registerBackButtonAction(() => {
-        let activePortal = this.ionicApp._loadingPortal.getActive() || this.ionicApp._modalPortal.getActive() || this.ionicApp._toastPortal.getActive() ||
-        this.ionicApp._overlayPortal.getActive();
+        let activePortal = this.ionicApp._loadingPortal.getActive() || this.ionicApp._modalPortal.getActive() || this.ionicApp._overlayPortal.getActive();
         
         if(activePortal) {
           activePortal.dismiss();

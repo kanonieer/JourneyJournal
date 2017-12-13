@@ -78,7 +78,7 @@ export class DetailsJourneyPage {
     this.toBool('save_images');
     this.camera.getPicture(this.PhotoOptionsTake).then(
       (imageData) => {
-        
+
         let imageCredentials = {
           date: new Date().getDate(),
           longitude: "" + this.geoCredentials.long,
@@ -92,11 +92,9 @@ export class DetailsJourneyPage {
         this.imageSvc.saveImage(imageCredentials).subscribe(
           (data) => {
             this.uploadToCloudinary(imageData, data._id);
-            this.uiCmp.presentToastSuccess("Picture was saved");
-            this.uiCmp.showLoading();
           },
           (error) => {
-            this.uiCmp.presentToastError("Picture wasn't saved");
+            alert(error);
           }
         );
       }
@@ -106,6 +104,7 @@ export class DetailsJourneyPage {
   // Upload
   public uploadToCloudinary(file, imageName) {
     const fileTransfer: FileTransferObject = this.transfer.create();
+    this.uiCmp.showLoading();
     let UploadOptions: FileUploadOptions = {
       fileKey: "file",
       fileName: imageName,
@@ -118,12 +117,12 @@ export class DetailsJourneyPage {
 
     fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
       (data) => {
-        alert("Success: " + imageName);
+        this.uiCmp.presentToastSuccess("Success");
         this.uiCmp.loading.dismiss();
         this.getImages();
       },
       (error) => {
-        alert("error" + JSON.stringify(error));
+        this.uiCmp.presentToastError("Something went wrong: " + error);
         this.uiCmp.loading.dismiss();
       }
     );
@@ -146,17 +145,15 @@ export class DetailsJourneyPage {
           this.imageSvc.saveImage(imageCredentials).subscribe(
             (data) => {
               this.uploadToCloudinary(imageData[i], data._id);
-              this.uiCmp.presentToastSuccess("Picture was saved");
-              this.uiCmp.showLoading();
             },
             (error) => {
-              this.uiCmp.presentToastError("Picture wasn't saved");
+              alert(error);
             }
           );
         }
       },
       (error) => {
-        this.uiCmp.presentToastError('Error while selecting image.');
+        this.uiCmp.presentToastError('Error while selecting image');
       }
     );
   }
@@ -217,6 +214,12 @@ export class DetailsJourneyPage {
         this.uiCmp.presentToastError(error);
       }
     );
+  }
+
+  // Get larger image
+  public largerPhoto(id) {
+    let modal = this.modalCtrl.create('LargeImagePage', {id, images: this.images});
+    modal.present();
   }
 
   // GEOLOCATION //

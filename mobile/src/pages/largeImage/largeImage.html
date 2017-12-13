@@ -1,0 +1,12 @@
+<ion-content overflow-scroll="true" class="largeImage-content">
+
+  <ion-slides initialSlide="{{initial}}" zoom="true" spaceBetween="20" (ionSlideTap)="dismiss()">
+    <ion-slide *ngFor="let image of images">
+      <cl-image [public-id]=image._id format="jpg">
+        <cl-transformation width="1280" height="720" quality="auto" crop="fit">
+        </cl-transformation>
+      </cl-image>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>
