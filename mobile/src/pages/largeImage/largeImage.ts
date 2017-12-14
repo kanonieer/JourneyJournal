@@ -13,6 +13,7 @@ export class LargeImagePage {
   public id;
   public images;
   public initial;
+  public isEnable = false;
 
   constructor(public params: NavParams, public viewCtrl: ViewController) {
 
@@ -32,11 +33,18 @@ export class LargeImagePage {
     this.viewCtrl.dismiss();
   }
 
+  // IMAGES //
+  // Get current image
   public getCurrentImage() {
     for(let i = 0; i < this.images.length; i++) {
       if(this.images[i]._id === this.id) {
         this.initial = i;
       }
     }
+  }
+
+  // Open menu
+  public openMenu() {
+    this.isEnable = !this.isEnable;
   }
 }

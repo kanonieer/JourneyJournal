@@ -108,7 +108,7 @@ export class MyApp {
       }
     ).catch(
       (error) => {
-        alert('Cordova not available');
+        console.log('Cordova not available');
       }
     );
   }

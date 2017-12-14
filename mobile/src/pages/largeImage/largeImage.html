@@ -1,12 +1,39 @@
-<ion-content overflow-scroll="true" class="largeImage-content">
+<ion-header no-border *ngIf="isEnable">
+  <ion-navbar color="dark" class="largeImage-nav">
+    <ion-buttons left>
+      <button ion-button icon-only class="nav-btn-header" (click)="dismiss()">
+        <ion-icon name="arrow-back" class="btn-icon"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
-  <ion-slides initialSlide="{{initial}}" zoom="true" spaceBetween="20" (ionSlideTap)="dismiss()">
+<ion-content fullscreen="true" overflow-scroll="true" class="largeImage-content">
+
+  <ion-slides initialSlide="{{initial}}" centeredSlides="true" zoom="true" spaceBetween="20" (ionSlideTap)="openMenu()">
     <ion-slide *ngFor="let image of images">
-      <cl-image [public-id]=image._id format="jpg">
-        <cl-transformation width="1280" height="720" quality="auto" crop="fit">
-        </cl-transformation>
-      </cl-image>
+      <div class="swiper-zoom-container">
+        <cl-image [public-id]=image._id format="jpg">
+          <cl-transformation width="1280" height="720" quality="auto" crop="fit">
+          </cl-transformation>
+        </cl-image>
+      </div>
     </ion-slide>
   </ion-slides>
 
 </ion-content>
+
+<ion-footer no-border *ngIf="isEnable">
+  <ion-toolbar color="dark" class="largeImage-nav">
+    <ion-buttons left>
+      <button ion-button icon-only class="nav-btn">
+        <ion-icon name="image" class="btn-icon"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only class="nav-btn">
+        <ion-icon name="trash" class="btn-icon"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

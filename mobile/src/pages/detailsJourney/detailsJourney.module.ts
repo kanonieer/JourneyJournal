@@ -6,10 +6,15 @@ import { Cloudinary } from 'cloudinary-core';
 import { DetailsJourneyPage } from './detailsJourney';
 
 @NgModule({
-    declarations: [DetailsJourneyPage],
+    declarations: [
+        DetailsJourneyPage
+    ],
     imports: [
         IonicPageModule.forChild(DetailsJourneyPage),
         CloudinaryModule.forRoot({Cloudinary}, { cloud_name: 'dzgtgeotp' } as CloudinaryConfiguration)
+    ],
+    entryComponents: [
+        DetailsJourneyPage
     ]
 })
 

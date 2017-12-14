@@ -6,10 +6,15 @@ import { Cloudinary } from 'cloudinary-core';
 import { LargeImagePage } from './largeImage';
 
 @NgModule({
-    declarations: [LargeImagePage],
+    declarations: [
+        LargeImagePage
+    ],
     imports: [
         IonicPageModule.forChild(LargeImagePage),
         CloudinaryModule.forRoot({Cloudinary}, { cloud_name: 'dzgtgeotp' } as CloudinaryConfiguration)
+    ],
+    entryComponents: [
+        LargeImagePage
     ]
 })
 
