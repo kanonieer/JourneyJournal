@@ -21,6 +21,7 @@ export class AccountService {
   public headers = new Headers({'Content-Type': 'application/json'});
   public options = new RequestOptions({headers: this.headers});
   public user_id = this.storageSvc.get('user_id');
+  public access_token = this.storageSvc.get('token');
 
   public getMe(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/profile', JSON.stringify(payload), this.options).pipe(
@@ -32,7 +33,7 @@ export class AccountService {
   public changeEmail(form: any): Observable<any> {
     let payload = {
       form: form,
-      access_token: this.storageSvc.get('token')
+      access_token: this.access_token
     };
     return this._http.patch(serverAdress + '/users/' + this.user_id + '/email', JSON.stringify(payload), this.options).pipe(
       map(successHandle),
@@ -43,7 +44,7 @@ export class AccountService {
   public changePassword(form: any): Observable<any> {
     let payload = {
       form: form,
-      access_token: this.storageSvc.get('token')
+      access_token: this.access_token
     };
     return this._http.patch(serverAdress + '/users/' + this.user_id + '/password', JSON.stringify(payload), this.options).pipe(
       map(successHandle),
@@ -51,10 +52,8 @@ export class AccountService {
     );
   }
 
-  public deleteAccount(id: any): Observable<any> {
-    const access_token = this.storageSvc.get('token');
-
-    return this._http.delete(serverAdress + '/users/' + id + '?access_token=' + access_token, this.options).pipe(
+  public deleteAccount(): Observable<any> {
+    return this._http.delete(serverAdress + '/users/' + this.user_id + '?access_token=' + this.access_token, this.options).pipe(
       map(successHandle),
       catchError(errorHandle)
     );

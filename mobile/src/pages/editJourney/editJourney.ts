@@ -11,7 +11,7 @@ import { uiComp } from '../../providers/ui-components';
 @Component({
   selector: 'page-editJourney',
   templateUrl: 'editJourney.html',
-  providers: [JourneyService, uiComp]
+  providers: [JourneyService, StorageService, uiComp]
 })
 
 export class EditJourneyPage {

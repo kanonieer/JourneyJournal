@@ -27,6 +27,18 @@ page-detailsJourney {
   .main-content {
     background: color($colors, primary);
 
+    .camera-icon {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+    }
+
+    .images-icon {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+    }
+
     ion-row {
       align-items: center;
       text-align: center;

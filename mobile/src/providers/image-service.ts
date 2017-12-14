@@ -20,6 +20,7 @@ export class ImageService {
 
   public headers = new Headers({'Content-Type': 'application/json'});
   public options = new RequestOptions({headers: this.headers});
+  public access_token = this.storageSvc.get('token');
 
   public saveImage(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/images', JSON.stringify(payload), this.options).pipe(
@@ -29,9 +30,14 @@ export class ImageService {
   }
 
   public getImagesByJourney(journey_id: string): Observable<any> {
-    const access_token = this.storageSvc.get('token');
+    return this._http.get(serverAdress + '/journeys/' + journey_id + '/images?access_token=' + this.access_token, this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
+  }
 
-    return this._http.get(serverAdress + '/journeys/' + journey_id + '/images?access_token=' + access_token, this.options).pipe(
+  public deleteImage(image_id: any): Observable<any> {
+    return this._http.delete(serverAdress + '/images/' + image_id + '?access_token=' + this.access_token, this.options).pipe(
       map(successHandle),
       catchError(errorHandle)
     );

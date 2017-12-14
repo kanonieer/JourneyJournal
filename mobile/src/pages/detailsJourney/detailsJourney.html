@@ -18,7 +18,8 @@
 
   <ion-fab right bottom #fab>
     <button ion-fab color="secondary">
-      <ion-icon name="arrow-dropleft"></ion-icon>
+      <ion-icon name="camera" class="camera-icon"></ion-icon>
+      <ion-icon name="images" class="images-icon"></ion-icon>
     </button>
     <ion-fab-list side="left">
       <button ion-fab color="light-btn" (click)="loadPhoto()"><ion-icon name="images"></ion-icon></button>
@@ -29,8 +30,9 @@
   <div class="detailsJourney-box">
     <ion-grid class="grid-box">
       <ion-row class="grid-row">
+        <ion-checkbox *ngIf="isOn" [(ngModel)]="isEnable"></ion-checkbox>
         <ion-col class="grid-col" col-4 *ngFor="let image of images">
-          <ion-card class="grid-card" (click)="largerPhoto(image._id)">
+          <ion-card class="grid-card" (click)="largerPhoto(image._id)" (press)="deleteAlert(image._id)">
             <cl-image 
               [public-id]=image._id
               class="thumbnail inline" 

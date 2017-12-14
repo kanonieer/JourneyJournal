@@ -57,24 +57,31 @@ export class MyApp {
 
       this.platform.registerBackButtonAction(() => {
         let activePortal = this.ionicApp._loadingPortal.getActive() || this.ionicApp._modalPortal.getActive() || this.ionicApp._overlayPortal.getActive();
-        
+        let view = this.menu.getActive();
+        let currentRootPage = view.component.name;
+
         if(activePortal) {
           activePortal.dismiss();
         } else if(this.menuCtrl.isOpen()) {
           this.menuCtrl.close();
-        } else if(!this.menu.canGoBack()) {
-          //Double check to exit app
-          if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
-            this.platform.exitApp(); //Exit from app
-          } else {
-            this.uiCmp.presentToast('Press back again to exit');
-            this.lastTimeBackPress = new Date().getTime();
-            }
-        } else {
+        } else if(this.menu.canGoBack()) {
           // go to previous page
           this.menu.pop(navOptionsBack);
+        } else if(!this.menu.canGoBack()) {
+            if((currentRootPage !== 'JourneysPage') && ((this.storageSvc.get('user_logged') == 'true') || (this.storageSvc.get('user_logged_fb') == 'true'))) {
+              this.goToPage('JourneysPage');
+            } else {
+              //Double check to exit app
+              if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
+                this.platform.exitApp(); //Exit from app
+              } else {
+                this.uiCmp.presentToast('Press back again to exit');
+                this.lastTimeBackPress = new Date().getTime();
+              }
+            }
+          }
         }
-      });
+      );
     });
   }
 

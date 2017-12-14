@@ -24,7 +24,6 @@ export class SettingsPage {
   public saveToggleImage: string = this.storageSvc.get('save_images');
   public saveToggleFb: string = this.storageSvc.get('user_logged_fb');
   public isEnabled = null;
-  public user_id: String = this.storageSvc.get('user_id');
 
   constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy,
     private accountSvc: AccountService, private storageSvc: StorageService) {
@@ -94,7 +93,7 @@ export class SettingsPage {
 
   // Delete
   public deleteAccount() {
-    this.accountSvc.deleteAccount(this.user_id).subscribe(
+    this.accountSvc.deleteAccount().subscribe(
       (success) => {
         console.log(success);
         this.logout();

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { IonicPage } from 'ionic-angular';
-import { Platform, NavController, MenuController, ActionSheetController, AlertController, ModalController, ViewController, NavParams } from "ionic-angular";
+import { Platform, NavController, MenuController, ActionSheetController, AlertController, ModalController, ViewController, Events, NavParams } from "ionic-angular";
 
 // Plugins
 import { Camera, CameraOptions } from "@ionic-native/camera";
@@ -65,10 +65,13 @@ export class DetailsJourneyPage {
   };
 
   constructor(public platform: Platform, public navCtrl: NavController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
-    public modalCtrl: ModalController, public viewCtrl: ViewController, public navParams: NavParams, private camera: Camera, private transfer: FileTransfer,
+    public modalCtrl: ModalController, public viewCtrl: ViewController, public events: Events, public navParams: NavParams, private camera: Camera, private transfer: FileTransfer,
     private geolocation: Geolocation, private imagePicker: ImagePicker, private imageSvc: ImageService, private journeySvc: JourneyService,
     private storageSvc: StorageService, private uiCmp: uiComp) {
       
+      events.subscribe('images:get', () => {
+        this.getImages();
+      });
   }
 
   // CAMERA //
@@ -220,6 +223,35 @@ export class DetailsJourneyPage {
   public largerPhoto(id) {
     let modal = this.modalCtrl.create('LargeImagePage', {id, images: this.images});
     modal.present();
+  }
+
+  // Delete alert
+  public deleteAlert(id) {
+    const alert = this.alertCtrl.create({
+      title: 'Options for this image',
+      message: 'Do you want to delete?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.imageSvc.deleteImage(id).subscribe(
+              (success) => {
+                this.getImages();
+                this.uiCmp.presentToastSuccess('Images successfully deleted');
+              },
+              (error) => {
+                this.uiCmp.presentToastError('Something went wrong: ' + error);
+              }
+            );
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   // GEOLOCATION //
