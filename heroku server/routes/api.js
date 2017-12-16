@@ -27,8 +27,10 @@ module.exports = function(app, passport) {
             res.status(201).json(req.user);
         });
 
-    // auth wit facebook new
-    app.post('/facebookAuthorization', (req, res) => { accountController.authWithFacebook(req, res)});
+    // auth wit facebook
+    app.post('/facebookAuthorization', (req, res) => accountController.authWithFacebook(req, res));
+
+    app.patch('/users/:id/addFacebook', Auth.authenticate, (req, res) => accountController.addFacebookAuth(req, res));
 
     //profile data
     app.post('/profile', Auth.authenticate, (req, res) => res.status(200).json(req.user._doc));

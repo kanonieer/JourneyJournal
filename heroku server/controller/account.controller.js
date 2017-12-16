@@ -90,84 +90,167 @@ module.exports = {
             });
         }
     },
-    
     authWithFacebook: (req, res) => {
-        const user_id = req.body.user_id;
         const facebook_user_id = req.body.facebook_user_id;
-        const token = req.body.token;
+        const facebook_token = req.body.facebook_token;
 
-        User.findOne({ 'facebook.id': facebook_user_id }, (err, facebookUser) => {
+        User.findOne({ 'facebook.id': facebook_user_id }, (err, user) => {
             if (err) throw err;
 
-            User.findOne({ _id: user_id }, (err, user) => {
-                if (err) throw err;
-    
-                if (!user) {
-                    if(!facebookUser) {
-                        let newUser = new User();
+            if (!user) {
+                let newUser = new User();
 
-                        newUser.facebook.id = facebook_user_id;
-                        newUser.facebook.token = token;
-                        newUser.save(err => {
-                            if (err) throw err;
-                            
-                            console.log('No user before, now created');
-                            const access_token = jwt.sign(newUser, 'server secret temp', { expiresIn: 6000*120 });
-                            const payload_user_id = newUser._id;
-                            res.status(201).json({ 
-                                message: 'Account created', 
-                                details: 'User account created with Facebook auth',
-                                data: { access_token, payload_user_id }
-                            });
-                        }); 
-                    } else {
-                        console.log('Facebook authenticated');
-                        console.log('First case');
-                        const access_token = jwt.sign(facebookUser, 'server secret temp', { expiresIn: 6000*120 });
-                        const payload_user_id = facebookUser._id;
-                        res.status(201).json({
-                            message: 'Success',
-                            details: 'Successfully authenticated with facebook',
-                            data: { access_token, payload_user_id }
-                        });
-                    }
-                } else {
-                    if (!facebookUser) {
-                        if (!user.facebook) {
-                            user.facebook.id = facebook_user_id;
-                            user.facebook.token = token;
-        
-                            user.save(err => {
-                                if (err) throw err;
-        
-                                console.log('No facebook before, now added');
-                                const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
-                                const payload_user_id = user._id;
-                                res.status(201).json({
-                                    message: 'Facebook added',
-                                    details: 'Facebook account successfully added',
-                                    data: { access_token, payload_user_id }
-                                });
-                            })
-                        } else {
-                            console.log('Facebook authenticated');
-                            const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
-                            const payload_user_id = user._id;
-                            res.status(201).json({
-                                message: 'Success',
-                                details: 'Successfully authenticated with facebook',
-                                data: { access_token, payload_user_id }
-                            });
-                        }
-                    } else {
+                newUser.facebook.id = facebook_user_id;
+                newUser.facebook.token = facebook_token;
 
-                        console.log('Facebook already used');
-                        res.status(409).json({ message : 'Unsuccessful', details: 'Provided facebook account already in use'});
-                    }
-                }
-            });
+                newUser.save(err => {
+                    if (err) throw err;
+                    
+                    console.log('No user before, now created');
+                    const access_token = jwt.sign(newUser, 'server secret temp', { expiresIn: 6000*1200 });
+                    const user_id = newUser._id;
+
+                    res.status(201).json({ 
+                        message: 'Account created', 
+                        details: 'User account created with Facebook auth',
+                        data: { access_token, user_id }
+                    });
+                }); 
+            } else {
+                console.log('Authenticating with Facebook');
+                const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
+                const user_id = user._id;
+
+                res.status(201).json({
+                    message: 'Success',
+                    details: 'Successfully authenticated with facebook',
+                    data: { access_token, user_id }
+                });
+            }
         });
     },
+    addFacebookAuth: (req, res) => {
+        const user_id = req.params.id;
+        const facebook_user_id = req.body.facebook_user_id;
+        const facebook_token = req.body.facebook_token;
+
+
+        User.findOne({ _id: user_id }, (err, user) => {
+            if (err) throw err;
+
+            if (!user) {
+                res.status(404).json({ message:'Error', details: 'User not found'}); 
+            } else {
+                if (!user.facebook.id || user.facebook.id === '') {
+                    User.findOne({ 'facebook.id': facebook_user_id }, (err, fbUser) => {
+                        if (err) throw err;
+
+                        if (!fbUser) {
+                            user.facebook.id = facebook_user_id;
+                            user.facebook.token = facebook_token;
+
+                            user.save(err => {
+                                if (err) throw err;
+
+                                res.status(201).json({
+                                    message: 'Success',
+                                    details: 'Facebook account successfully added',
+                                    data: { user }
+                                });
+                            });
+                        } else {
+                            res.status(401).json({
+                                message: 'Unauthorized',
+                                details: 'There is already an user using provided Facebook account'
+                            }); 
+                        }
+                    });
+                } else {
+                    res.status(401).json({
+                        message: 'Unauthorized',
+                        details: 'User already have an facebook added'
+                    }); 
+                }
+            }
+        });
+    },
+    // authWithFacebook: (req, res) => {
+    //     const user_id = req.body.user_id;
+    //     const facebook_user_id = req.body.facebook_user_id;
+    //     const token = req.body.token;
+
+    //     User.findOne({ 'facebook.id': facebook_user_id }, (err, facebookUser) => {
+    //         if (err) throw err;
+
+    //         User.findOne({ _id: user_id }, (err, user) => {
+    //             if (err) throw err;
+    
+    //             if (!user) {
+    //                 if(!facebookUser) {
+    //                     let newUser = new User();
+
+    //                     newUser.facebook.id = facebook_user_id;
+    //                     newUser.facebook.token = token;
+    //                     newUser.save(err => {
+    //                         if (err) throw err;
+                            
+    //                         console.log('No user before, now created');
+    //                         const access_token = jwt.sign(newUser, 'server secret temp', { expiresIn: 6000*120 });
+    //                         const payload_user_id = newUser._id;
+    //                         res.status(201).json({ 
+    //                             message: 'Account created', 
+    //                             details: 'User account created with Facebook auth',
+    //                             data: { access_token, payload_user_id }
+    //                         });
+    //                     }); 
+    //                 } else {
+    //                     console.log('Facebook authenticated');
+    //                     console.log('First case');
+    //                     const access_token = jwt.sign(facebookUser, 'server secret temp', { expiresIn: 6000*120 });
+    //                     const payload_user_id = facebookUser._id;
+    //                     res.status(201).json({
+    //                         message: 'Success',
+    //                         details: 'Successfully authenticated with facebook',
+    //                         data: { access_token, payload_user_id }
+    //                     });
+    //                 }
+    //             } else {
+    //                 if (!facebookUser) {
+    //                     if (!user.facebook) {
+    //                         user.facebook.id = facebook_user_id;
+    //                         user.facebook.token = token;
+        
+    //                         user.save(err => {
+    //                             if (err) throw err;
+        
+    //                             console.log('No facebook before, now added');
+    //                             const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
+    //                             const payload_user_id = user._id;
+    //                             res.status(201).json({
+    //                                 message: 'Facebook added',
+    //                                 details: 'Facebook account successfully added',
+    //                                 data: { access_token, payload_user_id }
+    //                             });
+    //                         })
+    //                     } else {
+    //                         console.log('Facebook authenticated');
+    //                         const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
+    //                         const payload_user_id = user._id;
+    //                         res.status(201).json({
+    //                             message: 'Success',
+    //                             details: 'Successfully authenticated with facebook',
+    //                             data: { access_token, payload_user_id }
+    //                         });
+    //                     }
+    //                 } else {
+
+    //                     console.log('Facebook already used');
+    //                     res.status(409).json({ message : 'Unsuccessful', details: 'Provided facebook account already in use'});
+    //                 }
+    //             }
+    //         });
+    //     });
+    // },
     deleteUser : (req, res) => {
         if(req.params.id != req.user._doc._id) {
             res.status(403).json({ message: "You have no access to delete user with this ID" });
