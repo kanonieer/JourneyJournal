@@ -5,6 +5,14 @@ const node_dropbox  = require('node-dropbox');
 const DropboxClient = require('dropbox');
 var fs              = require('fs');
 const config        = require('./../config/auth');
+const cloudinary    = require('cloudinary');
+const CloudinaryConfig = require('./../config/cloudinary')
+
+cloudinary.config({ 
+  cloud_name: CloudinaryConfig.cloud_name, 
+  api_key: CloudinaryConfig.api_key, 
+  api_secret: CloudinaryConfig.api_secret
+});
 
  
 //datauri.pipe(process.stdout);
@@ -105,6 +113,7 @@ module.exports = {
                     Image.findOneAndRemove({ _id: image_id }, err => {
                         if (err) throw err;
 
+                        cloudinary.uploader.destroy(image_id, function(result) { console.log(result) });
                         res.status(200).json({ message: 'Success', details: 'Image successfully deleted'})
                     });
                 }
