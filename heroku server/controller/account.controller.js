@@ -50,7 +50,7 @@ module.exports = {
 
                                         console.log('User email successfully updated!');
                                     }); 
-                                    res.status(201).json({ message:'Email changed', details: 'User email successfully changed'});                                 
+                                    res.status(200).json({ message:'Email changed', details: 'User email successfully changed'});                                 
                                 }
                             });
                         }
@@ -84,7 +84,7 @@ module.exports = {
 
                             console.log('User password successfully updated!');
                         }); 
-                        res.status(201).json({ message:'Password changed', details: 'User password successfully changed'});                            
+                        res.status(200).json({ message:'Password changed', details: 'User password successfully changed'});                            
                     }
                 }
             });
@@ -297,5 +297,29 @@ module.exports = {
             });
             res.status(200).json({ message: "Success", details: "Successfully deleted user" });
         }
+    },
+
+    saveToLibrary : (req, res) => {
+        if(req.params.id != req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to delete user with this ID" });
+        } 
+        else {
+            User.find({ _id : req.params.id }, (err, user) => {
+                if (err) throw err;
+
+                if(!user) {
+                    res.status(404).json({ message: "There is no user with this ID" });
+                } else {
+                    user.saveToLibrary = req.body.saveToLibrary
+                    
+                    user.save((err) => {
+                        if (err) throw err;
+
+                        console.log('User password successfully updated!');
+                    });
+                    res.status(201).json({ message:'saveToLibrary changed', details: 'User saveToLibrary field successfully changed'});
+                }
+            });
+        }       
     }
 }

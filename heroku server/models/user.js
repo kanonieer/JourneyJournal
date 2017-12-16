@@ -14,9 +14,7 @@ const user = new Schema({
         email        : String,
         name         : String
     },
-    dropbox          : {
-        access_token : String      
-    }
+    saveToLibrary    : Boolean
 });
 
 // methods ======================

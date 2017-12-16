@@ -79,7 +79,7 @@ module.exports = {
                         if (err) throw err;
 
                         res.status(200).json(journeys);
-                    }).select('-id_disc');
+                    });
                 }
             });
         }
@@ -95,7 +95,7 @@ module.exports = {
             } else {
                 res.status(200).json(journey);
             }
-        }).select('-id_disc');;
+        });
     },
 
     deleteJourneyById: (req, res) => {///dodac jeszcze warunki sprawdzajace istnienie image i podrozy

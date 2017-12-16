@@ -47,6 +47,9 @@ module.exports = function(app, passport) {
     //delete user
     app.delete('/users/:id', Auth.authenticate, (req, res) => accountController.deleteUser(req, res));
 
+    //update saveToLibrary field
+    app.patch('/users/:id/saveToLibrary', Auth.authenticate, (req, res) => accountController.saveToLibrary(req,res));
+
     ///
     ///do testowania
     //app.get('/users',(req,res)=>{
