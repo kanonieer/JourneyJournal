@@ -15,7 +15,7 @@ import { uiComp } from '../../providers/ui-components';
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html',
-  providers: [AccountService, StorageService]
+  providers: [AccountService, StorageService, uiComp]
 })
 
 export class SettingsPage {

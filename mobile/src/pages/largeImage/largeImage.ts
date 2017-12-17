@@ -67,6 +67,9 @@ export class LargeImagePage {
           this.slides.update();
           this.isEnable = false;
         }
+        if(this.images.length === 0) {
+          this.dismiss();
+        }
         this.uiCmp.presentToastSuccess('Images successfully deleted');
       },
       (error) => {
