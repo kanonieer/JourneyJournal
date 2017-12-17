@@ -85,10 +85,6 @@ page-detailsJourney {
         background-color: color($colors, accent);
         padding: 16px;
       }
-
-      .action-sheet-button {
-        border-bottom: 1px solid color($colors, light-btn);
-      }
     }
   }
 }
@@ -105,10 +101,6 @@ page-detailsJourney {
         color: color($colors, just-white);
         background-color: color($colors, accent);
         padding: 16px;
-      }
-
-      .action-sheet-button {
-        border-bottom: 1px solid color($colors, light-btn);
       }
     }
   }

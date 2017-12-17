@@ -17,57 +17,27 @@
 
 page-app {
     .menu-content {
-        background: color($colors, light);
-    }
+        background: color($colors, just-white);
 
-    .top-toolbar {
-        padding-top: 5px !important;
-        -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,.7);
-        -moz-box-shadow: 0px 0px 10px rgba(0,0,0,.7);
-        box-shadow: 0px 0px 10px rgba(0,0,0,.7);
+        .logo-row {
+            align-items: center;
+            text-align: center;
+      
+            .logo-col {
+              padding: 0;
+            }
+        }
     }
 
     .bottom-toolbar {
         min-height: 0;
+        padding: 0px !important;
         -webkit-box-shadow: 0px 0px 6px rgba(0,0,0,.7);
         -moz-box-shadow: 0px 0px 6px rgba(0,0,0,.7);
         box-shadow: 0px 0px 6px rgba(0,0,0,.7);
     }
 
-    .toolbar {
-        padding: 0px;
-    }
-
-    .toolbar-background {
-        background: color($colors, primary);
-    }
-
-    .menu-button {
-        border-bottom: 1px solid color($colors, light-btn);
-    }
-
-    .list .item-block .item-inner {
-        border: 0px;
-        padding: 0px;
-    }
-
     .item.item-block .item-inner {
         border-bottom: 0px;
-    }
-
-    .item {
-        padding: 0px;
-    }
-
-    .label {
-        margin: 0px;
-    }
-
-    .item ion-icon[item-left] + .item-inner, .item ion-icon[item-left] + .item-input {
-        margin-left: 10px;
-    }
-
-    .item ion-icon[item-left] {
-        margin-left: 15px;
     }
 }

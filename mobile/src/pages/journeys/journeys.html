@@ -1,18 +1,24 @@
-<ion-header no-border>
-  <ion-navbar color="light">
-    <button ion-button icon-only menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title class="nav-title" *ngIf="!showSearchbar">Journeys</ion-title>
-    <ion-searchbar *ngIf="showSearchbar" [(ngModel)]="searchQuery" (ionInput)="getItems($event)" #search></ion-searchbar>
-    <ion-buttons end>
-      <button *ngIf="!showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbarOn()">
-        <ion-icon name="search" class="btn-icon"></ion-icon>
-      </button>
-      <button *ngIf="showSearchbar" class="search-btn" ion-button icon-only (click)="toggleSearchbarOff()">
-        <ion-icon name="arrow-round-forward" class="btn-icon"></ion-icon>
+<ion-header>
+  <ion-navbar *ngIf="!showSearchbar" color="just-white">
+    <ion-buttons left>
+      <button ion-button icon-only menuToggle="left">
+        <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
+    <ion-title class="nav-title">Journeys</ion-title>
+    <ion-buttons right>
+      <button class="search-btn" ion-button icon-only (click)="toggleSearchbarOn()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+  <ion-navbar *ngIf="showSearchbar" color="just-white">
+    <ion-buttons left>
+      <button class="search-btn" ion-button icon-only (click)="toggleSearchbarOff()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-searchbar class="search-bar" [(ngModel)]="searchQuery" (ionInput)="getItems($event)" #search></ion-searchbar>
   </ion-navbar>
 </ion-header>
 
@@ -42,7 +48,7 @@
       </ion-item>
       <!-- Slide options -->
       <ion-item-options class="item-options" (ionSwipe)="deleteConfirm(journey._id, journey.title, slidingItems)">
-        <button class="options-btn" ion-button color="light-btn" (click)="editJourney(journey._id, journey.title, slidingItems)">
+        <button class="options-btn" ion-button color="light" (click)="editJourney(journey._id, journey.title, slidingItems)">
           <ion-icon name="clipboard"></ion-icon>
             <div>Edit</div>
         </button>
@@ -56,7 +62,7 @@
 
   <!-- Add button (fab) -->
   <ion-fab bottom right>
-    <button color="light-btn" ion-fab (click)="addJourney()">
+    <button color="light" ion-fab (click)="addJourney()">
       <ion-icon color="secondary" name="add"></ion-icon>
     </button>
   </ion-fab>

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="light">
+  <ion-navbar color="just-white">
     <button ion-button icon-only menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -14,33 +14,27 @@
       Account
     </ion-card-header>
 
-    <ion-list class="settings-list">
+    <ion-list class="settings-list" no-lines>
+
+      <button ion-item class="first-btn" [disabled]="!isEnabled" (click)="openModal({modalNum: 0})">
+        <ion-icon item-left name='person-add' color="secondary"></ion-icon>
+        Create new account
+      </button>
+
+      <button ion-item [disabled]="isEnabled" (click)="openModal({modalNum: 1})">
+        <ion-icon item-left name='mail' color="secondary"></ion-icon>
+        Change e-mail
+      </button>
+
+      <button ion-item [disabled]="isEnabled" (click)="openModal({modalNum: 2})">
+        <ion-icon item-left name='lock' color="secondary"></ion-icon>
+        Change password
+      </button>
 
       <ion-item>
-        <button ion-item class="settings-btn first-btn" [disabled]="!isEnabled" (click)="openModal({modalNum: 0})">
-          <ion-icon class="settings-icon" name='person-add' item-left></ion-icon>
-          Create new account
-        </button>
-      </ion-item>
-
-      <ion-item>
-        <button ion-item class="settings-btn" [disabled]="isEnabled" (click)="openModal({modalNum: 1})">
-          <ion-icon class="settings-icon" name='mail' item-left></ion-icon>
-          Change e-mail
-        </button>
-      </ion-item>
-
-      <ion-item>
-        <button ion-item class="settings-btn" [disabled]="isEnabled" (click)="openModal({modalNum: 2})">
-          <ion-icon class="settings-icon" name='lock' item-left></ion-icon>
-          Change password
-        </button>
-      </ion-item>
-
-      <ion-item class="settings-btn last-item">
-        <ion-icon class="settings-icon" name='logo-facebook' item-left></ion-icon>
+        <ion-icon item-left name='logo-facebook' color="secondary"></ion-icon>
         <ion-label>Facebook</ion-label>
-        <ion-toggle class="settings-toggle" checked={{isCheckedFb}} color="success" (ionChange)="addFb()"></ion-toggle>
+        <ion-toggle checked={{isCheckedFb}} color="success" (ionChange)="addFb()"></ion-toggle>
       </ion-item>
 
     </ion-list>
@@ -52,23 +46,21 @@
       Personal
     </ion-card-header>
 
-    <ion-list class="settings-list">
+    <ion-list class="settings-list" no-lines>
 
-      <ion-item class="settings-btn">
-        <ion-icon class="settings-icon" name='images' item-left></ion-icon>
-        <ion-label>Save images (photo library)</ion-label>
-        <ion-toggle class="settings-toggle" checked={{isCheckedImage}} color="success" (ionChange)="saveImages()"></ion-toggle>
+      <ion-item>
+        <ion-icon item-left name='images' color="secondary"></ion-icon>
+        <ion-label>Save to library</ion-label>
+        <ion-toggle checked={{isCheckedImage}} color="success" (ionChange)="saveImages()"></ion-toggle>
       </ion-item>
 
-      <ion-item class="last-item">
-        <button ion-item class="settings-btn" (click)="changeGPS()">
-          <ion-icon class="settings-icon" name='locate' item-left></ion-icon>
-          GPS
-        </button>
-      </ion-item>
+      <button ion-item (click)="changeGPS()">
+        <ion-icon item-left name='locate' color="secondary"></ion-icon>
+        GPS
+      </button>
 
     </ion-list>
   </ion-card>
 
-  <button ion-button clear full class="bottom-btn" (click)="deleteConfirm()">Delete my account</button>
+  <button ion-button clear full color="secondary" (click)="deleteConfirm()">Delete my account</button>
 </ion-content>
