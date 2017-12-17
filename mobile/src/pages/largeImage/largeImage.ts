@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
-import { NavParams, ViewController, Events } from 'ionic-angular';
+import { NavParams, ViewController, Events, Slides } from 'ionic-angular';
 
 // Providers
 import { ImageService } from '../../providers/image-service';
@@ -14,6 +14,8 @@ import { uiComp } from '../../providers/ui-components';
 })
 
 export class LargeImagePage {
+
+  @ViewChild(Slides) slides: Slides;
 
   public idToInitial;
   public idToDelete;
@@ -51,17 +53,26 @@ export class LargeImagePage {
 
   // Delete image
   public deleteImage() {
-    alert(this.idToDelete);
     this.imageSvc.deleteImage(this.idToDelete).subscribe(
       (success) => {
+        let activeSlide = this.slides.realIndex;
+        this.reloadImages(); 
+        if(this.slides.isEnd()) {
+          this.slides.slideTo(activeSlide - 1, 500);
+          this.images.splice(activeSlide, 1);
+          this.slides.update();
+          this.isEnable = false;
+        } else {
+          this.images.splice(activeSlide, 1);
+          this.slides.update();
+          this.isEnable = false;
+        }
         this.uiCmp.presentToastSuccess('Images successfully deleted');
       },
       (error) => {
-        this.uiCmp.presentToastError('Something went wrong: ' + error);
+        this.uiCmp.presentToastError('Something went wrong');
       }
     );
-    this.reloadImages();
-    this.dismiss();
   }
 
   // Reload images
@@ -72,7 +83,7 @@ export class LargeImagePage {
   // Open menu when clicked
   public openMenu(id) {
     this.isEnable = !this.isEnable;
-    this.idToDelete = id;
+    this.idToDelete = id;   
   }
 
   // Close when slided

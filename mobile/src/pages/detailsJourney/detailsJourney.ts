@@ -78,12 +78,12 @@ export class DetailsJourneyPage {
   // Take picture
   public takePicture() {
     this.getGeo();
-    this.toBool('save_images');
+    this.toBool('saveToLibrary');
     this.camera.getPicture(this.PhotoOptionsTake).then(
       (imageData) => {
 
         let imageCredentials = {
-          date: new Date().getDate(),
+          date: new Date().toISOString().substring(0, 10),
           longitude: "" + this.geoCredentials.long,
           latitude: "" + this.geoCredentials.lat,
           id_journey: this.navParams.get("id_journey"),
@@ -120,7 +120,7 @@ export class DetailsJourneyPage {
 
     fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
       (data) => {
-        this.uiCmp.presentToastSuccess("Success");
+        this.uiCmp.presentToastSuccess("Added successfully");
         this.uiCmp.loading.dismiss();
         this.getImages();
       },

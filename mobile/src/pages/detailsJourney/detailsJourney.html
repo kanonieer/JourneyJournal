@@ -30,7 +30,6 @@
   <div class="detailsJourney-box">
     <ion-grid class="grid-box">
       <ion-row class="grid-row">
-        <ion-checkbox *ngIf="isOn" [(ngModel)]="isEnable"></ion-checkbox>
         <ion-col class="grid-col" col-4 *ngFor="let image of images">
           <ion-card class="grid-card" (click)="largerPhoto(image._id)" (press)="deleteAlert(image._id)">
             <cl-image 

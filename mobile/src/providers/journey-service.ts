@@ -23,8 +23,6 @@ export class JourneyService {
 
   public headers = new Headers({'Content-Type': 'application/json'});
   public options = new RequestOptions({headers: this.headers});
-  public user_id = this.storageSvc.get('user_id');
-  public access_token = this.storageSvc.get('token');
 
   public addJourney(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/journeys', JSON.stringify(payload), this.options).pipe(
@@ -41,14 +39,17 @@ export class JourneyService {
   }
 
   public getJourneys(): Observable<Array<Journey>> {
-    return this._http.get(serverAdress + '/users/' + this.user_id + '/journeys?access_token=' + this.access_token, this.options).pipe(
+    const user_id = this.storageSvc.get('user_id');
+    const access_token = this.storageSvc.get('token');
+    return this._http.get(serverAdress + '/users/' + user_id + '/journeys?access_token=' + access_token, this.options).pipe(
       map(successHandle),
       catchError(errorHandle)
     );
   }
   
   public deleteJourney(id: any): Observable<any> {
-    return this._http.delete(serverAdress + '/journeys/' + id + '?access_token=' + this.access_token, this.options).pipe(
+    const access_token = this.storageSvc.get('token');
+    return this._http.delete(serverAdress + '/journeys/' + id + '?access_token=' + access_token, this.options).pipe(
       map(successHandle),
       catchError(errorHandle)
     );
