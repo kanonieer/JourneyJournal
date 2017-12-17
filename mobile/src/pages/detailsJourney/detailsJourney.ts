@@ -78,12 +78,12 @@ export class DetailsJourneyPage {
   // Take picture
   public takePicture() {
     this.getGeo();
-    this.toBool('save_images');
+    this.toBool('saveToLibrary');
     this.camera.getPicture(this.PhotoOptionsTake).then(
       (imageData) => {
 
         let imageCredentials = {
-          date: new Date().getDate(),
+          date: new Date().toISOString().substring(0, 10),
           longitude: "" + this.geoCredentials.long,
           latitude: "" + this.geoCredentials.lat,
           id_journey: this.navParams.get("id_journey"),
@@ -94,6 +94,7 @@ export class DetailsJourneyPage {
 
         this.imageSvc.saveImage(imageCredentials).subscribe(
           (data) => {
+            this.uiCmp.showLoading();
             this.uploadToCloudinary(imageData, data._id);
           },
           (error) => {
@@ -107,7 +108,6 @@ export class DetailsJourneyPage {
   // Upload
   public uploadToCloudinary(file, imageName) {
     const fileTransfer: FileTransferObject = this.transfer.create();
-    this.uiCmp.showLoading();
     let UploadOptions: FileUploadOptions = {
       fileKey: "file",
       fileName: imageName,
@@ -120,13 +120,13 @@ export class DetailsJourneyPage {
 
     fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
       (data) => {
-        this.uiCmp.presentToastSuccess("Success");
-        this.uiCmp.loading.dismiss();
         this.getImages();
+        this.uiCmp.loading.dismiss();
+        this.uiCmp.presentToastSuccess("Added successfully");
       },
       (error) => {
-        this.uiCmp.presentToastError("Something went wrong: " + error);
         this.uiCmp.loading.dismiss();
+        this.uiCmp.presentToastError("Something went wrong: " + error);
       }
     );
   }
@@ -147,7 +147,12 @@ export class DetailsJourneyPage {
           };
           this.imageSvc.saveImage(imageCredentials).subscribe(
             (data) => {
-              this.uploadToCloudinary(imageData[i], data._id);
+              if(i === 0) {
+                this.uiCmp.showLoading();
+                this.uploadToCloudinary(imageData[i], data._id);
+              } else {
+                this.uploadToCloudinary(imageData[i], data._id);
+              }
             },
             (error) => {
               alert(error);

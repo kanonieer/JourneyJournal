@@ -4,6 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { catchError } from 'rxjs/operators/catchError';
 
+// Providers
+import { StorageService } from '../providers/storage-service';
+
 // Shared
 import { serverAdress } from './../shared/GlobalVariables';
 import { successHandle, errorHandle } from './../shared/Handler';
@@ -21,7 +24,7 @@ export class AuthService {
 
   currentUser: User;
 
-  constructor(private _http: Http) {
+  constructor(private _http: Http, private storageSvc: StorageService) {
 
   }
 
@@ -44,6 +47,15 @@ export class AuthService {
 
   public signUpFacebook(payload: any): Observable<any> {
     return this._http.post(serverAdress + '/facebookAuthorization', JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
+  }
+
+  public addFacebook(payload: any): Observable<any> {
+    const user_id = this.storageSvc.get('user_id');
+    const access_token = this.storageSvc.get('token');
+    return this._http.patch(serverAdress + '/users/' + user_id + '/addFacebook?access_token=' + access_token, JSON.stringify(payload), this.options).pipe(
       map(successHandle),
       catchError(errorHandle)
     );

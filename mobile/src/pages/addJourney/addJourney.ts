@@ -31,7 +31,6 @@ export class AddJourneyPage {
   public journeyCredentials = {
     title        : '',
     description  : '',
-    id_disc      : '',
     date_start   : '',
     date_end     : '',
     access_token : this.storageSvc.get('token')

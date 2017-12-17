@@ -37,59 +37,84 @@ export class LoginPage {
     private storageSvc: StorageService, private uiCmp: uiComp) {
      
     events.subscribe('user:logout', () => {
-      if(this.storageSvc.get('user_logged') === "true") {
-        this.logoutUser();
-      }
-      if(this.storageSvc.get('user_logged_fb') === "true") {
-        this.logoutFacebook();
-      }
+      this.logoutUser();
     });
 
     events.subscribe('user:fb', () => {
-      if(this.storageSvc.get('email')) {
-        this.logoutFacebook2();
+      if(this.storageSvc.get('facebook_user_id') === 'undefined') {
+        this.addFacebook();
       } else {
-        this.loginFacebook();
+        alert('Will be added later');
       }
     });
   }
 
   // ACCOUNT //
-  // Login FB
+  // Login-Register FB
   public loginFacebook() {
-
     let permissions = new Array<string>();
     permissions = ['public_profile', 'email'];
     
     this.uiCmp.showLoading();
-    this.fb.login(permissions).then((res: FacebookLoginResponse) => {
-      this.fb.api('me?fields=id,email', []).then(profile => {
-        this.userData = {email: profile['email']};
-
+    this.fb.login(permissions).then(
+      (res: FacebookLoginResponse) => {
         let facebookCredentials = {
-          user_id: this.storageSvc.get('user_id'),
           facebook_user_id: res.authResponse.userID,
-          token: res.authResponse.accessToken
+          facebook_token: res.authResponse.accessToken
         };
-
         this.authSvc.signUpFacebook(facebookCredentials).subscribe(
           (success) => {
+            this.storageSvc.set('user_id', success.data.user_id);
             this.storageSvc.set('facebook_user_id', res.authResponse.userID);
-            this.storageSvc.set('user_id', success.data.payload_user_id);
             this.storageSvc.set('token', success.data.access_token);
-            this.storageSvc.set('email', this.userData.email);
             this.storageSvc.set('user_logged_fb', 'true');
-            this.storageSvc.set('save_images', 'false');
+            this.storageSvc.set('saveToLibrary', success.data.saveToLibrary);
             this.navCtrl.setRoot('JourneysPage', {}, navOptionsForward);
             this.uiCmp.loading.dismiss();
           },
-          (err) => {
-            alert(err);
+          (error) => {
             this.uiCmp.loading.dismiss();
+            this.uiCmp.presentToastError('Something went wrong: ' + error);
           }
-        )
-      });
-    }).catch(error => console.log('Error logging into Facebook', error));
+        );
+      }
+    ).catch(
+      (error) => {
+        this.uiCmp.loading.dismiss();
+        this.uiCmp.presentToastError('Error logging into Facebook: ' + error);
+      }
+    );
+  }
+
+  // Add FB
+  public addFacebook() {
+    let permissions = new Array<string>();
+    permissions = ['public_profile', 'email'];
+
+    this.uiCmp.showLoading();
+    this.fb.login(permissions).then(
+      (res: FacebookLoginResponse) => {
+        let facebookCredentials = {
+          facebook_user_id: res.authResponse.userID,
+          facebook_token: res.authResponse.accessToken
+        };
+        this.authSvc.addFacebook(facebookCredentials).subscribe(
+          (success) => {
+            this.storageSvc.set('facebook_user_id', res.authResponse.userID);
+            this.uiCmp.loading.dismiss();
+          },
+          (error) => {
+            this.uiCmp.loading.dismiss();
+            this.uiCmp.presentToastError('Something went wrong: ' + error);
+          }
+        );
+      }
+    ).catch(
+      (error) => {
+        this.uiCmp.loading.dismiss();
+        this.uiCmp.presentToastError('Error logging into Facebook: ' + error);
+      }
+    );
   }
   
   // Login local
@@ -98,13 +123,18 @@ export class LoginPage {
     this.authSvc.loginBasic(this.loginCredentials).subscribe(
       (data) => {
         this.storageSvc.set('user_id', data.user._id.toString());
+        if(typeof data.user.facebook === 'undefined') {
+          this.storageSvc.set('facebook_user_id', data.user.facebook);
+        } else {
+          this.storageSvc.set('facebook_user_id', data.user.facebook.id);
+        }
         this.storageSvc.set('token', data.token);
         this.storageSvc.set('user_logged', 'true');
-        this.storageSvc.set('save_images', 'false');
+        this.storageSvc.set('saveToLibrary', data.user.saveToLibrary);
         this.navCtrl.setRoot('JourneysPage', {}, navOptionsForward);
         this.uiCmp.loading.dismiss();
       },
-      (err) => {
+      (error) => {
         this.uiCmp.loading.dismiss();
         this.uiCmp.presentToastError("Invalid email or password");
       }
@@ -118,35 +148,23 @@ export class LoginPage {
     this.loginCredentials.password = '';
   }
 
-  // Logout FB
-  public logoutFacebook() {
-    this.uiCmp.showLoading();
-    this.fb.logout();
-    this.storageSvc.clear();
-    this.navCtrl.setRoot(LoginPage, {}, navOptionsBack);
-    this.uiCmp.loading.dismiss();
-  }
-
-  // Logout FB test
-  public logoutFacebook2() {
-    this.uiCmp.showLoading();
-    this.fb.logout();
-    this.storageSvc.remove('facebook_user_id');
-    this.storageSvc.remove('email');
-    this.storageSvc.remove('user_logged_fb');
-    this.storageSvc.set('user_logged', 'true');
-    this.uiCmp.loading.dismiss();
-  }
-
-  // Logout local
+  // Logout
   public logoutUser() {
-    this.uiCmp.showLoading();
-    this.authSvc.logout().subscribe(
-      (data) => {
-        this.storageSvc.clear();
-        this.navCtrl.setRoot(LoginPage, {}, navOptionsBack);
-        this.uiCmp.loading.dismiss();
-      }
-    );
+    if(this.storageSvc.get('user_logged_fb') === "true") {
+      this.uiCmp.showLoading();
+      this.fb.logout();
+      this.storageSvc.clear();
+      this.navCtrl.setRoot(LoginPage, {}, navOptionsBack);
+      this.uiCmp.loading.dismiss();
+    } else if(this.storageSvc.get('user_logged') === "true") {
+      this.authSvc.logout().subscribe(
+        (data) => {
+          this.uiCmp.showLoading();
+          this.storageSvc.clear();
+          this.navCtrl.setRoot(LoginPage, {}, navOptionsBack);
+          this.uiCmp.loading.dismiss();
+        }
+      );
+    }
   }
 }
