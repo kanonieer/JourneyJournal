@@ -32,10 +32,6 @@ module.exports = {
                             res.status(401).json({message:"Title is not set"});
                             console.log("Title is not set");
                         } else {
-                            if (req.body.id_disc == undefined) {
-                            res.status(401).json({message:"Disc is not set"});
-                            console.log("Disc is not set");
-                            } else {
                                 if(req.body.description == undefined){
                                     req.status(401).json({message: "Description is not set"})
                                 } else {
@@ -60,7 +56,6 @@ module.exports = {
                         }
                     }
                 }
-            }
         })
     },
     getJourneys: (req, res) => {
