@@ -23,7 +23,7 @@ page-login {
         padding: 0px 20px 0px 20px;
 
         .facebook-row {
-          border-bottom: 1px solid color($colors, light);
+          border-bottom: 1px solid color($colors, just-white);
 
           .facebook-icon {
             font-size: 48px;
@@ -49,6 +49,11 @@ page-login {
         .list-item {
           background: color($colors, primary);
           color: color($colors, just-white);
+          padding-left: 0;
+
+          .item-inner {
+            padding-right: 0;
+          }
 
           .text-input {
             margin: 13px 8px 13px 8px;
@@ -66,14 +71,14 @@ page-login {
         h2 {
           width: 100%; 
           text-align: center; 
-          border-bottom: 1px solid color($colors, light);
+          border-bottom: 1px solid color($colors, just-white);
           line-height: 0.3em;
           margin: 0px 0px 10px; 
         } 
        
         h2 span {
           font-size: 14px;
-          color: color($colors, light);
+          color: color($colors, just-white);
           background: color($colors, primary);
           padding: 0 10px; 
         }

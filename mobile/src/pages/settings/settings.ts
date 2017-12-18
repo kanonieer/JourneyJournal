@@ -9,24 +9,25 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 // Providers
 import { AccountService } from '../../providers/account-service';
 import { StorageService } from '../../providers/storage-service';
+import { uiComp } from '../../providers/ui-components';
 
 @IonicPage()
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html',
-  providers: [AccountService, StorageService]
+  providers: [AccountService, StorageService, uiComp]
 })
 
 export class SettingsPage {
 
   public isCheckedImage: boolean = false;
   public isCheckedFb: boolean = false;
-  public saveToggleImage: string = this.storageSvc.get('save_images');
-  public saveToggleFb: string = this.storageSvc.get('user_logged_fb');
+  public saveToggleImage = this.storageSvc.get('saveToLibrary');
+  public saveToggleFb = this.storageSvc.get('facebook_user_id');
   public isEnabled = null;
 
   constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy,
-    private accountSvc: AccountService, private storageSvc: StorageService) {
+    private accountSvc: AccountService, private storageSvc: StorageService, private uiCmp: uiComp) {
 
     this.checkedImage();
     this.checkedFb();
@@ -43,28 +44,52 @@ export class SettingsPage {
   // SETTINGS //
   // Save image to photolibrary
   public saveImages() {
-    this.saveToggleImage = this.storageSvc.get('save_images');
-
     if(this.saveToggleImage === 'true') {
-      this.storageSvc.set('save_images', 'false');
+      let image = {
+        saveToLibrary: false
+      };
+      this.accountSvc.updateField(image).subscribe(
+        (success) => {
+          this.storageSvc.set('saveToLibrary', 'false');
+          this.uiCmp.presentToastSuccess('Successfully changed');
+        },
+        (error) => {
+          this.uiCmp.presentToastError('Something went wrong: ' + error);
+        }
+      );
     } else {
-      this.storageSvc.set('save_images', 'true');
+      let image = {
+        saveToLibrary: true
+      };
+      this.accountSvc.updateField(image).subscribe(
+        (success) => {
+          this.storageSvc.set('saveToLibrary', 'true');
+          this.uiCmp.presentToastSuccess('Successfully changed');
+        },
+        (error) => {
+          this.uiCmp.presentToastError('Something went wrong: ' + error);
+        }
+      );
     }
   }
 
   // Check options for image
   public checkedImage() {
-    return this.isCheckedImage = this.saveToggleImage === 'true' ? true : false;
+    this.isCheckedImage = this.saveToggleImage === 'true' ? true : false;
   }
 
   // Check options for user fb
   public checkedFb() {
-    return this.isCheckedFb = this.saveToggleFb === 'true' ? true : false;
+    if(this.saveToggleFb !== 'undefined') {
+      this.isCheckedFb = true;
+    } else {
+      this.isCheckedFb = false;
+    }
   }
 
   // Button controls
   public enableBtn() {
-    if(this.storageSvc.get('email')) {
+    if(this.storageSvc.get('facebook_user_id') !== 'undefined') {
       this.isEnabled = true;
     }
   }
@@ -95,11 +120,11 @@ export class SettingsPage {
   public deleteAccount() {
     this.accountSvc.deleteAccount().subscribe(
       (success) => {
-        console.log(success);
+        this.uiCmp.presentToastSuccess('Your account has been deleted');
         this.logout();
       },
-      (err) => {
-        console.log(err);
+      (error) => {
+        this.uiCmp.presentToastError('Something went wrong: ' + error);
       }
     );
   }
@@ -131,6 +156,10 @@ export class SettingsPage {
           );
         }
       }
+    ).catch(
+      (error) => {
+        this.uiCmp.presentToastError('Cordova not available');
+      }
     );
   }
 
@@ -146,7 +175,7 @@ export class SettingsPage {
       }
     ).catch(
       (error) => {
-        alert(error);
+        this.uiCmp.presentToastError('Something went wrong: ' + error);
       }
     );
   }

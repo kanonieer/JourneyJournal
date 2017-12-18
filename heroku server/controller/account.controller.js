@@ -50,7 +50,7 @@ module.exports = {
 
                                         console.log('User email successfully updated!');
                                     }); 
-                                    res.status(201).json({ message:'Email changed', details: 'User email successfully changed'});                                 
+                                    res.status(200).json({ message:'Email changed', details: 'User email successfully changed'});                                 
                                 }
                             });
                         }
@@ -84,7 +84,7 @@ module.exports = {
 
                             console.log('User password successfully updated!');
                         }); 
-                        res.status(201).json({ message:'Password changed', details: 'User password successfully changed'});                            
+                        res.status(200).json({ message:'Password changed', details: 'User password successfully changed'});                            
                     }
                 }
             });
@@ -102,6 +102,7 @@ module.exports = {
 
                 newUser.facebook.id = facebook_user_id;
                 newUser.facebook.token = facebook_token;
+                newUser.saveToLibrary  = false;
 
                 newUser.save(err => {
                     if (err) throw err;
@@ -109,22 +110,24 @@ module.exports = {
                     console.log('No user before, now created');
                     const access_token = jwt.sign(newUser, 'server secret temp', { expiresIn: 6000*1200 });
                     const user_id = newUser._id;
+                    const saveToLibrary = newUser.saveToLibrary
 
                     res.status(201).json({ 
                         message: 'Account created', 
                         details: 'User account created with Facebook auth',
-                        data: { access_token, user_id }
+                        data: { access_token, user_id, saveToLibrary }
                     });
                 }); 
             } else {
                 console.log('Authenticating with Facebook');
                 const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
                 const user_id = user._id;
+                const saveToLibrary = user.saveToLibrary
 
                 res.status(201).json({
                     message: 'Success',
                     details: 'Successfully authenticated with facebook',
-                    data: { access_token, user_id }
+                    data: { access_token, user_id, saveToLibrary }
                 });
             }
         });
@@ -330,5 +333,29 @@ module.exports = {
             });
             res.status(200).json({ message: "Success", details: "Successfully deleted user" });
         }
+    },
+
+    saveToLibrary : (req, res) => {
+        if(req.params.id != req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to update user with this ID" });
+        } 
+        else {
+            User.findOne({ _id : req.params.id }, (err, user) => {
+                if (err) throw err;
+
+                if(!user) {
+                    res.status(404).json({ message: "There is no user with this ID" });
+                } else {
+                    user.saveToLibrary = req.body.saveToLibrary
+                    
+                    user.save(err => {
+                        if (err) throw err;
+
+                        console.log('User saveToLibrary field successfully updated!');
+                    });
+                    res.status(201).json({ message:'saveToLibrary changed', details: 'User saveToLibrary field successfully changed'});
+                }
+            });
+        }       
     }
 }

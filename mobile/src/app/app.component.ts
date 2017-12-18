@@ -44,7 +44,7 @@ export class MyApp {
   // Starting
   public initializeApp() {
     this.platform.ready().then(() => {
-      if((this.storageSvc.get('user_logged') == 'true') || (this.storageSvc.get('user_logged_fb') == 'true')) {
+      if((this.storageSvc.get('user_logged') === 'true') || (this.storageSvc.get('user_logged_fb') === 'true')) {
         this.menu.setRoot('JourneysPage', {}, navOptionsForward);
         this.checkGPS();
         this.splashScreen.hide();
@@ -115,7 +115,7 @@ export class MyApp {
       }
     ).catch(
       (error) => {
-        console.log('Cordova not available');
+        this.uiCmp.presentToastError('Cordova not available');
       }
     );
   }

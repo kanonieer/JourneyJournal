@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
-import { NavController, AlertController, MenuController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 
 // Providers
 import { AuthService } from '../../providers/auth-service';
+import { uiComp } from '../../providers/ui-components';
 
 // Shared
 import { navOptionsBack } from '../../shared/GlobalVariables';
@@ -12,7 +13,7 @@ import { navOptionsBack } from '../../shared/GlobalVariables';
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
-  providers: [AuthService]
+  providers: [AuthService, uiComp]
 })
 
 export class RegisterPage {
@@ -21,14 +22,12 @@ export class RegisterPage {
     this.menuCtrl.enable(false);
   }
 
-  public createSuccess = false;
-
   public registerCredentials = {
     email: '',
     password: ''
   };
 
-  constructor(public navCtrl: NavController, public menuCtrl: MenuController, private alertCtrl: AlertController, private authSvc: AuthService) {
+  constructor(public navCtrl: NavController, public menuCtrl: MenuController, private authSvc: AuthService, private uiCmp: uiComp) {
   }
 
   // ACCOUNT //
@@ -36,16 +35,13 @@ export class RegisterPage {
   public register() {
     this.authSvc.signUpBasic(this.registerCredentials).subscribe(
       (success) => {
-        if (success) {
-          this.createSuccess = true;
-          this.showPopup("Success", "Account created");
-        } else {
-          this.showPopup("Error", "Problem creating an account");
-        }
+        this.navCtrl.pop(navOptionsBack);
+        this.uiCmp.presentToastSuccess('Account created');
       },
       (error) => {
-        this.showPopup("Error", error);
-      });
+        this.uiCmp.presentToastError(error);
+      }
+    );
   }
 
   // NAV //
@@ -54,23 +50,5 @@ export class RegisterPage {
     this.navCtrl.pop(navOptionsBack);
     this.registerCredentials.email = '';
     this.registerCredentials.password = '';
-  }
-
-  // ALERT //
-  // Show
-  public showPopup(title, text) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: text,
-      buttons: [{
-        text: 'OK',
-        handler: (data) => {
-          if (this.createSuccess) {
-            this.navCtrl.pop(navOptionsBack);
-          }
-        }
-      }]
-    });
-    alert.present();
   }
 }

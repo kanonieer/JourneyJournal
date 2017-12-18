@@ -12,57 +12,16 @@ page-settings {
     .cards-list {
 
       .cards-header {
-        font-size: 3rem;
+        font-size: 2.8rem;
       }
       
       .settings-list {
         margin-bottom: 10px;
 
-        ion-item {
-          border: 0;
-        }
-
-        .settings-btn {
-          padding-left: 16px;
-          border-top: 0;
-
-          .settings-icon {
-            color: color($colors, secondary);
-            margin: 10px 0px 10px 0px;
-            text-align: center;
-            min-width: 24px;
-          }
-
-          .item-inner {
-            border-bottom: 1px solid color($colors, light-btn);
-            margin-left: 15px;
-          }
-
-          .settings-toggle {
-            padding: 6px 15px 5px 0;
-          }
-        }
-
         .first-btn {
           padding-left: 14px;
         }
-
-        .last-item {
-          border: 0;
-
-          .item-inner {
-            border-bottom: 0;
-          }
-
-          .settings-toggle {
-            padding: 6px 15px 5px 0;
-          }
-        }
       }
-    }
-
-    .bottom-btn {
-      color: color($colors, secondary);
     }
   }
 }

@@ -1,25 +1,23 @@
 <ion-header>
-  <ion-navbar color="light">
-    <button ion-button icon-only menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+  <ion-navbar color="just-white">
+    <ion-buttons left>
+      <button ion-button icon-only menuToggle="left">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title class="nav-title">Help</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content overflow-scroll="true" class="main-content" padding>
   <ion-list class="help-list">
-    <ion-item class="help-item">
-      <button class="help-btn" ion-item color="just-white" *ngFor="let subPage of subPages" (click)="goToPage(subPage.component)">
-        <ion-icon item-left name="open"></ion-icon>
-        {{ subPage.title }}
-      </button>
-    </ion-item>
-    <ion-item class="help-item">
-      <button class="help-btn" ion-item color="just-white">
-        <ion-icon item-left name="open"></ion-icon>
-        More coming soon
-      </button>
-    </ion-item>
+    <button class="help-btn" ion-item color="just-white" *ngFor="let subPage of subPages" (click)="goToPage(subPage.component)">
+      <ion-icon item-left name="open"></ion-icon>
+      {{ subPage.title }}
+    </button>
+    <button class="help-btn" ion-item color="just-white">
+      <ion-icon item-left name="open"></ion-icon>
+      More coming soon
+    </button>
   </ion-list>
 </ion-content>

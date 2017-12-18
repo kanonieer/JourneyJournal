@@ -11,15 +11,12 @@ page-help {
     
     .help-list {
       
-      .help-item {
+      .help-btn {
+        color: color($colors, dark);
         border-bottom: 1px solid color($colors, primary);
         
-        .help-btn {
-          color: color($colors, dark);
-          
-          div.item-inner {
-            margin-left: 5px;
-          }
+        div.item-inner {
+          margin-left: 5px;
         }
       }
     }

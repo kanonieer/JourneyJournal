@@ -1,14 +1,14 @@
 <ion-header>
-  <ion-navbar color="light">
-    <ion-buttons left class="nav-btn">
+  <ion-navbar color="just-white">
+    <ion-buttons left>
       <button ion-button icon-only class="btns-btn" (click)="back()">
-        <ion-icon name="arrow-round-back" class="btn-icon"></ion-icon>
+        <ion-icon name="arrow-round-back"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title class="nav-title">{{journeyCredentials.title}}</ion-title>
-    <ion-buttons end class="nav-btn">
+    <ion-buttons right>
       <button ion-button icon-only class="btns-btn" (click)="presentActionSheet()">
-        <ion-icon name="settings" class="btn-icon"></ion-icon>
+        <ion-icon name="settings"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -22,15 +22,14 @@
       <ion-icon name="images" class="images-icon"></ion-icon>
     </button>
     <ion-fab-list side="left">
-      <button ion-fab color="light-btn" (click)="loadPhoto()"><ion-icon name="images"></ion-icon></button>
-      <button ion-fab color="light-btn" (click)="takePicture()"><ion-icon name="camera"></ion-icon></button>
+      <button ion-fab color="just-white" (click)="loadPhoto()"><ion-icon name="images"></ion-icon></button>
+      <button ion-fab color="just-white" (click)="takePicture()"><ion-icon name="camera"></ion-icon></button>
     </ion-fab-list>
   </ion-fab>
 
   <div class="detailsJourney-box">
     <ion-grid class="grid-box">
       <ion-row class="grid-row">
-        <ion-checkbox *ngIf="isOn" [(ngModel)]="isEnable"></ion-checkbox>
         <ion-col class="grid-col" col-4 *ngFor="let image of images">
           <ion-card class="grid-card" (click)="largerPhoto(image._id)" (press)="deleteAlert(image._id)">
             <cl-image 
@@ -38,10 +37,8 @@
               class="thumbnail inline" 
               format="jpg">
               <cl-transformation 
-                width="200"
-                height="200"
-                quality="50"
-                gravity="center"
+                width="150"
+                height="150"
                 crop="fill">
               </cl-transformation>
             </cl-image>
