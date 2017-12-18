@@ -4,13 +4,15 @@ import { NavParams, ViewController, Events, Slides } from 'ionic-angular';
 
 // Providers
 import { ImageService } from '../../providers/image-service';
+import { JourneyService } from '../../providers/journey-service';
+import { StorageService } from '../../providers/storage-service';
 import { uiComp } from '../../providers/ui-components';
 
 @IonicPage()
 @Component({
   selector: 'page-largeImage',
   templateUrl: 'largeImage.html',
-  providers: [ImageService, uiComp]
+  providers: [ImageService, JourneyService, StorageService, uiComp]
 })
 
 export class LargeImagePage {
@@ -19,11 +21,14 @@ export class LargeImagePage {
 
   public idToInitial;
   public idToDelete;
+  public idJourney;
+  public title;
   public images;
   public initial;
   public isEnable = false;
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public events: Events, private imageSvc: ImageService, private uiCmp: uiComp) {
+  constructor(public params: NavParams, public viewCtrl: ViewController, public events: Events, private imageSvc: ImageService, private journeySvc: JourneyService,
+    private storageSvc: StorageService, private uiCmp: uiComp) {
 
     this.startModal();
     this.getCurrentImage();
@@ -34,6 +39,7 @@ export class LargeImagePage {
   public startModal() {
     this.idToInitial = this.params.get('id');
     this.images = this.params.get('images');
+    this.idJourney = this.params.get('id_journey');
   }
 
   // Dissmiss
@@ -78,19 +84,43 @@ export class LargeImagePage {
     );
   }
 
+  // Set background
+  public setBackground() {
+    let backgroud = {
+      background_image_id: this.idToDelete,
+      access_token: this.storageSvc.get('token')
+    };
+    this.journeySvc.editJourney(this.idJourney, backgroud).subscribe(
+      (data) => {
+        this.reloadJourneys();
+        this.uiCmp.presentToastSuccess(data.message);
+      },
+      (error) => {
+        this.uiCmp.presentToastError(error.message);
+      }
+    );
+  }
+
   // Reload images
   public reloadImages() {
     this.events.publish('images:get');
   }
 
   // Open menu when clicked
-  public openMenu(id) {
+  public openMenu(id, title) {
     this.isEnable = !this.isEnable;
-    this.idToDelete = id;   
+    this.idToDelete = id;
+    this.title = title;
   }
 
   // Close when slided
   public closeMenu() {
     this.isEnable = false;
+  }
+
+  // JOURNEYS //
+  // Reload
+  public reloadJourneys() {
+    this.events.publish('journey:get');
   }
 }

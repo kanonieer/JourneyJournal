@@ -226,7 +226,7 @@ export class DetailsJourneyPage {
 
   // Get larger image
   public largerPhoto(id) {
-    let modal = this.modalCtrl.create('LargeImagePage', {id, images: this.images});
+    let modal = this.modalCtrl.create('LargeImagePage', {id, images: this.images, id_journey: this.id_journey});
     modal.present();
   }
 

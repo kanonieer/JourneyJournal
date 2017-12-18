@@ -5,13 +5,14 @@
         <ion-icon name="arrow-back" class="btn-icon"></ion-icon>
       </button>
     </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content fullscreen="true" overflow-scroll="true" class="largeImage-content">
 
   <ion-slides initialSlide="{{initial}}" centeredSlides="true" zoom="true" spaceBetween="20" (ionSlideDrag)="closeMenu()">
-    <ion-slide *ngFor="let image of images" (click)="openMenu(image._id)">
+    <ion-slide *ngFor="let image of images" (click)="openMenu(image._id, image.title)">
       <div class="swiper-zoom-container">
         <cl-image [public-id]=image._id format="jpg">
           <cl-transformation width="1280" height="720" quality="auto" crop="fit">
@@ -26,7 +27,7 @@
 <ion-footer no-border *ngIf="isEnable">
   <ion-toolbar color="dark" class="largeImage-nav">
     <ion-buttons left>
-      <button ion-button icon-only class="nav-btn">
+      <button ion-button icon-only class="nav-btn" (click)="setBackground()">
         <ion-icon name="image" class="btn-icon"></ion-icon>
       </button>
     </ion-buttons>

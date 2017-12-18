@@ -57,31 +57,51 @@ page-journeys {
 
       .journeys-sliding {
         margin-top: 15px;
-        height: 57.5vw;
-        background: color($colors, primary);
 
         .journeys-item {
-          padding: 0px !important;
-          background: color($colors, just-white);
-          height: 57.5vw;
+          padding-left: 0;
+          border: 10px solid color($colors, just-white);
+          position: relative;
 
           .journeys-card {
+            margin: 0;
+            width: 100%;
             background: linear-gradient(color($colors, primary), color($colors, secondary));
-            height: 52vw;
+            height: 55vw;
+
+            .shadow {
+              position: absolute;
+              height: 100%;
+              width: 100%;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              right: 0;
+              background: rgba(0, 0, 0, 0.3);
+            }
 
             .item-title {
+              padding: 0;
+              text-align: center;
               font-size: 10vw;
               white-space: normal;
+              position: absolute;
+              bottom: 50%;
+              left: 5%;
+              width: 90%;
               font-weight: bold;
               color: color($colors, just-white);
-              text-align: center;
-              padding-top: 15vw;
             }
             
             .item-subtitle {
-              font-size: 3.5vw;
-              color: color($colors, just-white);
+              padding: 0;
               text-align: center;
+              font-size: 3.5vw;
+              position: absolute;
+              bottom: 35%;
+              left: 5%;
+              width: 90%;
+              color: color($colors, just-white);
             }
           }
         }

@@ -38,6 +38,17 @@
     <ion-item-sliding class="journeys-sliding" *ngFor="let journey of journeys" #slidingItems>
       <ion-item class="journeys-item" (click)="detailsJourney(journey._id, journey.title)">
         <ion-card class="journeys-card">
+          <cl-image 
+            [public-id]=journey.background_image_id
+            format="jpg">
+            <cl-transformation 
+              width="300"
+              height="200"
+              quality="100"
+              crop="fill">
+            </cl-transformation>
+          </cl-image>
+          <div class="shadow"></div>
           <ion-card-header class="item-title">
             {{ journey.title }}
           </ion-card-header>
