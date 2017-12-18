@@ -70,12 +70,12 @@ module.exports = {
             }
             if (user) {
                 Journey.findOne({ _id: req.body.id_journey }, (err, journey) => {
-                    if(err) throw err;
+                    if (err) throw err;
 
-                    if(!journey){
-                        res.status(404).json({message:'Not Found', details:'There is no journey with this ID'})
+                    if (!journey) {
+                        res.status(404).json({message:'Not Found', details:'There is no journey with this ID'});
                     }
-                    else{
+                    else {
                         var image = new Image({
                             date        : req.body.date,
                             longitude   : req.body.longitude,
