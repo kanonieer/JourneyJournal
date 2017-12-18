@@ -59,7 +59,7 @@ export class DetailsJourneyPage {
     saveToPhotoAlbum: false
   };
   public PhotoOptionsLoad = {
-    maximumImagesCount: 100,
+    maximumImagesCount: 20,
     quality: 100,
     outputType: 0 //0 - FILE_URI, 1 - BASE64_STRING
   };

@@ -4,10 +4,12 @@ import { ModalController, AlertController, Events } from 'ionic-angular';
 
 // Plugins
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 
 // Providers
 import { AccountService } from '../../providers/account-service';
+import { AuthService } from '../../providers/auth-service';
 import { StorageService } from '../../providers/storage-service';
 import { uiComp } from '../../providers/ui-components';
 
@@ -15,23 +17,23 @@ import { uiComp } from '../../providers/ui-components';
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html',
-  providers: [AccountService, StorageService, uiComp]
+  providers: [AccountService, AuthService, StorageService, uiComp]
 })
 
 export class SettingsPage {
 
   public isCheckedImage: boolean = false;
   public isCheckedFb: boolean = false;
-  public saveToggleImage = this.storageSvc.get('saveToLibrary');
-  public saveToggleFb = this.storageSvc.get('facebook_user_id');
   public isEnabled = null;
 
-  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy,
-    private accountSvc: AccountService, private storageSvc: StorageService, private uiCmp: uiComp) {
+  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private diagnostic: Diagnostic, private fb: Facebook,
+    private locationAccuracy: LocationAccuracy, private accountSvc: AccountService, private authSvc: AuthService, private storageSvc: StorageService, private uiCmp: uiComp) {
 
-    this.checkedImage();
-    this.checkedFb();
-    this.enableBtn();
+      this.checkAll();
+
+      events.subscribe('user:settings', () => {
+        this.checkAll();
+      });
   }
 
   // MODALS //
@@ -44,7 +46,7 @@ export class SettingsPage {
   // SETTINGS //
   // Save image to photolibrary
   public saveImages() {
-    if(this.saveToggleImage === 'true') {
+    if(this.storageSvc.get('saveToLibrary') === 'true') {
       let image = {
         saveToLibrary: false
       };
@@ -73,25 +75,34 @@ export class SettingsPage {
     }
   }
 
-  // Check options for image
+  // Check options for image (toggle)
   public checkedImage() {
-    this.isCheckedImage = this.saveToggleImage === 'true' ? true : false;
+    this.isCheckedImage = this.storageSvc.get('saveToLibrary') === 'true' ? true : false;
   }
 
-  // Check options for user fb
+  // Check options for user fb (toggle)
   public checkedFb() {
-    if(this.saveToggleFb !== 'undefined') {
+    if(this.storageSvc.get('facebook_user_id') !== 'undefined') {
       this.isCheckedFb = true;
     } else {
       this.isCheckedFb = false;
     }
   }
 
-  // Button controls
+  // Button controls (enable or not)
   public enableBtn() {
-    if(this.storageSvc.get('facebook_user_id') !== 'undefined') {
+    if((this.storageSvc.get('facebook_user_id') !== 'undefined') && (this.storageSvc.get('loginBoth') === 'false')) {
       this.isEnabled = true;
+    } else {
+      this.isEnabled = null;
     }
+  }
+
+  // Check all
+  public checkAll() {
+    this.checkedImage();
+    this.checkedFb();
+    this.enableBtn();
   }
 
   // ACCOUNT //
@@ -135,8 +146,63 @@ export class SettingsPage {
   }
 
   // Add user fb
-  public addFb() {
-    this.events.publish('user:fb')
+  public addFacebook() {
+    let permissions = new Array<string>();
+    permissions = ['public_profile', 'email'];
+
+    this.uiCmp.showLoading();
+    this.fb.login(permissions).then(
+      (res: FacebookLoginResponse) => {
+        let facebookCredentials = {
+          facebook_user_id: res.authResponse.userID,
+          facebook_token: res.authResponse.accessToken
+        };
+        this.authSvc.addFacebook(facebookCredentials).subscribe(
+          (success) => {
+            this.storageSvc.set('facebook_user_id', res.authResponse.userID);
+            this.storageSvc.set('loginBoth', 'true');
+            this.uiCmp.loading.dismiss();
+            this.uiCmp.presentToastSuccess('Added successfully');
+          },
+          (error) => {
+            this.uiCmp.loading.dismiss();
+            this.uiCmp.presentToastError('Something went wrong: ' + error);
+          }
+        );
+      }
+    ).catch(
+      (error) => {
+        this.uiCmp.loading.dismiss();
+        this.uiCmp.presentToastError('Error logging into Facebook: ' + error);
+      }
+    );
+  }
+
+  // Remove facebook
+  public removeFacebook() {
+    this.uiCmp.showLoading();
+    this.authSvc.removeFacebook().subscribe(
+      (success) => {
+        this.storageSvc.set('facebook_user_id', 'undefined');
+        this.storageSvc.set('loginBoth', 'false');
+        this.fb.logout();
+        this.uiCmp.loading.dismiss();
+        this.uiCmp.presentToastSuccess('Removed successfully');
+      },
+      (error) => {
+        this.uiCmp.loading.dismiss();
+        this.uiCmp.presentToastError('Something went wrong: ' + error);
+      }
+    );
+  }
+
+  // Change facebook
+  public changeFacebokState() {
+    if(this.storageSvc.get('loginBoth') === 'false') {
+      this.addFacebook();
+    } else {
+      this.removeFacebook();
+    }
   }
 
   // GPS //
