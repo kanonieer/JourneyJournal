@@ -2,13 +2,15 @@ page-journeys {
 
   .bar-buttons[left] {
     .search-btn {
-      margin-left: 6px;
+      margin-right: 6px;
+      min-width: 44px;
     }
   }
 
   .bar-buttons[right] {
     .search-btn {
-      margin-right: 6px;
+      margin-right: 0;
+      min-width: 44px;
     }
   }
 
@@ -20,12 +22,12 @@ page-journeys {
 
   .toolbar-content {
     .search-bar {
-      padding: 0px 0px 0px 18px;
+      padding: 0px 0px 0px 12px;
     }
   }
 
   .searchbar .searchbar-input {
-    padding: 0px 35px 0px 10px;
+    padding: 0px 56px 0px 0px;
     font-weight: 500;
     font-size: 2rem;
   }
@@ -35,7 +37,7 @@ page-journeys {
   }
 
   .searchbar .searchbar-clear-icon {
-    right: 10px;
+    right: 14px;
   }
 
   .list .item-block:last-child,

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
-import { NavParams, ViewController, Events, Slides } from 'ionic-angular';
+import { NavParams, ViewController, AlertController, Events, Slides } from 'ionic-angular';
 
 // Providers
 import { ImageService } from '../../providers/image-service';
@@ -26,8 +26,9 @@ export class LargeImagePage {
   public images;
   public initial;
   public isEnable = false;
+  public isFavourite;
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public events: Events, private imageSvc: ImageService, private journeySvc: JourneyService,
+  constructor(public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public events: Events, private imageSvc: ImageService, private journeySvc: JourneyService,
     private storageSvc: StorageService, private uiCmp: uiComp) {
 
     this.startModal();
@@ -57,12 +58,52 @@ export class LargeImagePage {
     }
   }
 
+  // Edit image
+  public editImage() {
+    const alert = this.alertCtrl.create({
+      title: 'Edit photo',
+      inputs: [
+        {
+          name: 'title',
+          placeholder: 'Title'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Edit',
+          handler: (data) => {
+            let photo = {
+              title: data.title,
+              access_token: this.storageSvc.get('token')
+            };
+            this.imageSvc.updateImage(this.idToDelete, photo).subscribe(
+              (success) => {
+                let activeSlide = this.slides.realIndex;
+                this.reloadImages();
+                this.title = data.title;
+                this.images[activeSlide].title = data.title;
+              },
+              (error) => {
+                this.uiCmp.presentToastError('Something went wrong: ' + error);
+              }
+            );
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   // Delete image
   public deleteImage() {
     this.imageSvc.deleteImage(this.idToDelete).subscribe(
       (success) => {
         let activeSlide = this.slides.realIndex;
-        this.reloadImages(); 
+        this.reloadImages();
         if(this.slides.isEnd()) {
           this.slides.slideTo(activeSlide - 1, 500);
           this.images.splice(activeSlide, 1);
@@ -101,16 +142,36 @@ export class LargeImagePage {
     );
   }
 
+  // Set favourite
+  public favouriteImage() {
+    let favourite = {
+      isFavourite: !this.isFavourite,
+      access_token: this.storageSvc.get('token')
+    };
+    this.imageSvc.updateImage(this.idToDelete, favourite).subscribe(
+      (data) => {
+        let activeSlide = this.slides.realIndex;
+        this.reloadImages();
+        this.isFavourite = !this.isFavourite;
+        this.images[activeSlide].isFavourite = !this.images[activeSlide].isFavourite;
+      },
+      (error) => {
+        this.uiCmp.presentToastError(error.message);
+      }
+    );
+  }
+
   // Reload images
   public reloadImages() {
     this.events.publish('images:get');
   }
 
   // Open menu when clicked
-  public openMenu(id, title) {
+  public openMenu(id, title, isFavourite) {
     this.isEnable = !this.isEnable;
     this.idToDelete = id;
     this.title = title;
+    this.isFavourite = isFavourite;
   }
 
   // Close when slided

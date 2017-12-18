@@ -1,8 +1,8 @@
 <ion-header no-border *ngIf="isEnable">
   <ion-navbar color="dark" class="largeImage-nav">
     <ion-buttons left>
-      <button ion-button icon-only class="nav-btn-header" (click)="dismiss()">
-        <ion-icon name="arrow-back" class="btn-icon"></ion-icon>
+      <button ion-button icon-only class="nav-btn" (click)="dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
@@ -12,7 +12,7 @@
 <ion-content fullscreen="true" overflow-scroll="true" class="largeImage-content">
 
   <ion-slides initialSlide="{{initial}}" centeredSlides="true" zoom="true" spaceBetween="20" (ionSlideDrag)="closeMenu()">
-    <ion-slide *ngFor="let image of images" (click)="openMenu(image._id, image.title)">
+    <ion-slide *ngFor="let image of images" (click)="openMenu(image._id, image.title, image.isFavourite)">
       <div class="swiper-zoom-container">
         <cl-image [public-id]=image._id format="jpg">
           <cl-transformation width="1280" height="720" quality="auto" crop="fit">
@@ -27,13 +27,22 @@
 <ion-footer no-border *ngIf="isEnable">
   <ion-toolbar color="dark" class="largeImage-nav">
     <ion-buttons left>
-      <button ion-button icon-only class="nav-btn" (click)="setBackground()">
-        <ion-icon name="image" class="btn-icon"></ion-icon>
+      <button ion-button icon-only class="tool-btn" (click)="editImage()">
+        <ion-icon name="create"></ion-icon>
+      </button>
+      <button ion-button icon-only class="tool-btn" (click)="setBackground()">
+        <ion-icon name="image"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-buttons end>
-      <button ion-button icon-only class="nav-btn" (click)="deleteImage()">
-        <ion-icon name="trash" class="btn-icon"></ion-icon>
+    <ion-buttons right>
+      <button *ngIf="isFavourite" ion-button icon-only class="tool-btn" (click)="favouriteImage()">
+        <ion-icon name="star"></ion-icon>
+      </button>
+      <button *ngIf="!isFavourite" ion-button icon-only class="tool-btn" (click)="favouriteImage()">
+        <ion-icon name="star-outline"></ion-icon>
+      </button>
+      <button ion-button icon-only class="tool-btn" (click)="deleteImage()">
+        <ion-icon name="trash"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>

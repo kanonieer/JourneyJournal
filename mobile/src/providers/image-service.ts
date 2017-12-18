@@ -36,6 +36,13 @@ export class ImageService {
     );
   }
 
+  public updateImage(id: any, payload: any): Observable<any> {
+    return this._http.patch(serverAdress + '/images/' + id, JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
+  }
+
   public deleteImage(image_id: any): Observable<any> {
     const access_token = this.storageSvc.get('token');
     return this._http.delete(serverAdress + '/images/' + image_id + '?access_token=' + access_token, this.options).pipe(
