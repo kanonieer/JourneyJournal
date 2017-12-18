@@ -30,7 +30,17 @@ module.exports = function(app, passport) {
     // auth wit facebook
     app.post('/facebookAuthorization', (req, res) => accountController.authWithFacebook(req, res));
 
+    // add facebook auth
     app.patch('/users/:id/addFacebook', Auth.authenticate, (req, res) => accountController.addFacebookAuth(req, res));
+
+    // remove facebook auth
+    app.patch('/users/:id/removeFacebook', Auth.authenticate, (req, res) => accountController.removeFacebookAuth(req, res));
+
+    // add local auth
+    app.patch('/users/:id/addLocal', Auth.authenticate, (req, res) => accountController.addLocalAuth(req, res));
+
+    // remove local auth
+    app.patch('/users/:id/removeLocal', Auth.authenticate, (req, res) => accountController.removeLocalAuth(req, res));
 
     //profile data
     app.post('/profile', Auth.authenticate, (req, res) => res.status(200).json(req.user._doc));

@@ -174,83 +174,116 @@ module.exports = {
             }
         });
     },
-    // authWithFacebook: (req, res) => {
-    //     const user_id = req.body.user_id;
-    //     const facebook_user_id = req.body.facebook_user_id;
-    //     const token = req.body.token;
+    addLocalAuth: (req, res) => {
+        const user_id = req.params.id;
+        const email = req.body.email;
+        const password = req.body.password;
 
-    //     User.findOne({ 'facebook.id': facebook_user_id }, (err, facebookUser) => {
-    //         if (err) throw err;
-
-    //         User.findOne({ _id: user_id }, (err, user) => {
-    //             if (err) throw err;
+        if (user_id !== req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to manipulate user with this ID" });
+        } else {
+            User.findOne({ _id: user_id }, (err, user) => {
+                if (err) throw err;
     
-    //             if (!user) {
-    //                 if(!facebookUser) {
-    //                     let newUser = new User();
+                if (!user) {
+                    res.status(404).json({
+                        message: 'Not Found',
+                        details: 'User with provided ID could not be found'
+                    }); 
+                } else {
+                    if (!user.local.email) {
+                        user.local.email = email;
+                        user.local.password = user.generateHash(password);
 
-    //                     newUser.facebook.id = facebook_user_id;
-    //                     newUser.facebook.token = token;
-    //                     newUser.save(err => {
-    //                         if (err) throw err;
+                        user.save(err => {
+                            if (err) throw err;
                             
-    //                         console.log('No user before, now created');
-    //                         const access_token = jwt.sign(newUser, 'server secret temp', { expiresIn: 6000*120 });
-    //                         const payload_user_id = newUser._id;
-    //                         res.status(201).json({ 
-    //                             message: 'Account created', 
-    //                             details: 'User account created with Facebook auth',
-    //                             data: { access_token, payload_user_id }
-    //                         });
-    //                     }); 
-    //                 } else {
-    //                     console.log('Facebook authenticated');
-    //                     console.log('First case');
-    //                     const access_token = jwt.sign(facebookUser, 'server secret temp', { expiresIn: 6000*120 });
-    //                     const payload_user_id = facebookUser._id;
-    //                     res.status(201).json({
-    //                         message: 'Success',
-    //                         details: 'Successfully authenticated with facebook',
-    //                         data: { access_token, payload_user_id }
-    //                     });
-    //                 }
-    //             } else {
-    //                 if (!facebookUser) {
-    //                     if (!user.facebook) {
-    //                         user.facebook.id = facebook_user_id;
-    //                         user.facebook.token = token;
-        
-    //                         user.save(err => {
-    //                             if (err) throw err;
-        
-    //                             console.log('No facebook before, now added');
-    //                             const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
-    //                             const payload_user_id = user._id;
-    //                             res.status(201).json({
-    //                                 message: 'Facebook added',
-    //                                 details: 'Facebook account successfully added',
-    //                                 data: { access_token, payload_user_id }
-    //                             });
-    //                         })
-    //                     } else {
-    //                         console.log('Facebook authenticated');
-    //                         const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
-    //                         const payload_user_id = user._id;
-    //                         res.status(201).json({
-    //                             message: 'Success',
-    //                             details: 'Successfully authenticated with facebook',
-    //                             data: { access_token, payload_user_id }
-    //                         });
-    //                     }
-    //                 } else {
+                            res.status(201).json({
+                                message: 'Success',
+                                details: 'Local authorization successfully added'
+                            }); 
+                        });
 
-    //                     console.log('Facebook already used');
-    //                     res.status(409).json({ message : 'Unsuccessful', details: 'Provided facebook account already in use'});
-    //                 }
-    //             }
-    //         });
-    //     });
-    // },
+                    } else {
+                        res.status(401).json({
+                            message: 'Unauthorized',
+                            details: 'User with provided ID already have a local authentication'
+                        }); 
+                    }
+                }
+            });
+        }
+    },
+    removeLocalAuth: (req, res) => {
+        const user_id = req.params.id;
+
+        if (user_id !== req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to manipulate user with this ID" });
+        } else {
+            User.findOne({ _id: user_id }, (err, user) => {
+                if (err) throw err;
+
+                if (!user) {
+                    res.status(404).json({
+                        message: 'Not Found',
+                        details: 'User with provided ID could not be found'
+                    }); 
+                } else {
+                    if (!user.local.email) {
+                        res.status(404).json({
+                            message: 'Not Found',
+                            details: 'User with provided ID do not have an local account'
+                        });
+                    } else { 
+                        user.local = undefined;
+                        user.save(err => {
+                            if (err) throw err;
+
+                            res.status(201).json({
+                                message: 'Success',
+                                details: 'Local authorization successfully removed'
+                            });
+                        });
+                    }
+                }
+            });
+        }
+    },
+    removeFacebookAuth: (req, res) => {
+        const user_id = req.params.id;
+
+        if (user_id !== req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to manipulate user with this ID" });
+        } else {
+            User.findOne({ _id: user_id }, (err, user) => {
+                if (err) throw err;
+
+                if (!user) {
+                    res.status(404).json({
+                        message: 'Not Found',
+                        details: 'User with provided ID could not be found'
+                    }); 
+                } else {
+                    if (!user.facebook.id) {
+                        res.status(404).json({
+                            message: 'Not Found',
+                            details: 'User with provided ID do not have an Facebook account'
+                        });
+                    } else { 
+                        user.facebook = undefined;
+                        user.save(err => {
+                            if (err) throw err;
+
+                            res.status(201).json({
+                                message: 'Success',
+                                details: 'Facebook authorization successfully removed'
+                            });
+                        });
+                    }
+                }
+            });
+        }
+    },
     deleteUser : (req, res) => {
         if(req.params.id != req.user._doc._id) {
             res.status(403).json({ message: "You have no access to delete user with this ID" });
