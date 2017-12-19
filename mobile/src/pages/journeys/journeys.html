@@ -33,7 +33,7 @@
   </ion-refresher>
 
   <!-- List of journeys -->
-  <ion-list class="journeys-list" [virtualScroll]="journeys" approxItemHeight="200px">
+  <ion-list class="journeys-list" [virtualScroll]="journeys" approxItemHeight="250px">
     <!-- The look of the journey -->
     <ion-item-sliding class="journeys-sliding" *virtualItem="let journey" #slidingItems>
       <ion-item class="journeys-item" (click)="detailsJourney(journey._id, journey.title)">
