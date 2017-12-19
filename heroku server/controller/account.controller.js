@@ -14,6 +14,19 @@ cloudinary.config({
 });
 
 module.exports = {
+    getProfile: (req, res) => {
+        const _id = req.params.id;
+
+        if (_id != req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to user with provided ID" });
+        } else {
+            User.findOne({ _id }, (err, user) => {
+                if (err) throw err;
+
+                res.status(201).json({ message: "Success", user });
+            });
+        }
+    },
     changeEmail: (req, res) => {
         if (req.params.id != req.user._doc._id) {
             res.status(403).json({ message: "You have no access to change mail for user with this ID" });
@@ -41,7 +54,7 @@ module.exports = {
                                 if (err) throw err;
 
                                 if (anotherUser) {
-                                    res.status(401).json({ code:401.3, message:'Email unavaliable', details: 'Another user already use this email'});  
+                                    res.status(401).json({ code: 401.3, message:'Email unavaliable', details: 'Another user already use this email'});  
                                     console.log('Email already taken!');
                                 } else{
                                     user.local.email = newEmail;

@@ -43,7 +43,7 @@ module.exports = function(app, passport) {
     app.patch('/users/:id/removeLocal', Auth.authenticate, (req, res) => accountController.removeLocalAuth(req, res));
 
     //profile data
-    app.post('/profile', Auth.authenticate, (req, res) => res.status(200).json(req.user._doc));
+    app.get('/users/:id', Auth.authenticate, (req, res) => accountController.getProfile(req, res));
 
     //change email 
     app.patch('/users/:id/email', Auth.authenticate, (req, res) => accountController.changeEmail(req, res));
