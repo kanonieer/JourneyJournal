@@ -47,4 +47,8 @@
       </ion-row>
     </ion-grid>
   </div>
+
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)" [enabled]="scrollIsEnable">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
