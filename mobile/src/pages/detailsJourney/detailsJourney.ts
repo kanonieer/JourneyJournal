@@ -39,8 +39,11 @@ export class DetailsJourneyPage {
     this.menuCtrl.enable(true);
   }
 
-  public images: Array<Image>;
-  public lastImage: String = null;
+  public images: Array<Image> = [];
+  public loadedImages: Array<Image> = [];
+  public lastItem;
+  public lastIndex;
+  public scrollIsEnable = true;
   public id_journey = this.navParams.get('id_journey');
   
   public journeyCredentials = {
@@ -59,7 +62,7 @@ export class DetailsJourneyPage {
     saveToPhotoAlbum: false
   };
   public PhotoOptionsLoad = {
-    maximumImagesCount: 100,
+    maximumImagesCount: 20,
     quality: 100,
     outputType: 0 //0 - FILE_URI, 1 - BASE64_STRING
   };
@@ -122,11 +125,11 @@ export class DetailsJourneyPage {
       (data) => {
         this.getImages();
         this.uiCmp.loading.dismiss();
-        this.uiCmp.presentToastSuccess("Added successfully");
+        // this.uiCmp.presentToastSuccess("Added successfully");
       },
       (error) => {
         this.uiCmp.loading.dismiss();
-        this.uiCmp.presentToastError("Something went wrong: " + error);
+        // this.uiCmp.presentToastError("Something went wrong: " + error);
       }
     );
   }
@@ -216,7 +219,20 @@ export class DetailsJourneyPage {
   public getImages() {
     this.imageSvc.getImagesByJourney(this.id_journey).subscribe(
       (data: Array<Image>) => {
-        this.images = data;
+        this.loadedImages = data;
+        this.images = [];
+        if(data.length > 30) {
+          this.lastIndex = 30;
+          for(let i = 0; i < this.lastIndex; i++) {
+            this.images.push(data[i]);
+            this.scrollIsEnable = true;
+          }
+        } else {
+          for(let i = 0; i < data.length; i++) {
+            this.images.push(data[i]);
+            this.scrollIsEnable = false;
+          }
+        }
       }, 
       (error) => {
         this.uiCmp.presentToastError(error);
@@ -228,6 +244,31 @@ export class DetailsJourneyPage {
   public largerPhoto(id) {
     let modal = this.modalCtrl.create('LargeImagePage', {id, images: this.images, id_journey: this.id_journey});
     modal.present();
+  }
+
+  // Get more image
+  public loadMore(infiniteScroll) {
+
+    setTimeout(() => {
+      if(this.loadedImages.length - this.lastIndex > 30) {
+        this.lastItem = this.lastIndex;
+        this.lastIndex = this.lastIndex + 30;
+
+        for(let i = this.lastItem; i < this.lastIndex; i++) {
+          this.images.push(this.loadedImages[i]);
+        }
+      } else {
+        if(this.lastIndex !== this.loadedImages.length) {
+          for(let i = this.lastIndex; i < this.loadedImages.length; i++) {
+            this.images.push(this.loadedImages[i]);
+          }
+          this.lastIndex = this.loadedImages.length
+          this.scrollIsEnable = false;
+        }
+      }
+
+      infiniteScroll.complete();
+    }, 300);
   }
 
   // Delete alert

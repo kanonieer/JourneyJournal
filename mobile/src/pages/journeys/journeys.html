@@ -33,12 +33,12 @@
   </ion-refresher>
 
   <!-- List of journeys -->
-  <ion-list class="journeys-list">
+  <ion-list class="journeys-list" [virtualScroll]="journeys" approxItemHeight="250px">
     <!-- The look of the journey -->
-    <ion-item-sliding class="journeys-sliding" *ngFor="let journey of journeys" #slidingItems>
+    <ion-item-sliding class="journeys-sliding" *virtualItem="let journey" #slidingItems>
       <ion-item class="journeys-item" (click)="detailsJourney(journey._id, journey.title)">
         <ion-card class="journeys-card">
-          <cl-image 
+          <cl-image *ngIf="journey.background_image_id"
             [public-id]=journey.background_image_id
             format="jpg">
             <cl-transformation 

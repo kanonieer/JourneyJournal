@@ -78,6 +78,7 @@ $searchbar-md-input-clear-icon-color:color($colors, light-grey);
 $text-input-placeholder-color:color($colors, light-grey);
 $refresher-icon-color:color($colors, just-white);
 $refresher-border-color:rgba(#ebebeb, 0);
+$infinite-scroll-loading-color:color($colors, just-white);
 
 @import "ionic.theme.default";
 

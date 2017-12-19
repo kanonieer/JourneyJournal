@@ -124,11 +124,12 @@ module.exports = {
                     const access_token = jwt.sign(newUser, 'server secret temp', { expiresIn: 6000*1200 });
                     const user_id = newUser._id;
                     const saveToLibrary = newUser.saveToLibrary
+                    const local = newUser.local;
 
                     res.status(201).json({ 
                         message: 'Account created', 
                         details: 'User account created with Facebook auth',
-                        data: { access_token, user_id, saveToLibrary }
+                        data: { access_token, user_id, saveToLibrary, local }
                     });
                 }); 
             } else {
@@ -136,11 +137,12 @@ module.exports = {
                 const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
                 const user_id = user._id;
                 const saveToLibrary = user.saveToLibrary
+                const local = user.local
 
                 res.status(201).json({
                     message: 'Success',
                     details: 'Successfully authenticated with facebook',
-                    data: { access_token, user_id, saveToLibrary }
+                    data: { access_token, user_id, saveToLibrary, local }
                 });
             }
         });

@@ -55,10 +55,11 @@ page-journeys {
     background: color($colors, primary);
 
     .journeys-list {
-      padding: 5px 20px 0px 20px;
+      border-left: 20px solid color($colors, primary);
+      border-right: 20px solid color($colors, primary);
 
       .journeys-sliding {
-        margin-top: 15px;
+        margin-top: 20px;
 
         .journeys-item {
           padding-left: 0;

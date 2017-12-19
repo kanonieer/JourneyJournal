@@ -36,7 +36,7 @@
       <ion-item>
         <ion-icon item-left name='logo-facebook' color="secondary"></ion-icon>
         <ion-label>Facebook</ion-label>
-        <ion-toggle checked={{isCheckedFb}} color="success" (ionChange)="addFb()"></ion-toggle>
+        <ion-toggle checked={{isCheckedFb}} [disabled]="isEnabled" color="success" (ionChange)="changeFacebokState()"></ion-toggle>
       </ion-item>
 
     </ion-list>

@@ -15,7 +15,7 @@
     <ion-slide *ngFor="let image of images" (click)="openMenu(image._id, image.title, image.isFavourite)">
       <div class="swiper-zoom-container">
         <cl-image [public-id]=image._id format="jpg">
-          <cl-transformation width="1280" height="720" quality="auto" crop="fit">
+          <cl-transformation width="1280" height="720" quality="100" crop="fit">
           </cl-transformation>
         </cl-image>
       </div>

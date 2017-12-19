@@ -6,13 +6,14 @@ import { NavParams, ViewController, Events } from 'ionic-angular';
 // Providers
 import { AccountService } from '../../providers/account-service';
 import { AuthService } from '../../providers/auth-service';
+import { StorageService } from '../../providers/storage-service';
 import { uiComp } from '../../providers/ui-components';
 
 @IonicPage()
 @Component({
   selector: 'page-account',
   templateUrl: 'account.html',
-  providers: [AccountService, AuthService, uiComp]
+  providers: [AccountService, AuthService, StorageService, uiComp]
 })
 
 export class AccountPage {
@@ -37,7 +38,7 @@ export class AccountPage {
   };
 
   constructor(public params: NavParams, public viewCtrl: ViewController, public events: Events, private accountSvc: AccountService, private authSvc: AuthService,
-    private uiCmp: uiComp) {
+    private storageSvc: StorageService, private uiCmp: uiComp) {
 
     this.startModal();
     this.checkModal();
@@ -45,15 +46,13 @@ export class AccountPage {
 
   // ACCOUNT //
   // Create
-  public createAccount(form: NgForm) {
-    this.authSvc.signUpBasic(form).subscribe(
+  public createAccount() {
+    this.authSvc.addLocal(this.registerCredentials).subscribe(
       (success) => {
-        if (success) {
-          this.dismiss();
-          this.uiCmp.presentToastSuccess('Account created');
-        } else {
-          this.uiCmp.presentToastError('Problem creating an account');
-        }
+        this.storageSvc.set('loginBoth', 'true');
+        this.reloadSettings();
+        this.dismiss();
+        this.uiCmp.presentToastSuccess('Account created');
       },
       (error) => {
         this.uiCmp.presentToastError(error);
@@ -153,5 +152,11 @@ export class AccountPage {
   // Dissmiss
   public dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  // SETTINGS //
+  // Reload
+  public reloadSettings() {
+    this.events.publish('user:settings');
   }
 }

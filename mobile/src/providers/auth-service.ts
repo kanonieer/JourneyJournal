@@ -61,6 +61,26 @@ export class AuthService {
     );
   }
 
+  public addLocal(payload: any): Observable<any> {
+    const user_id = this.storageSvc.get('user_id');
+    const access_token = this.storageSvc.get('token');
+    return this._http.patch(serverAdress + '/users/' + user_id + '/addLocal?access_token=' + access_token, JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
+  }
+
+  public removeFacebook(): Observable<any> {
+    const user_id = this.storageSvc.get('user_id');
+    const payload = {
+      access_token: this.storageSvc.get('token')
+    };
+    return this._http.patch(serverAdress + '/users/' + user_id + '/removeFacebook', JSON.stringify(payload), this.options).pipe(
+      map(successHandle),
+      catchError(errorHandle)
+    );
+  }
+
   public logout() {
     return Observable.create((observer) => {
       this.currentUser = null;
