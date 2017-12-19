@@ -185,36 +185,47 @@ module.exports = {
         if (user_id !== req.user._doc._id) {
             res.status(403).json({ message: "You have no access to manipulate user with this ID" });
         } else {
-            User.findOne({ _id: user_id }, (err, user) => {
-                if (err) throw err;
-    
-                if (!user) {
-                    res.status(404).json({
-                        message: 'Not Found',
-                        details: 'User with provided ID could not be found'
-                    }); 
-                } else {
-                    if (!user.local.email) {
-                        user.local.email = email;
-                        user.local.password = user.generateHash(password);
-
-                        user.save(err => {
-                            if (err) throw err;
-                            
-                            res.status(201).json({
-                                message: 'Success',
-                                details: 'Local authorization successfully added'
+            User.findOne({ 'local.email': email }, (err, userWithProvidedEmail) => {
+                if (!userWithProvidedEmail) { 
+                    User.findOne({ _id: user_id }, (err, user) => {
+                        if (err) throw err;
+            
+                        if (!user) {
+                            res.status(404).json({
+                                message: 'Not Found',
+                                details: 'User with provided ID could not be found'
                             }); 
-                        });
-
-                    } else {
-                        res.status(401).json({
-                            message: 'Unauthorized',
-                            details: 'User with provided ID already have a local authentication'
-                        }); 
-                    }
+                        } else {
+                            if (!user.local.email) {
+                                user.local.email = email;
+                                user.local.password = user.generateHash(password);
+        
+                                user.save(err => {
+                                    if (err) throw err;
+                                    
+                                    res.status(201).json({
+                                        message: 'Success',
+                                        details: 'Local authorization successfully added'
+                                    }); 
+                                });
+        
+                            } else {
+                                res.status(401).json({
+                                    message: 'Unauthorized',
+                                    details: 'User with provided ID already have a local authentication'
+                                }); 
+                            }
+                        }
+                    });
+                } else {
+                    res.status(401).json({
+                        message: 'Unauthorized',
+                        details: 'Provided email is already taken'
+                    }); 
                 }
             });
+
+ 
         }
     },
     removeLocalAuth: (req, res) => {
@@ -334,7 +345,33 @@ module.exports = {
             res.status(200).json({ message: "Success", details: "Successfully deleted user" });
         }
     },
+    getStats: (req, res) => {
+        const user_id = req.user._doc._id;
 
+        let stats = {};
+
+        if(user_id !== req.user._doc._id) {
+            res.status(403).json({ message: "You have no access to user with this ID" });
+        } else {
+            Image.find({ user_id }, (err, images) => {
+                if (err) throw err;
+
+                stats.images = images.length;
+                Journey.find({ id_user: user_id }, (err, journeys) => {
+                    if (err) throw err;
+
+                    stats.journeys = journeys.length;
+                    res.status(201).json({
+                        message: "Success",
+                        details: "Getting users stats successfully",
+                        stats
+                    });
+                });
+            });
+
+            
+        }
+    },
     saveToLibrary : (req, res) => {
         if(req.params.id != req.user._doc._id) {
             res.status(403).json({ message: "You have no access to update user with this ID" });
