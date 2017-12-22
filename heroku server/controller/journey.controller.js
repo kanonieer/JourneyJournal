@@ -50,7 +50,7 @@ module.exports = {
                                     console.log('Journey successfully added!');
                                 }); 
                                 
-                                res.status(201).json({ message:'Journey added', details: 'Journey successfully added'})
+                                res.status(201).json({ message:'Journey added', details: 'Journey successfully added', data: journey})
                                 }
                             }
                         }
