@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="just-white">
     <ion-buttons left>
-      <button ion-button icon-only class="btns-btn" (click)="back()">
+      <button ion-button icon-only class="btns-btn" (click)="backToJourneys()">
         <ion-icon name="arrow-round-back"></ion-icon>
       </button>
     </ion-buttons>
@@ -30,8 +30,8 @@
   <div class="detailsJourney-box">
     <ion-grid class="grid-box">
       <ion-row class="grid-row">
-        <ion-col class="grid-col" col-4 *ngFor="let image of images">
-          <ion-card class="grid-card" (click)="largerPhoto(image._id)" (press)="deleteAlert(image._id)">
+        <ion-col class="grid-col" col-4 *ngFor="let image of images; let idToDelete = index">
+          <ion-card class="grid-card" (click)="largerPhoto(image._id)" (press)="deleteAlert(image._id, idToDelete)">
             <cl-image 
               [public-id]=image._id
               class="thumbnail inline" 

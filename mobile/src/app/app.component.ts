@@ -150,8 +150,6 @@ export class MyApp {
       (isEnabled) => {
         if(isEnabled === this.diagnostic.locationMode.LOCATION_OFF) {
           this.checkGPS();
-        } else {
-          this.diagnostic.switchToLocationSettings();
         }
       }
     ).catch(

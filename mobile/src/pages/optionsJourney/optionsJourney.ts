@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
-import { ModalController, AlertController, ViewController, NavController, NavParams } from "ionic-angular";
+import { ModalController, AlertController, ViewController, NavController, NavParams, Events } from "ionic-angular";
 
 // Providers
 import { JourneyService } from "../../providers/journey-service";
 import { uiComp } from "../../providers/ui-components";
-
-// Shared
-import { navOptionsBack } from '../../shared/GlobalVariables';
 
 @IonicPage()
 @Component({
@@ -20,9 +17,10 @@ export class OptionsJourneyPage {
 
   public idJourney;
   public titleJourney;
+  public loadedJourneys;
 
   constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public viewCtrl: ViewController, public navCtrl: NavController, public params: NavParams,
-    private journeySvc: JourneyService, private uiCmp: uiComp) {
+    public events: Events, private journeySvc: JourneyService, private uiCmp: uiComp) {
 
     this.startPopover(); 
   }
@@ -32,6 +30,7 @@ export class OptionsJourneyPage {
   public startPopover() {
     this.idJourney = this.params.get('id');
     this.titleJourney = this.params.get('title');
+    this.loadedJourneys =  this.params.get('journeys');
   }
 
   // Close
@@ -39,11 +38,18 @@ export class OptionsJourneyPage {
     this.viewCtrl.dismiss();
   }
 
+  // NAV //
+  // Back
+  public backToJourneys() {
+    this.events.publish('view:back');
+  }
+
   // SETTINGS //
   // Modal
   public openSettings() {
     let modal = this.modalCtrl.create('SettingsPage', {modal: true});
     modal.present();
+    this.closePopover();
   }
 
   // JOURNEYS //
@@ -54,8 +60,8 @@ export class OptionsJourneyPage {
       title_journey: this.titleJourney
     };
     let modal = this.modalCtrl.create('EditJourneyPage', data);
-    this.closePopover();
     modal.present();
+    this.closePopover();
   }
 
   // Confirm
@@ -82,14 +88,25 @@ export class OptionsJourneyPage {
 
   // Delete
   public deleteJourney() {
-    this.journeySvc.deleteJourney(this.idJourney).subscribe(
-      (result) => {
-        this.uiCmp.presentToastSuccess(result);
-      },
-      (error) => {
-        this.uiCmp.presentToastError(error);
+    for(let i = 0; i < this.loadedJourneys.length; i++) {
+      if(this.loadedJourneys[i]._id === this.idJourney) {
+        this.journeySvc.deleteJourney(this.idJourney).subscribe(
+          (result) => {
+            this.loadedJourneys.splice(i, 1);
+            this.reloadJourneys();
+            this.backToJourneys();
+            this.uiCmp.presentToastSuccess(result);
+          },
+          (error) => {
+            this.uiCmp.presentToastError(error);
+          }
+        );
       }
-    );
-    this.navCtrl.setRoot('JourneysPage', {}, navOptionsBack);
+    }
+  }
+
+  // Reload journeys
+  public reloadJourneys() {
+    this.events.publish('journeys:reload', this.loadedJourneys);
   }
 }

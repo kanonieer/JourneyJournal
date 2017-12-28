@@ -72,7 +72,8 @@ export class JourneysPage {
   public detailsJourney(id: String, title: String) {
     this.navCtrl.push('DetailsJourneyPage', {
       id_journey: id,
-      title_journey: title
+      title_journey: title,
+      journeys: this.loadedJourneys
     }, navOptionsForward);
     this.toggleSearchbarOff();
   }
@@ -103,7 +104,10 @@ export class JourneysPage {
       buttons: [
         {
           text: 'Cancel',
-          role: 'cancel'
+          role: 'cancel',
+          handler: () => {
+            item.close();
+          }
         },
         {
           text: 'Delete',

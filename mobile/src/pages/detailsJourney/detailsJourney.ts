@@ -44,6 +44,7 @@ export class DetailsJourneyPage {
   public lastIndex;
   public scrollIsEnable = true;
   public id_journey = this.navParams.get('id_journey');
+  public loadedJourneys = this.navParams.get('journeys');
   
   public journeyCredentials = {
     title: this.navParams.get('title_journey')
@@ -70,13 +71,19 @@ export class DetailsJourneyPage {
     public viewCtrl: ViewController, public events: Events, public navParams: NavParams, private camera: Camera, private transfer: FileTransfer, private geolocation: Geolocation,
     private imagePicker: ImagePicker, private imageSvc: ImageService, private storageSvc: StorageService, private uiCmp: uiComp) {
       
-      events.subscribe('images:get', () => {
-        this.getImages();
-      });
+    events.subscribe('images:get', () => {
+      this.getImages();
+    });
 
-      events.subscribe('journey:update', (title) => {
-        this.updateTitle(title);
-      });
+    events.subscribe('journey:update', (title) => {
+      this.updateTitle(title);
+    });
+
+    events.subscribe('view:back', () => {
+      this.backToJourneys();
+    });
+    console.log(this.images);
+    
   }
 
   // CAMERA //
@@ -86,7 +93,6 @@ export class DetailsJourneyPage {
     this.toBool('saveToLibrary');
     this.camera.getPicture(this.PhotoOptionsTake).then(
       (imageData) => {
-
         let imageCredentials = {
           date: new Date().toISOString().substring(0, 10),
           longitude: "" + this.geoCredentials.long,
@@ -100,7 +106,7 @@ export class DetailsJourneyPage {
         this.imageSvc.saveImage(imageCredentials).subscribe(
           (data) => {
             this.uiCmp.showLoading();
-            this.uploadToCloudinary(imageData, data._id);
+            this.uploadToCloudinary(imageData, data._id, data);
           },
           (error) => {
             alert(error);
@@ -111,7 +117,7 @@ export class DetailsJourneyPage {
   }
 
   // Upload
-  public uploadToCloudinary(file, imageName) {
+  public uploadToCloudinary(file, imageName, newImage) {
     const fileTransfer: FileTransferObject = this.transfer.create();
     let UploadOptions: FileUploadOptions = {
       fileKey: "file",
@@ -125,7 +131,7 @@ export class DetailsJourneyPage {
 
     fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
       (data) => {
-        this.getImages();
+        this.images.push(newImage);
         this.uiCmp.loading.dismiss();
         // this.uiCmp.presentToastSuccess("Added successfully");
       },
@@ -154,9 +160,9 @@ export class DetailsJourneyPage {
             (data) => {
               if(i === 0) {
                 this.uiCmp.showLoading();
-                this.uploadToCloudinary(imageData[i], data._id);
+                this.uploadToCloudinary(imageData[i], data._id, data);
               } else {
-                this.uploadToCloudinary(imageData[i], data._id);
+                this.uploadToCloudinary(imageData[i], data._id, data);
               }
             },
             (error) => {
@@ -176,16 +182,15 @@ export class DetailsJourneyPage {
     this.imageSvc.getImagesByJourney(this.id_journey).subscribe(
       (data: Array<Image>) => {
         this.loadedImages = data;
-        this.images = [];
-        if(data.length > 30) {
+        if(this.loadedImages.length > 30) {
           this.lastIndex = 30;
           for(let i = 0; i < this.lastIndex; i++) {
-            this.images.push(data[i]);
+            this.images.push(this.loadedImages[i]);
             this.scrollIsEnable = true;
           }
         } else {
-          for(let i = 0; i < data.length; i++) {
-            this.images.push(data[i]);
+          for(let i = 0; i < this.loadedImages.length; i++) {
+            this.images.push(this.loadedImages[i]);
             this.scrollIsEnable = false;
           }
         }
@@ -228,7 +233,7 @@ export class DetailsJourneyPage {
   }
 
   // Delete alert
-  public deleteAlert(id) {
+  public deleteAlert(id, idToDelete) {
     const alert = this.alertCtrl.create({
       title: 'Options for this image',
       message: 'Do you want to delete?',
@@ -242,7 +247,7 @@ export class DetailsJourneyPage {
           handler: () => {
             this.imageSvc.deleteImage(id).subscribe(
               (success) => {
-                this.getImages();
+                this.images.splice(idToDelete, 1);
                 this.uiCmp.presentToastSuccess('Images successfully deleted');
               },
               (error) => {
@@ -276,16 +281,21 @@ export class DetailsJourneyPage {
   // POPOVER //
   // Present
   public presentPopover(ev: UIEvent) {
-    let popover = this.popoverCtrl.create('OptionsJourneyPage', {id: this.id_journey, title: this.journeyCredentials.title});
+    let popover = this.popoverCtrl.create('OptionsJourneyPage', {id: this.id_journey, title: this.journeyCredentials.title, journeys: this.loadedJourneys});
     popover.present({
       ev: ev
     });
   }
 
   // NAV //
-  // Back
-  public back() {
+  // Back - pop
+  public backToJourneys() {
     this.navCtrl.pop(navOptionsBack);
+  }
+
+  // Back - root
+  public setJourneysAsRoot() {
+    this.navCtrl.setRoot('JourneysPage', {}, navOptionsBack);
   }
 
   // SETTINGS //
