@@ -35,7 +35,8 @@ export class EditJourneyPage {
   public editJourney() {
     this.journeySvc.editJourney(this.journey_id, this.journeyCredentials).subscribe(
       (data) => {
-        this.reload();
+        this.reloadJourney();
+        this.updateTitle(this.journeyCredentials.title);
         this.dismiss();
         this.uiCmp.presentToastSuccess(data.message);
       },
@@ -45,9 +46,14 @@ export class EditJourneyPage {
     );
   }
 
-  // Reload
-  public reload() {
-    this.events.publish('journey:get');
+  // Reload journeys
+  public reloadJourney() {
+    this.events.publish('journeys:get');
+  }
+
+  // Update title
+  public updateTitle(title) {
+    this.events.publish('journey:update', title);
   }
 
   // MODALS //

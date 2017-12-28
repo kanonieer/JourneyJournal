@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { IonicPage } from 'ionic-angular';
-import { Platform, NavController, MenuController, ActionSheetController, AlertController, ModalController, ViewController, Events, NavParams } from "ionic-angular";
+import { NavController, MenuController, PopoverController, AlertController, ModalController, ViewController, Events, NavParams } from "ionic-angular";
 
 // Plugins
 import { Camera, CameraOptions } from "@ionic-native/camera";
@@ -10,7 +10,6 @@ import { ImagePicker } from '@ionic-native/image-picker';
 
 // Providers
 import { ImageService } from "../../providers/image-service";
-import { JourneyService } from "../../providers/journey-service";
 import { StorageService } from "../../providers/storage-service";
 import { uiComp } from '../../providers/ui-components';
 
@@ -24,7 +23,7 @@ import { Image } from '../../models/Image';
 @Component({
   selector: "page-detailsJourney",
   templateUrl: "detailsJourney.html",
-  providers: [ImageService, JourneyService, StorageService, uiComp]
+  providers: [ImageService, StorageService, uiComp]
 })
 
 export class DetailsJourneyPage {
@@ -67,13 +66,16 @@ export class DetailsJourneyPage {
     outputType: 0 //0 - FILE_URI, 1 - BASE64_STRING
   };
 
-  constructor(public platform: Platform, public navCtrl: NavController, public menuCtrl: MenuController, public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
-    public modalCtrl: ModalController, public viewCtrl: ViewController, public events: Events, public navParams: NavParams, private camera: Camera, private transfer: FileTransfer,
-    private geolocation: Geolocation, private imagePicker: ImagePicker, private imageSvc: ImageService, private journeySvc: JourneyService,
-    private storageSvc: StorageService, private uiCmp: uiComp) {
+  constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController,
+    public viewCtrl: ViewController, public events: Events, public navParams: NavParams, private camera: Camera, private transfer: FileTransfer, private geolocation: Geolocation,
+    private imagePicker: ImagePicker, private imageSvc: ImageService, private storageSvc: StorageService, private uiCmp: uiComp) {
       
       events.subscribe('images:get', () => {
         this.getImages();
+      });
+
+      events.subscribe('journey:update', (title) => {
+        this.updateTitle(title);
       });
   }
 
@@ -169,52 +171,6 @@ export class DetailsJourneyPage {
     );
   }
 
-  // JOURNEYS //
-  // Edit
-  public editJourney(id: String, title: String) {
-    let data = {
-      id_journey: id,
-      title_journey: title
-    };
-    let modal = this.modalCtrl.create('EditJourneyPage', data);
-    this.navCtrl.pop();
-    modal.present();
-  }
-
-  // Confirm
-  public deleteConfirm(id) {
-    const alert = this.alertCtrl.create({
-      title: 'Confirm delete',
-      message: 'Do you want to delete ' + this.journeyCredentials.title + '?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            this.deleteJourney(id);
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-
-  // Delete
-  public deleteJourney(id) {
-    this.journeySvc.deleteJourney(id).subscribe(
-      (result) => {
-        this.uiCmp.presentToastSuccess(result);
-      },
-      (error) => {
-        this.uiCmp.presentToastError(error);
-      }
-    );
-    this.navCtrl.setRoot('JourneysPage', {}, navOptionsBack);
-  }
-
   // Get images
   public getImages() {
     this.imageSvc.getImagesByJourney(this.id_journey).subscribe(
@@ -300,6 +256,12 @@ export class DetailsJourneyPage {
     alert.present();
   }
 
+  // JOURNEYS //
+  // Update title
+  public updateTitle(newTitle) {
+    this.journeyCredentials.title = newTitle;
+  }
+
   // GEOLOCATION //
   // Get
   public getGeo() {
@@ -311,27 +273,13 @@ export class DetailsJourneyPage {
     });
   }
 
-  // ACTION SHEET //
+  // POPOVER //
   // Present
-  public presentActionSheet() {
-    let actionSheet = this.actionSheetCtrl.create({
-      title: 'Options for this journey',
-      buttons: [
-        {
-          text: 'Edit',
-          handler: () => {
-            this.editJourney(this.id_journey, this.journeyCredentials.title);
-          }
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            this.deleteConfirm(this.id_journey);
-          }
-        }
-      ]
+  public presentPopover(ev: UIEvent) {
+    let popover = this.popoverCtrl.create('OptionsJourneyPage', {id: this.id_journey, title: this.journeyCredentials.title});
+    popover.present({
+      ev: ev
     });
-    actionSheet.present();
   }
 
   // NAV //

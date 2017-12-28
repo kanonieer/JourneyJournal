@@ -19,7 +19,7 @@
           <ion-list class="change-list">
             <ion-item class="list-item">
               <ion-label class="list-label" floating>Email</ion-label>
-              <ion-input type="text" autocapitalize="off" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
+              <ion-input type="email" autocapitalize="off" name="email" clearInput [(ngModel)]="registerCredentials.email" required></ion-input>
             </ion-item>
             <ion-item class="list-item">
               <ion-label class="list-label" floating>Password</ion-label>
@@ -45,7 +45,7 @@
             </ion-item>
             <ion-item class="list-item">
               <ion-label class="list-label" floating>New email</ion-label>
-              <ion-input type="text" autocapitalize="off" name="newEmail" clearInput [(ngModel)]="emailCredentials.newEmail" required></ion-input>
+              <ion-input type="email" autocapitalize="off" name="newEmail" clearInput [(ngModel)]="emailCredentials.newEmail" required></ion-input>
             </ion-item>
           </ion-list>
         </ion-col>

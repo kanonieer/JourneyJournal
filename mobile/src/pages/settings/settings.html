@@ -5,6 +5,11 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
+    <ion-buttons end *ngIf="modal">
+      <button ion-button icon-only (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title class="nav-title">Settings</ion-title>
   </ion-navbar>
 </ion-header>
@@ -18,25 +23,25 @@
 
     <ion-list class="settings-list" no-lines>
 
-      <button ion-item class="first-btn" [disabled]="!isEnabled" (click)="openModal({modalNum: 0})">
+      <button ion-item class="first-btn" *ngIf="isEnabled" (click)="openModal({modalNum: 0})">
         <ion-icon item-left name='person-add' color="secondary"></ion-icon>
         Create new account
       </button>
 
-      <button ion-item [disabled]="isEnabled" (click)="openModal({modalNum: 1})">
+      <button ion-item *ngIf="!isEnabled" (click)="openModal({modalNum: 1})">
         <ion-icon item-left name='mail' color="secondary"></ion-icon>
         Change e-mail
       </button>
 
-      <button ion-item [disabled]="isEnabled" (click)="openModal({modalNum: 2})">
+      <button ion-item *ngIf="!isEnabled" (click)="openModal({modalNum: 2})">
         <ion-icon item-left name='lock' color="secondary"></ion-icon>
         Change password
       </button>
 
-      <ion-item>
+      <ion-item *ngIf="!isEnabled">
         <ion-icon item-left name='logo-facebook' color="secondary"></ion-icon>
         <ion-label>Facebook</ion-label>
-        <ion-toggle checked={{isCheckedFb}} [disabled]="isEnabled" color="success" (ionChange)="changeFacebokState()"></ion-toggle>
+        <ion-toggle checked={{isCheckedFb}} color="success" (ionChange)="changeFacebokState()"></ion-toggle>
       </ion-item>
 
     </ion-list>
@@ -45,21 +50,42 @@
   <ion-card class="cards-list">
 
     <ion-card-header color="secondary" class="cards-header">
-      Personal
+      GPS
     </ion-card-header>
 
     <ion-list class="settings-list" no-lines>
+
+      <button ion-item (click)="changeGPS()">
+        <ion-icon item-left name='locate' color="secondary"></ion-icon>
+        Location mode
+      </button>
+
+    </ion-list>
+  </ion-card>
+
+  <ion-card class="cards-list">
+
+    <ion-card-header color="secondary" class="cards-header">
+      Images
+    </ion-card-header>
+
+    <ion-list class="settings-list" no-lines>
+
+      <button ion-item>
+        <ion-icon item-left name='resize' color="secondary"></ion-icon>
+        Size
+      </button>
+
+      <button ion-item>
+        <ion-icon item-left name='options' color="secondary"></ion-icon>
+        Quality
+      </button>
 
       <ion-item>
         <ion-icon item-left name='images' color="secondary"></ion-icon>
         <ion-label>Save to library</ion-label>
         <ion-toggle checked={{isCheckedImage}} color="success" (ionChange)="saveImages()"></ion-toggle>
       </ion-item>
-
-      <button ion-item (click)="changeGPS()">
-        <ion-icon item-left name='locate' color="secondary"></ion-icon>
-        GPS
-      </button>
 
     </ion-list>
   </ion-card>

@@ -33,12 +33,15 @@ export class RegisterPage {
   // ACCOUNT //
   // Register
   public register() {
+    this.uiCmp.showLoading();
     this.authSvc.signUpBasic(this.registerCredentials).subscribe(
       (success) => {
         this.navCtrl.pop(navOptionsBack);
+        this.uiCmp.loading.dismiss();
         this.uiCmp.presentToastSuccess('Account created');
       },
       (error) => {
+        this.uiCmp.loading.dismiss();
         this.uiCmp.presentToastError(error);
       }
     );

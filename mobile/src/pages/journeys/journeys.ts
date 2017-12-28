@@ -39,27 +39,32 @@ export class JourneysPage {
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, public menuCtrl: MenuController, public modalCtrl: ModalController,
     public events: Events, public keyboard: Keyboard, private journeySvc: JourneyService, private uiCmp: uiComp) {
 
-    events.subscribe('journey:get', () => {
+    events.subscribe('journeys:get', () => {
       this.getJourneys();
+    });
+
+    events.subscribe('journeys:reload', (journeys) => {
+      this.loadedJourneys = journeys;
+      this.initializeItems();
     });
   }
 
   // JOURNEYS //
   // Add
   public addJourney() {
-    this.navCtrl.push('AddJourneyPage', {}, navOptionsForward);
+    this.navCtrl.push('AddJourneyPage', {journeys: this.loadedJourneys}, navOptionsForward);
     this.toggleSearchbarOff();
   }
 
   // Edit
   public editJourney(id: String, title: String, item: ItemSliding) {
-    item.close();
     let data = {
       id_journey: id,
       title_journey: title
     };
     let modal = this.modalCtrl.create('EditJourneyPage', data); 
     modal.present();
+    item.close();
     this.toggleSearchbarOff();
   }
 
@@ -76,8 +81,8 @@ export class JourneysPage {
   public getJourneys() {
     this.journeySvc.getJourneys().subscribe(
       (data: Array<Journey>) => {
-        this.journeys = data;
         this.loadedJourneys = data;
+        this.initializeItems();
       }, 
       (error) => {
         this.uiCmp.presentToastError(error);
@@ -85,12 +90,16 @@ export class JourneysPage {
     );
   }
 
+  // Needed for search bar
+  public initializeItems(): void {
+    this.journeys = this.loadedJourneys;
+  }
+
   // Confirm
   public deleteConfirm(id: String, title: String, item: ItemSliding) {
-    item.close();
     const alert = this.alertCtrl.create({
       title: 'Confirm delete',
-      message: 'Do you want to delete ' + title + '?',
+      message: 'Do you want to delete \"' + title + '\"?',
       buttons: [
         {
           text: 'Cancel',
@@ -99,6 +108,7 @@ export class JourneysPage {
         {
           text: 'Delete',
           handler: () => {
+            item.close();
             this.deleteJourney(id);
           }
         }
@@ -116,6 +126,7 @@ export class JourneysPage {
           (result) => {
             this.loadedJourneys.splice(i, 1);
             this.toggleSearchbarOff();
+            this.initializeItems();
             this.uiCmp.presentToastSuccess(result);
           },
           (error) => {
@@ -143,12 +154,6 @@ export class JourneysPage {
   public toggleSearchbarOff() {
     this.showSearchbar = false;
     this.searchQuery = '';
-    this.initializeItems();
-  }
-
-  // Needed for search bar
-  public initializeItems(): void {
-    this.journeys = this.loadedJourneys;
   }
 
   // Search

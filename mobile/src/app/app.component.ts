@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, IonicApp, Nav, MenuController, Events } from 'ionic-angular';
 
 // Plugins
+import { Diagnostic } from '@ionic-native/diagnostic';
 import { Facebook } from '@ionic-native/facebook';
 import { Keyboard } from '@ionic-native/keyboard';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
@@ -31,9 +32,9 @@ export class MyApp {
   public lastTimeBackPress = 0;
   public timePeriodToExit  = 3000;
   
-  constructor(public platform: Platform, public ionicApp: IonicApp, public menuCtrl: MenuController, public events: Events, private fb: Facebook, private keyboard: Keyboard,
-    private locationAccuracy: LocationAccuracy, private splashScreen: SplashScreen, private statusBar: StatusBar, private authSvc: AuthService, private storageSvc: StorageService,
-    private uiCmp: uiComp) {
+  constructor(public platform: Platform, public ionicApp: IonicApp, public menuCtrl: MenuController, public events: Events, private diagnostic: Diagnostic, private fb: Facebook,
+    private keyboard: Keyboard, private locationAccuracy: LocationAccuracy, private splashScreen: SplashScreen, private statusBar: StatusBar, private authSvc: AuthService,
+    private storageSvc: StorageService, private uiCmp: uiComp) {
 
     this.initializeApp();
     this.pages.push(
@@ -54,10 +55,10 @@ export class MyApp {
     this.platform.ready().then(() => {
       if((this.storageSvc.get('user_logged') === 'true') || (this.storageSvc.get('user_logged_fb') === 'true')) {
         this.menu.setRoot('JourneysPage', {}, navOptionsForward);
-        this.checkGPS();
+        this.changeGPS();
         this.splashScreen.hide();
       } else {
-        this.checkGPS();
+        this.changeGPS();
         this.splashScreen.hide();
       }
       this.statusBar.styleDefault();
@@ -139,6 +140,23 @@ export class MyApp {
     ).catch(
       (error) => {
         this.uiCmp.presentToastError('Cordova not available');
+      }
+    );
+  }
+
+  // Change
+  public changeGPS() {
+    this.diagnostic.getLocationMode().then(
+      (isEnabled) => {
+        if(isEnabled === this.diagnostic.locationMode.LOCATION_OFF) {
+          this.checkGPS();
+        } else {
+          this.diagnostic.switchToLocationSettings();
+        }
+      }
+    ).catch(
+      (error) => {
+        this.uiCmp.presentToastError('Something went wrong: ' + error);
       }
     );
   }

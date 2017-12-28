@@ -182,6 +182,6 @@ export class LargeImagePage {
   // JOURNEYS //
   // Reload
   public reloadJourneys() {
-    this.events.publish('journey:get');
+    this.events.publish('journeys:get');
   }
 }

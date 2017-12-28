@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
-import { ModalController, AlertController, Events } from 'ionic-angular';
+import { ModalController, AlertController, ViewController, Events, NavParams } from 'ionic-angular';
 
 // Plugins
 import { Diagnostic } from '@ionic-native/diagnostic';
@@ -24,12 +24,15 @@ export class SettingsPage {
 
   public isCheckedImage: boolean = false;
   public isCheckedFb: boolean = false;
-  public isEnabled = null;
+  public isEnabled = true;
+  public modal;
 
-  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public events: Events, private diagnostic: Diagnostic, private fb: Facebook,
-    private locationAccuracy: LocationAccuracy, private accountSvc: AccountService, private authSvc: AuthService, private storageSvc: StorageService, private uiCmp: uiComp) {
+  constructor(public modalCtrl: ModalController, public alertCtrl: AlertController, public viewCtrl: ViewController, public events: Events, public params: NavParams,
+    private diagnostic: Diagnostic, private fb: Facebook, private locationAccuracy: LocationAccuracy, private accountSvc: AccountService, private authSvc: AuthService,
+    private storageSvc: StorageService, private uiCmp: uiComp) {
 
       this.checkAll();
+      this.startModal();
 
       events.subscribe('user:settings', () => {
         this.checkAll();
@@ -41,6 +44,16 @@ export class SettingsPage {
   public openModal(modalNum) {
     let modal = this.modalCtrl.create('AccountPage', modalNum);
     modal.present();
+  }
+
+  // Start
+  public startModal() {
+    this.modal = this.params.get('modal');
+  }
+
+  // Dissmiss
+  public dismiss() {
+    this.viewCtrl.dismiss();
   }
 
   // SETTINGS //
@@ -94,7 +107,7 @@ export class SettingsPage {
     if((this.storageSvc.get('facebook_user_id') !== 'undefined') && (this.storageSvc.get('loginBoth') === 'false')) {
       this.isEnabled = true;
     } else {
-      this.isEnabled = null;
+      this.isEnabled = false;
     }
   }
 
