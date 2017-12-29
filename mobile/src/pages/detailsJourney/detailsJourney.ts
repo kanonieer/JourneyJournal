@@ -82,8 +82,11 @@ export class DetailsJourneyPage {
     events.subscribe('view:back', () => {
       this.backToJourneys();
     });
-    console.log(this.images);
-    
+
+    events.subscribe('images:update', (images, loadedImages) => {
+      this.images = images;
+      this.loadedImages = loadedImages;
+    });
   }
 
   // CAMERA //
@@ -202,8 +205,8 @@ export class DetailsJourneyPage {
   }
 
   // Get larger image
-  public largerPhoto(id) {
-    let modal = this.modalCtrl.create('LargeImagePage', {id, images: this.images, id_journey: this.id_journey});
+  public largerPhoto(idToDelete) {
+    let modal = this.modalCtrl.create('LargeImagePage', {images: this.images, loadedImages: this.loadedImages, index: idToDelete, journeys: this.loadedJourneys});
     modal.present();
   }
 
@@ -288,14 +291,9 @@ export class DetailsJourneyPage {
   }
 
   // NAV //
-  // Back - pop
+  // Back
   public backToJourneys() {
     this.navCtrl.pop(navOptionsBack);
-  }
-
-  // Back - root
-  public setJourneysAsRoot() {
-    this.navCtrl.setRoot('JourneysPage', {}, navOptionsBack);
   }
 
   // SETTINGS //

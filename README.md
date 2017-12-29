@@ -3,19 +3,19 @@ Grupowy Projekt Inżynierski
 
 ## Instalacja
 ```
-[Node v7.x] (https://nodejs.org/en/)
-```
-```
-[Npm] (https://docs.npmjs.com/getting-started/installing-node)
+[Node v6.10.2 with npm] (https://nodejs.org/en/blog/release/v6.10.2/)
 ```
 ```
 [Angular] (https://angular.io/docs/ts/latest/cli-quickstart.html)
 ```
 ```
+[Ionic] (npm install -g ionic)
+```
+```
+[Cordova v7.0.1] (npm install -g cordova@7.0.1)
+```
+```
 [MongoDB] (https://docs.mongodb.com/manual/installation/)
-```
-```
-[Ionic] (https://ionicframework.com/getting-started/)
 ```
 ```
 $ git clone git@github.com:kanonieer/JourneyJournal.git JourneyJournal

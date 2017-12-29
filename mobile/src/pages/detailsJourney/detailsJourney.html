@@ -31,7 +31,7 @@
     <ion-grid class="grid-box">
       <ion-row class="grid-row">
         <ion-col class="grid-col" col-4 *ngFor="let image of images; let idToDelete = index">
-          <ion-card class="grid-card" (click)="largerPhoto(image._id)" (press)="deleteAlert(image._id, idToDelete)">
+          <ion-card class="grid-card" (click)="largerPhoto(idToDelete)" (press)="deleteAlert(image._id, idToDelete)">
             <cl-image 
               [public-id]=image._id
               class="thumbnail inline" 

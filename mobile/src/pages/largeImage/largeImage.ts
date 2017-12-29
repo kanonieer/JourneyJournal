@@ -19,28 +19,30 @@ export class LargeImagePage {
 
   @ViewChild(Slides) slides: Slides;
 
-  public idToInitial;
-  public idToDelete;
-  public idJourney;
+  public index;
+  public images = [];
+  public loadedImages = [];
+  public journeys = [];
+  public initialSlide;
   public title;
-  public images;
-  public initial;
-  public isEnable = false;
   public isFavourite;
+  public isEnable = false;
+  public test = false;
 
   constructor(public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public events: Events, private imageSvc: ImageService, private journeySvc: JourneyService,
     private storageSvc: StorageService, private uiCmp: uiComp) {
 
     this.startModal();
-    this.getCurrentImage();
   }
 
   // MODALS //
   // Start
   public startModal() {
-    this.idToInitial = this.params.get('id');
+    this.index = this.params.get('index');
     this.images = this.params.get('images');
-    this.idJourney = this.params.get('id_journey');
+    this.loadedImages = this.params.get('loadedImages');
+    this.journeys = this.params.get('journeys');
+    this.initialSlide = this.index;
   }
 
   // Dissmiss
@@ -49,15 +51,6 @@ export class LargeImagePage {
   }
 
   // IMAGES //
-  // Get current image
-  public getCurrentImage() {
-    for(let i = 0; i < this.images.length; i++) {
-      if(this.images[i]._id === this.idToInitial) {
-        this.initial = i;
-      }
-    }
-  }
-
   // Edit image
   public editImage() {
     const alert = this.alertCtrl.create({
@@ -76,16 +69,21 @@ export class LargeImagePage {
         {
           text: 'Edit',
           handler: (data) => {
+            let activeSlide = this.slides.realIndex;
             let photo = {
               title: data.title,
               access_token: this.storageSvc.get('token')
             };
-            this.imageSvc.updateImage(this.idToDelete, photo).subscribe(
+            this.imageSvc.updateImage(this.loadedImages[activeSlide]._id, photo).subscribe(
               (success) => {
-                let activeSlide = this.slides.realIndex;
-                this.reloadImages();
                 this.title = data.title;
-                this.images[activeSlide].title = data.title;
+                if(activeSlide >= this.images.length) {
+                  this.loadedImages[activeSlide].title = this.title;
+                } else {
+                  this.images[activeSlide].title = this.title;
+                  this.loadedImages[activeSlide].title = this.title;
+                }
+                this.updateImages(this.images, this.loadedImages);
               },
               (error) => {
                 this.uiCmp.presentToastError('Something went wrong: ' + error);
@@ -100,21 +98,32 @@ export class LargeImagePage {
 
   // Delete image
   public deleteImage() {
-    this.imageSvc.deleteImage(this.idToDelete).subscribe(
+    let activeSlide = this.slides.realIndex;
+    this.imageSvc.deleteImage(this.loadedImages[activeSlide]._id).subscribe(
       (success) => {
-        let activeSlide = this.slides.realIndex;
-        this.reloadImages();
         if(this.slides.isEnd()) {
           this.slides.slideTo(activeSlide - 1, 500);
-          this.images.splice(activeSlide, 1);
+          if(activeSlide >= this.images.length) {
+            this.loadedImages.splice(activeSlide, 1);
+          } else {
+            this.images.splice(activeSlide, 1);
+            this.loadedImages.splice(activeSlide, 1);
+          }
+          this.updateImages(this.images, this.loadedImages);
           this.slides.update();
           this.isEnable = false;
         } else {
-          this.images.splice(activeSlide, 1);
+          if(activeSlide >= this.images.length) {
+            this.loadedImages.splice(activeSlide, 1);
+          } else {
+            this.images.splice(activeSlide, 1);
+            this.loadedImages.splice(activeSlide, 1);
+          }
+          this.updateImages(this.images, this.loadedImages);          
           this.slides.update();
           this.isEnable = false;
         }
-        if(this.images.length === 0) {
+        if(this.loadedImages.length === 0) {
           this.dismiss();
         }
         this.uiCmp.presentToastSuccess('Images successfully deleted');
@@ -127,12 +136,18 @@ export class LargeImagePage {
 
   // Set background
   public setBackground() {
+    let activeSlide = this.slides.realIndex;
     let backgroud = {
-      background_image_id: this.idToDelete,
+      background_image_id: this.loadedImages[activeSlide]._id,
       access_token: this.storageSvc.get('token')
     };
-    this.journeySvc.editJourney(this.idJourney, backgroud).subscribe(
+    this.journeySvc.editJourney(this.loadedImages[activeSlide].id_journey, backgroud).subscribe(
       (data) => {
+        for(let i = 0; i < this.journeys.length; i++) {
+          if(this.journeys[i]._id === this.loadedImages[activeSlide].id_journey) {
+            this.journeys[i].background_image_id = this.loadedImages[activeSlide]._id;
+          }
+        }
         this.reloadJourneys();
         this.uiCmp.presentToastSuccess(data.message);
       },
@@ -144,16 +159,21 @@ export class LargeImagePage {
 
   // Set favourite
   public favouriteImage() {
+    let activeSlide = this.slides.realIndex;
+    this.isFavourite = !this.isFavourite;
     let favourite = {
-      isFavourite: !this.isFavourite,
+      isFavourite: this.isFavourite,
       access_token: this.storageSvc.get('token')
     };
-    this.imageSvc.updateImage(this.idToDelete, favourite).subscribe(
+    this.imageSvc.updateImage(this.loadedImages[activeSlide]._id, favourite).subscribe(
       (data) => {
-        let activeSlide = this.slides.realIndex;
-        this.reloadImages();
-        this.isFavourite = !this.isFavourite;
-        this.images[activeSlide].isFavourite = !this.images[activeSlide].isFavourite;
+        if(activeSlide >= this.images.length) {
+          this.loadedImages[activeSlide].isFavourite = this.isFavourite;
+        } else {
+          this.images[activeSlide].isFavourite = this.isFavourite;
+          this.loadedImages[activeSlide].isFavourite = this.isFavourite;
+        }
+        this.updateImages(this.images, this.loadedImages);
       },
       (error) => {
         this.uiCmp.presentToastError(error.message);
@@ -161,27 +181,39 @@ export class LargeImagePage {
     );
   }
 
-  // Reload images
-  public reloadImages() {
-    this.events.publish('images:get');
+  // Update images
+  public updateImages(images, loadedImages) {
+    this.events.publish('images:update', images, loadedImages);
   }
 
-  // Open menu when clicked
-  public openMenu(id, title, isFavourite) {
+  // Open or close menu when clicked
+  public menu() {
+    let activeSlide = this.slides.realIndex;
     this.isEnable = !this.isEnable;
-    this.idToDelete = id;
-    this.title = title;
-    this.isFavourite = isFavourite;
+    this.title = this.loadedImages[activeSlide].title;
+    this.isFavourite = this.loadedImages[activeSlide].isFavourite;
+    this.initialSlide = activeSlide;
   }
 
-  // Close when slided
-  public closeMenu() {
-    this.isEnable = false;
+  // Next slide
+  public nextSlide() {
+    let activeSlide = this.slides.realIndex;
+    this.title = this.loadedImages[activeSlide].title;
+    this.isFavourite = this.loadedImages[activeSlide].isFavourite;
+    this.initialSlide = activeSlide;
+  }
+
+  // Prev slide
+  public prevSlide() {
+    let activeSlide = this.slides.realIndex;
+    this.title = this.loadedImages[activeSlide].title;
+    this.isFavourite = this.loadedImages[activeSlide].isFavourite;
+    this.initialSlide = activeSlide;
   }
 
   // JOURNEYS //
-  // Reload
+  // Reload journeys
   public reloadJourneys() {
-    this.events.publish('journeys:get');
+    this.events.publish('journeys:reload', this.journeys);
   }
 }
