@@ -69,7 +69,7 @@ export class OptionsJourneyPage {
     this.closePopover();
     const alert = this.alertCtrl.create({
       title: 'Confirm delete',
-      message: 'Do you want to delete ' + this.titleJourney + '?',
+      message: 'Do you want to delete \"' + this.titleJourney + '\"?',
       buttons: [
         {
           text: 'Cancel',

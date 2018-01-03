@@ -43,6 +43,9 @@ export class DetailsJourneyPage {
   public lastItem;
   public lastIndex;
   public scrollIsEnable = true;
+  public imageData = [];
+  public onlyOne = 0;
+  public loading = 0;
   public id_journey = this.navParams.get('id_journey');
   public loadedJourneys = this.navParams.get('journeys');
   
@@ -57,7 +60,6 @@ export class DetailsJourneyPage {
     quality: 100,
     destinationType: this.camera.DestinationType.FILE_URI,
     sourceType: this.camera.PictureSourceType.CAMERA,
-    // allowEdit: true,
     encodingType: this.camera.EncodingType.JPEG,
     saveToPhotoAlbum: false
   };
@@ -70,10 +72,6 @@ export class DetailsJourneyPage {
   constructor(public navCtrl: NavController, public menuCtrl: MenuController, public popoverCtrl: PopoverController, public alertCtrl: AlertController, public modalCtrl: ModalController,
     public viewCtrl: ViewController, public events: Events, public navParams: NavParams, private camera: Camera, private transfer: FileTransfer, private geolocation: Geolocation,
     private imagePicker: ImagePicker, private imageSvc: ImageService, private storageSvc: StorageService, private uiCmp: uiComp) {
-      
-    events.subscribe('images:get', () => {
-      this.getImages();
-    });
 
     events.subscribe('journey:update', (title) => {
       this.updateTitle(title);
@@ -94,8 +92,11 @@ export class DetailsJourneyPage {
   public takePicture() {
     this.getGeo();
     this.toBool('saveToLibrary');
+    this.toNumber('imageQuality');
     this.camera.getPicture(this.PhotoOptionsTake).then(
       (imageData) => {
+        this.imageData = imageData;
+        this.onlyOne = 1;
         let imageCredentials = {
           date: new Date().toISOString().substring(0, 10),
           longitude: "" + this.geoCredentials.long,
@@ -135,7 +136,15 @@ export class DetailsJourneyPage {
     fileTransfer.upload(file, "http://api.cloudinary.com/v1_1/dzgtgeotp/upload", UploadOptions).then(
       (data) => {
         this.images.push(newImage);
+        this.loadedImages.push(newImage);
+        this.loading = this.loading + 1;
         this.uiCmp.loading.dismiss();
+        if(this.imageData.length > this.loading && this.onlyOne === 0) {
+          this.uiCmp.showLoading();
+        } else {
+          this.loading = 0;
+          this.onlyOne = 0;
+        }
         // this.uiCmp.presentToastSuccess("Added successfully");
       },
       (error) => {
@@ -147,8 +156,10 @@ export class DetailsJourneyPage {
 
   // From library
   public loadPhoto() {
+    this.toNumber('imageQuality');
     this.imagePicker.getPictures(this.PhotoOptionsLoad).then(
       (imageData) => {
+        this.imageData = imageData;
         for(let i = 0; i < imageData.length; i++) {
           let imageCredentials = {
             date           : "",
@@ -251,6 +262,7 @@ export class DetailsJourneyPage {
             this.imageSvc.deleteImage(id).subscribe(
               (success) => {
                 this.images.splice(idToDelete, 1);
+                this.loadedImages.splice(idToDelete, 1);
                 this.uiCmp.presentToastSuccess('Images successfully deleted');
               },
               (error) => {
@@ -273,12 +285,16 @@ export class DetailsJourneyPage {
   // GEOLOCATION //
   // Get
   public getGeo() {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      this.geoCredentials.lat = "" + resp.coords.latitude,
-      this.geoCredentials.long = "" + resp.coords.longitude
-    }).catch((err) => {
-      console.log('err', err);
-    });
+    this.geolocation.getCurrentPosition().then(
+      (resp) => {
+        this.geoCredentials.lat = "" + resp.coords.latitude,
+        this.geoCredentials.long = "" + resp.coords.longitude
+      }
+    ).catch(
+      (error) => {
+        console.log('err', error);
+      }
+    );
   }
 
   // POPOVER //
@@ -300,5 +316,10 @@ export class DetailsJourneyPage {
   // Change to bool
   public toBool(storage) {
     return this.PhotoOptionsTake.saveToPhotoAlbum = this.storageSvc.get(storage) === 'true' ? true : false;
+  }
+
+  // Change to number
+  public toNumber(storage) {
+    return [this.PhotoOptionsTake.quality = +this.storageSvc.get(storage), this.PhotoOptionsLoad.quality = +this.storageSvc.get(storage)];
   }
 }

@@ -130,7 +130,6 @@ export class JourneysPage {
           (result) => {
             this.loadedJourneys.splice(i, 1);
             this.toggleSearchbarOff();
-            this.initializeItems();
             this.uiCmp.presentToastSuccess(result);
           },
           (error) => {
@@ -158,6 +157,7 @@ export class JourneysPage {
   public toggleSearchbarOff() {
     this.showSearchbar = false;
     this.searchQuery = '';
+    this.initializeItems();
   }
 
   // Search

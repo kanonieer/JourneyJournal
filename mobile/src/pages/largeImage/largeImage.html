@@ -14,7 +14,7 @@
   <ion-slides initialSlide="{{initialSlide}}" centeredSlides="true" zoom="true" spaceBetween="20" (ionSlideNextEnd)="nextSlide()" (ionSlidePrevEnd)="prevSlide()">
     <ion-slide *ngFor="let image of loadedImages; let i = index" (click)="menu()">
       <div *ngIf="i >= (initialSlide-1) && i <= (initialSlide+1)" class="swiper-zoom-container">
-        <cl-image [public-id]=image._id format="jpg">
+        <cl-image [public-id]=image._id format="jpg" class="image">
           <cl-transformation width="1280" height="720" quality="100" crop="fit">
           </cl-transformation>
         </cl-image>

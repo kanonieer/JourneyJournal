@@ -24,6 +24,8 @@ export class SettingsPage {
 
   public isCheckedImage: boolean = false;
   public isCheckedFb: boolean = false;
+  public isShow = false;
+  public imageQuality = 100;
   public isEnabled = true;
   public modal;
 
@@ -31,12 +33,12 @@ export class SettingsPage {
     private diagnostic: Diagnostic, private fb: Facebook, private locationAccuracy: LocationAccuracy, private accountSvc: AccountService, private authSvc: AuthService,
     private storageSvc: StorageService, private uiCmp: uiComp) {
 
-      this.checkAll();
-      this.startModal();
+    this.checkAll();
+    this.startModal();
 
-      events.subscribe('user:settings', () => {
-        this.checkAll();
-      });
+    events.subscribe('user:settings', () => {
+      this.checkAll();
+    });
   }
 
   // MODALS //
@@ -93,6 +95,11 @@ export class SettingsPage {
     this.isCheckedImage = this.storageSvc.get('saveToLibrary') === 'true' ? true : false;
   }
 
+  // Check options for image (toggle)
+  public checkedQuality() {
+    this.imageQuality = +this.storageSvc.get('imageQuality');
+  }
+
   // Check options for user fb (toggle)
   public checkedFb() {
     if(this.storageSvc.get('facebook_user_id') !== 'undefined') {
@@ -114,8 +121,15 @@ export class SettingsPage {
   // Check all
   public checkAll() {
     this.checkedImage();
+    this.checkedQuality();
     this.checkedFb();
     this.enableBtn();
+  }
+
+  // Show range
+  public showRange() {
+    this.isShow = !this.isShow;
+    this.storageSvc.set('imageQuality', this.imageQuality.toLocaleString());
   }
 
   // ACCOUNT //

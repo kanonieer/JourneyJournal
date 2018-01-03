@@ -63,6 +63,7 @@ export class LoginPage {
             }
             this.storageSvc.set('user_logged_fb', 'true');
             this.storageSvc.set('saveToLibrary', success.data.saveToLibrary);
+            this.storageSvc.set('imageQuality', '50');
             this.navCtrl.setRoot('JourneysPage', {}, navOptionsForward);
             this.uiCmp.loading.dismiss();
           },
@@ -96,6 +97,7 @@ export class LoginPage {
         this.storageSvc.set('token', data.token);
         this.storageSvc.set('user_logged', 'true');
         this.storageSvc.set('saveToLibrary', data.user.saveToLibrary);
+        this.storageSvc.set('imageQuality', '50');
         this.navCtrl.setRoot('JourneysPage', {}, navOptionsForward);
         this.uiCmp.loading.dismiss();
       },
