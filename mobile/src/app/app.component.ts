@@ -40,7 +40,6 @@ export class MyApp {
     this.pages.push(
       {title: 'Journeys', component: 'JourneysPage', icon: 'images'},
       {title: 'About', component: 'AboutPage', icon: 'information-circle'},
-      {title: 'Help', component: 'HelpPage', icon: 'help-circle'},
       {title: 'Settings', component: 'SettingsPage', icon: 'settings'}
     );
 
