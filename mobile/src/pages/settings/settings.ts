@@ -97,7 +97,7 @@ export class SettingsPage {
 
   // Check options for image (toggle)
   public checkedQuality() {
-    this.imageQuality = +this.storageSvc.get('imageQuality');
+    this.imageQuality = +this.storageSvc.get('photoQuality');
   }
 
   // Check options for user fb (toggle)
@@ -128,8 +128,23 @@ export class SettingsPage {
 
   // Show range
   public showRange() {
-    this.isShow = !this.isShow;
-    this.storageSvc.set('imageQuality', this.imageQuality.toLocaleString());
+    if(this.isShow === false) {
+      this.isShow = true;
+    } else {
+      let quality = {
+        photoQuality: this.imageQuality
+      };
+      this.accountSvc.updateField(quality).subscribe(
+        (success) => {
+          this.storageSvc.set('photoQuality', this.imageQuality.toLocaleString());
+          this.uiCmp.presentToastSuccess('Successfully changed');
+          this.isShow = false;
+        },
+        (error) => {
+          this.uiCmp.presentToastError('Something went wrong: ' + error);
+        }
+      );
+    }
   }
 
   // ACCOUNT //

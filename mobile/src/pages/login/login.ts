@@ -63,7 +63,11 @@ export class LoginPage {
             }
             this.storageSvc.set('user_logged_fb', 'true');
             this.storageSvc.set('saveToLibrary', success.data.saveToLibrary);
-            this.storageSvc.set('imageQuality', '50');
+            if(typeof success.data.photoQuality === 'undefined') {
+              this.storageSvc.set('photoQuality', '75');
+            } else {
+              this.storageSvc.set('photoQuality', success.data.photoQuality);
+            }
             this.navCtrl.setRoot('JourneysPage', {}, navOptionsForward);
             this.uiCmp.loading.dismiss();
           },
@@ -97,7 +101,11 @@ export class LoginPage {
         this.storageSvc.set('token', data.token);
         this.storageSvc.set('user_logged', 'true');
         this.storageSvc.set('saveToLibrary', data.user.saveToLibrary);
-        this.storageSvc.set('imageQuality', '50');
+        if(typeof data.user.photoQuality === 'undefined') {
+          this.storageSvc.set('photoQuality', '75');
+        } else {
+          this.storageSvc.set('photoQuality', data.user.photoQuality);
+        }
         this.navCtrl.setRoot('JourneysPage', {}, navOptionsForward);
         this.uiCmp.loading.dismiss();
       },

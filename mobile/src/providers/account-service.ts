@@ -24,7 +24,7 @@ export class AccountService {
   public updateField(payload: any): Observable<any> {
     const user_id = this.storageSvc.get('user_id');
     const access_token = this.storageSvc.get('token');
-    return this._http.patch(serverAdress + '/users/' + user_id + '/saveToLibrary?access_token=' + access_token, JSON.stringify(payload), this.options).pipe(
+    return this._http.patch(serverAdress + '/users/' + user_id + '/personalSettings?access_token=' + access_token, JSON.stringify(payload), this.options).pipe(
       map(successHandle),
       catchError(errorHandleBody)
     );

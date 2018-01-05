@@ -71,14 +71,9 @@
 
     <ion-list class="settings-list" no-lines>
 
-      <!-- <button ion-item>
-        <ion-icon item-left name='resize' color="secondary"></ion-icon>
-        Size
-      </button> -->
-
       <button ion-item class="range-btn" *ngIf="isShow">
         <ion-icon item-right (click)="showRange()" name='checkmark' color="success"></ion-icon>
-        <ion-range class="range-list" [(ngModel)]="imageQuality" color="secondary"></ion-range>
+        <ion-range class="range-list" min="1" max="100" [(ngModel)]="imageQuality" color="secondary"></ion-range>
         <ion-badge class="range-badge" color="secondary" item-start>{{imageQuality}}</ion-badge>
       </button>
 
