@@ -387,27 +387,51 @@ module.exports = {
             
         }
     },
-    saveToLibrary : (req, res) => {
+    personalSettings : (req, res) => {
         if(req.params.id != req.user._doc._id) {
             res.status(403).json({ message: "You have no access to update user with this ID" });
         } 
         else {
-            User.findOne({ _id : req.params.id }, (err, user) => {
-                if (err) throw err;
+            if (req.body.saveToLibrary !== undefined) {
+                User.findOne({ _id : req.params.id }, (err, user) => {
+                    if (err) throw err;
+    
+                    if(!user) {
+                        res.status(404).json({ message: "There is no user with this ID" });
+                    } else {
+                        user.saveToLibrary = req.body.saveToLibrary
+                        
+                        user.save(err => {
+                            if (err) throw err;
+    
+                            console.log('User saveToLibrary field successfully updated!');
+                        });
+                        res.status(200).json({ message:'saveToLibrary changed', details: 'User saveToLibrary field successfully changed'});
+                    }
+                });
+            }
+            if (req.body.photoQuality !== undefined) {
+                User.findOne({ _id: req.params.id }, (err, user) => {
+                    if (err) throw err;
 
-                if(!user) {
-                    res.status(404).json({ message: "There is no user with this ID" });
-                } else {
-                    user.saveToLibrary = req.body.saveToLibrary
-                    
-                    user.save(err => {
-                        if (err) throw err;
-
-                        console.log('User saveToLibrary field successfully updated!');
-                    });
-                    res.status(201).json({ message:'saveToLibrary changed', details: 'User saveToLibrary field successfully changed'});
-                }
-            });
+                    if(!user){
+                        res.status(404).json({ message: 'There is no user with this ID' });
+                    } else {
+                        if(1 > req.body.photoQuality > 100) {
+                            res.status(400).json({ message: 'photoQuality is out of range'})
+                        } else {
+                            user.photoQuality = req.body.photoQuality;
+                            
+                            user.save(err => {
+                                if(err) throw err;
+    
+                                console.log('User photoQuality field successfully updated!');
+                            });
+                            res.status(200).json({ message:'photoQuality changed', details: 'User photoQuality field successfully changed'});
+                        }
+                    }
+                });
+            }
         }       
     }
 }

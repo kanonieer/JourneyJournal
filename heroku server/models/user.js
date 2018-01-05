@@ -14,7 +14,8 @@ const user = new Schema({
         email        : String,
         name         : String
     },
-    saveToLibrary    : Boolean
+    saveToLibrary    : Boolean,
+    photoQuality     : Number
 });
 
 // methods ======================

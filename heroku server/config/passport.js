@@ -73,7 +73,8 @@ module.exports = function(passport) {
 
                             newUser.local.email    = email;
                             newUser.local.password = newUser.generateHash(password);
-                            newUser.saveToLibrary  = false;
+                            newUser.saveToLibrary  = true;
+                            newUser.photoQuality   = 75;
 
                             newUser.save(function(err) {
                                 if (err)
@@ -99,7 +100,8 @@ module.exports = function(passport) {
                             var user = req.user;
                             user.local.email = email;
                             user.local.password = newUser.generateHash(password);
-                            user.saveToLibrary  = false;
+                            user.saveToLibrary  = true;
+                            newUser.photoQuality = 75;
                             user.save(function (err) {
                                 if (err)
                                     return done(err);
@@ -148,7 +150,8 @@ passport.use('local',new LocalStrategy({
                 // set the user's local credentials
                 newUser.local.email    = email;
                 newUser.local.password = password;
-                newUser.saveToLibrary  = false;
+                newUser.saveToLibrary  = true;
+                newUser.photoQuality   = 75;
                 console.log(newUser);
                 // save the user
                 newUser.save(function(err) {

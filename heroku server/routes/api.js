@@ -61,7 +61,7 @@ module.exports = function(app, passport) {
     app.get('/users/:id/getStats', Auth.authenticate, (req, res) => accountController.getStats(req, res));
 
     //update saveToLibrary field
-    app.patch('/users/:id/saveToLibrary', Auth.authenticate, (req, res) => accountController.saveToLibrary(req,res));
+    app.patch('/users/:id/personalSettings', Auth.authenticate, (req, res) => accountController.personalSettings(req,res));
 
     ///
     ///do testowania
