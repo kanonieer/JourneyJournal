@@ -9,10 +9,10 @@ const cors        = require('cors');
 
 let port = process.env.PORT || 8080;
 
-// app.use(cors());
-// app.options('*', cors());
+app.use(cors());
+app.options('*', cors());
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://kanonieer.github.io");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();

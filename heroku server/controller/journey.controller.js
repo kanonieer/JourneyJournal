@@ -93,7 +93,7 @@ module.exports = {
         });
     },
 
-    deleteJourneyById: (req, res) => {///dodac jeszcze warunki sprawdzajace istnienie image i podrozy
+    deleteJourneyById: (req, res) => {
         Image.find({id_journey : req.params.id}, (err, images) => {
             if (err) throw err;
 

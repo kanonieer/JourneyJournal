@@ -123,26 +123,28 @@ module.exports = {
                     console.log('No user before, now created');
                     const access_token = jwt.sign(newUser, 'server secret temp', { expiresIn: 6000*1200 });
                     const user_id = newUser._id;
-                    const saveToLibrary = newUser.saveToLibrary
+                    const saveToLibrary = newUser.saveToLibrary;
+                    const photoQuality = newUser.photoQuality;
                     const local = newUser.local;
 
                     res.status(201).json({ 
                         message: 'Account created', 
                         details: 'User account created with Facebook auth',
-                        data: { access_token, user_id, saveToLibrary, local }
+                        data: { access_token, user_id, saveToLibrary, photoQuality, local }
                     });
                 }); 
             } else {
                 console.log('Authenticating with Facebook');
                 const access_token = jwt.sign(user, 'server secret temp', { expiresIn: 6000*120 });
                 const user_id = user._id;
-                const saveToLibrary = user.saveToLibrary
+                const saveToLibrary = user.saveToLibrary;
+                const photoQuality = newUser.photoQuality;
                 const local = user.local
 
                 res.status(201).json({
                     message: 'Success',
                     details: 'Successfully authenticated with facebook',
-                    data: { access_token, user_id, saveToLibrary, local }
+                    data: { access_token, user_id, saveToLibrary, photoQuality, local }
                 });
             }
         });
