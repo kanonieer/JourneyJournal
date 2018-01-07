@@ -43,9 +43,6 @@ $colors: (
 // --------------------------------------------------
 // iOS only Sass variables can go here
 $text-input-ios-input-clear-icon-color:color($colors, light);
-$action-sheet-ios-button-text-color:color($colors, dark);
-$action-sheet-ios-button-background:color($colors, just-white);
-$action-sheet-ios-button-background-activated:color($colors, light);
 
 // App Material Design Variables
 // --------------------------------------------------
@@ -53,9 +50,6 @@ $action-sheet-ios-button-background-activated:color($colors, light);
 $text-input-md-input-clear-icon-color:color($colors, light);
 $label-md-text-color:color($colors, light-grey);
 $label-md-text-color-focused:color($colors, secondary);
-$action-sheet-md-button-text-color:color($colors, dark);
-$action-sheet-md-button-background:color($colors, just-white);
-$action-sheet-md-button-background-activated:color($colors, light);
 $searchbar-md-input-box-shadow:color($colors, just-white);
 $searchbar-md-input-placeholder-color:color($colors, light-grey);
 $searchbar-md-input-text-color:color($colors, dark);

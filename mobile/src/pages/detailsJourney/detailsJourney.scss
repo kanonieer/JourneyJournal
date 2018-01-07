@@ -66,38 +66,3 @@ page-detailsJourney {
     }
   }
 }
-
-.action-sheet-md {
-  .action-sheet-group:last-child {
-    padding: 0;
-  }
-
-  .action-sheet-wrapper {
-    .action-sheet-container {
-      padding: 0;
-
-      .action-sheet-title {
-        color: color($colors, just-white);
-        background-color: color($colors, accent);
-        padding: 16px;
-      }
-    }
-  }
-}
-
-.action-sheet-ios {
-  .action-sheet-group {
-    background-color: color($colors, accent);
-  }
-
-  .action-sheet-wrapper {
-    .action-sheet-container {
-
-      .action-sheet-title {
-        color: color($colors, just-white);
-        background-color: color($colors, accent);
-        padding: 16px;
-      }
-    }
-  }
-}

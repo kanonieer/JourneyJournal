@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
-import { NavParams, ViewController, AlertController, Events, Slides } from 'ionic-angular';
+import { NavParams, ViewController, AlertController, ActionSheetController, Events, Slides } from 'ionic-angular';
 
 // Providers
 import { ImageService } from '../../providers/image-service';
@@ -29,8 +29,8 @@ export class LargeImagePage {
   public isEnable = false;
   public test = false;
 
-  constructor(public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public events: Events, private imageSvc: ImageService, private journeySvc: JourneyService,
-    private storageSvc: StorageService, private uiCmp: uiComp) {
+  constructor(public params: NavParams, public viewCtrl: ViewController, public alertCtrl: AlertController, public actionSheetCtrl: ActionSheetController, public events: Events, private imageSvc: ImageService,
+    private journeySvc: JourneyService, private storageSvc: StorageService, private uiCmp: uiComp) {
 
     this.startModal();
   }
@@ -132,6 +132,24 @@ export class LargeImagePage {
         this.uiCmp.presentToastError('Something went wrong');
       }
     );
+  }
+
+  // Delete image actionSheet
+  public deleteConfirm() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Do you want to delete this image?',
+      buttons: [
+        {
+          icon: 'trash',
+          text: 'Delete',
+          handler: () => {
+            this.deleteImage();
+          }
+        }
+      ]
+    });
+ 
+    actionSheet.present();
   }
 
   // Set background
