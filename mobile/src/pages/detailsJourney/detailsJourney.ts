@@ -92,7 +92,7 @@ export class DetailsJourneyPage {
   public takePicture() {
     this.getGeo();
     this.toBool('saveToLibrary');
-    this.toNumber('imageQuality');
+    this.toNumber('photoQuality');
     this.camera.getPicture(this.PhotoOptionsTake).then(
       (imageData) => {
         this.imageData = imageData;
@@ -156,7 +156,7 @@ export class DetailsJourneyPage {
 
   // From library
   public loadPhoto() {
-    this.toNumber('imageQuality');
+    this.toNumber('photoQuality');
     this.imagePicker.getPictures(this.PhotoOptionsLoad).then(
       (imageData) => {
         this.imageData = imageData;
