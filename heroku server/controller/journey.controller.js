@@ -13,7 +13,10 @@ cloudinary.config({
 module.exports = {
     createJourney: (req, res) => {
         User.findOne({_id : req.user._doc._id}, (err, user) => {
-            if (err) throw err;
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
 
             if (!user) {
                 res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
@@ -45,12 +48,15 @@ module.exports = {
                                     background_image_id:""
                                 });
                                 journey.save((err) => {
-                                    if (err) throw err;
+                                    if (err) {
+                                        res.status(500).json({message: 'Internal Server Error'})
+                                        console.log(err);
+                                    };
                                     
                                     console.log('Journey successfully added!');
+                                    res.status(201).json({ message:'Journey added', details: 'Journey successfully added', data: journey})
                                 }); 
                                 
-                                res.status(201).json({ message:'Journey added', details: 'Journey successfully added', data: journey})
                                 }
                             }
                         }
@@ -64,16 +70,25 @@ module.exports = {
         }
         else {
             User.findOne({ _id : req.params.id}, (err, user) => {
-                if (err) throw err;
+                if (err) {
+                    res.status(500).json({message: 'Internal Server Error'})
+                    console.log(err);
+                };
 
                 if (!user) {
                     res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
                     console.log('User not found!');                 
                 } else {
                     Journey.find({ id_user : user._id }, (err, journeys) => {
-                        if (err) throw err;
-
-                        res.status(200).json(journeys);
+                        if (err) {
+                            res.status(500).json({message: 'Internal Server Error'})
+                            console.log(err);
+                        };
+                        if (!journeys) {
+                            res.status(404).json({ message:'Not Found', details: 'There are no journeys with this ID of user' });
+                        } else {
+                            res.status(200).json(journeys);
+                        }
                     });
                 }
             });
@@ -82,7 +97,10 @@ module.exports = {
 
     getJourneyById: (req, res) => {
         Journey.findOne({ _id : req.params.id}, (err, journey) => {
-            if (err) throw err;
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
 
             if (!journey) {
                 res.status(404).json({ message:'Not Found', details: 'There is no journey with this ID' });
@@ -95,7 +113,10 @@ module.exports = {
 
     deleteJourneyById: (req, res) => {
         Image.find({id_journey : req.params.id}, (err, images) => {
-            if (err) throw err;
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
 
             if (!images){
                 res.status(404).json({message: "There is no Images with this ID of Journey"});
@@ -103,27 +124,39 @@ module.exports = {
             } else {
                 for (var i=0; i<images.length; i++){
                     Image.findOneAndRemove({_id : images[i]._id}, (err) => {
-                        if(err) throw err;
+                        if(err) {
+                            res.status(500).json({message: 'Internal Server Error'})
+                            console.log(err);
+                        };
                     });
                     cloudinary.uploader.destroy(images[i]._id, function(result) { console.log(result) });
                 }
                 Journey.findOneAndRemove({_id : req.params.id}, function(err) {
-                    if (err) throw err;
-                        res.status(200).json("Journey with images successfully deleted");
+                    if (err) {
+                        res.status(500).json({message: 'Internal Server Error'})
+                        console.log(err);
+                    };
+                    res.status(200).json("Journey with images successfully deleted");
                 });
             }
         });
     },
     editJourney: (req, res) => {
         User.findOne({ _id : req.user._doc._id}, (err, user) => {
-            if (err) throw err;
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
 
             if (!user) {
                 res.status(404).json({message: "There is no user with this ID"});
                 console.log("User not found!");
             } else {
                 Journey.findOne({ _id : req.params.id}, (err, journey) => {
-                    if (err) throw err;
+                    if (err) {
+                        res.status(500).json({message: 'Internal Server Error'})
+                        console.log(err);
+                    };
                     if (!journey){
                         res.status(404).json({message: "There is no journey with this ID"});
                         console.log("Journey not found!");
@@ -144,11 +177,13 @@ module.exports = {
                             journey.background_image_id = req.body.background_image_id;
                         }
                         journey.save((err) => {
-                                    if (err) throw err;
-                                    
+                                    if (err) {
+                                        res.status(500).json({message: 'Internal Server Error'})
+                                        console.log(err);
+                                    };
                                     console.log('Journey successfully updated!');
+                                    res.status(201).json({ message:'Journey updated', details: 'Journey successfully updated', journey })
                                 });
-                        res.status(201).json({ message:'Journey updated', details: 'Journey successfully updated', journey })
                     }
                 });
             }
@@ -158,37 +193,26 @@ module.exports = {
         const id_journey = req.params.id;
 
         Image.find({ id_journey }, (err, images) => {
-            if (err) throw err;
-
-            const public_ids = images.map(image => image._id);
-            const options = { public_ids, resource_type: 'image'};
-
-            cloudinary.v2.uploader.create_zip(options, (error, result) => {
-                if (error) throw error;
-
-                const url = result.url;
-                res.status(200).json({ message: 'Success', url });
-            });
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
+            if(!images){
+                res.status(404).json({message: "There is no images with this ID of journey"});
+            } else {
+                const public_ids = images.map(image => image._id);
+                const options = { public_ids, resource_type: 'image'};
+    
+                cloudinary.v2.uploader.create_zip(options, (error, result) => {
+                    if (error) {
+                        res.status(500).json({message: 'Internal Server Error'})
+                        console.log(error);
+                    };
+    
+                    const url = result.url;
+                    res.status(200).json({ message: 'Success', url });
+                });
+            }
         });
     },
-    /*SetBackgroundImage: (req, res) => {
-        Journey.find({ _id: req.params.id}, (err, journey) => {
-            if (err) throw err;
-            
-            if(!journey){
-                res.status(404).json({message: "There is no journey with this ID"});
-                console.log("Journey not found!");
-            } else {
-                if (req.body.background_image_id !== undefined && req.body.background_image_id !== ''){
-                    journey.background_image_id = req.body.background_image_id;
-                }
-                journey.save((err) => {
-                    if (err) throw err;
-                    
-                    console.log('background image successfully updated!');
-                });
-                res.status(201).json({ message:'Journey updated', details: 'Background image successfully updated' })
-            }
-        })
-    }*/
 }

@@ -25,23 +25,37 @@ module.exports = {
     },
     updateImage: (req, res) => {
         User.findOne({ _id: req.user._doc._id }, (err, user) => {
-            if (err) throw err;
-            
-            Image.findOne({ _id : req.params.id }, (err, image) => {
-                if (err) throw err;
-
-                if(typeof(req.body.isFavourite) === "boolean"){
-                    image.isFavourite = req.body.isFavourite;
-                }
-
-                image.title = req.body.title || image.title;
-                
-                image.save((err) => {
-                    if (err) throw err;
-                    
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
+            if (!user) {
+                res.status(404).json({message:"Not Found", details:"There is no user with this ID"});
+            } else {
+                Image.findOne({ _id : req.params.id }, (err, image) => {
+                    if (err) {
+                        res.status(500).json({message: 'Internal Server Error'})
+                        console.log(err);
+                    };
+                    if(!image){
+                        res.status(404).json({message:"Not Found", details:"There is no image with this ID"});
+                    } else {
+                        if(typeof(req.body.isFavourite) === "boolean"){
+                            image.isFavourite = req.body.isFavourite;
+                        }
+        
+                        image.title = req.body.title || image.title;
+                        
+                        image.save((err) => {
+                            if (err) {
+                                res.status(500).json({message: 'Internal Server Error'})
+                                console.log(err);
+                            };
+                            res.status(200).json({message: "Success" , details: "Image successfully updated"});
+                        });
+                    }  
                 });
-                res.status(200).json({message: "Success" , details: "Image successfully updated"});
-            });
+            }
         });
 
     },
@@ -50,19 +64,34 @@ module.exports = {
         const isFavourite = req.query.isFavourite;
 
         User.findOne({ _id: user_id }, (err, user) => {
-            if (err) throw err;
-
-            Image.find({ isFavourite: isFavourite, user_id: user_id }, (err, images) => {
-                if (err) throw err;
-
-                res.status(200).json(images);
-            })
-        })
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
+            if (!user) {
+                res.status(404).json({message:"Not Found", details:"There is no user with this ID"});
+            } else {
+                Image.find({ isFavourite: isFavourite, user_id: user_id }, (err, images) => {
+                    if (err) {
+                        res.status(500).json({message: 'Internal Server Error'})
+                        console.log(err);
+                    };
+                    if (!images) {
+                        res.status(404).json({message:"Not Found", details:"There is no image with this ID"});
+                    } else {
+                        res.status(200).json(images);
+                    }
+                });
+            }
+        });
     },
     saveImage: (req, res) => {
         const user_id = req.user._doc._id;
         User.findOne({ _id : user_id }, (err, user) => {
-            if (err) throw err;
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
 
             if (!user) {
                 res.status(404).json({ message:'Not Found', details: 'There is no user with this ID' });
@@ -70,7 +99,10 @@ module.exports = {
             }
             if (user) {
                 Journey.findOne({ _id: req.body.id_journey }, (err, journey) => {
-                    if (err) throw err;
+                    if (err) {
+                        res.status(500).json({message: 'Internal Server Error'})
+                        console.log(err);
+                    };
 
                     if (!journey) {
                         res.status(404).json({message:'Not Found', details:'There is no journey with this ID'});
@@ -87,11 +119,14 @@ module.exports = {
                             title       : journey.title
                         });
                         image.save((err) => {
-                            if (err) throw err;
+                            if (err) {
+                                res.status(500).json({message: 'Internal Server Error'})
+                                console.log(err);
+                            };
                             
                             console.log('Image successfully saved!');
+                            res.status(201).json(image);
                         });
-                        res.status(201).json(image);
                     }
                 });
             }
@@ -102,7 +137,10 @@ module.exports = {
         const image_id = req.params.id;
 
         Image.findOne({ _id: image_id }, (err, image) => {
-            if (err) throw err;
+            if (err) {
+                res.status(500).json({message: 'Internal Server Error'})
+                console.log(err);
+            };
 
             if (!image) {
                 res.status(404).json({ message:'Not Found', details: 'There is no image with this ID' });
@@ -111,7 +149,10 @@ module.exports = {
                     res.status(401).json({ message: 'Unauthorized', details: 'You have no access to this image' });
                 } else {
                     Image.findOneAndRemove({ _id: image_id }, err => {
-                        if (err) throw err;
+                        if (err) {
+                            res.status(500).json({message: 'Internal Server Error'})
+                            console.log(err);
+                        };
 
                         cloudinary.uploader.destroy(image_id, function(result) { console.log(result) });
                         res.status(200).json({ message: 'Success', details: 'Image successfully deleted'})
